@@ -13,7 +13,7 @@ mongoose.connect(mongoUrl).then(() =>{
     console.log('Database is connected')
 }).catch((error) => console.log(error))
 
-const PORT = 7000
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {
     console.log(`The server is running! on ${PORT}`)
