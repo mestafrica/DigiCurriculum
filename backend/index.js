@@ -7,6 +7,11 @@ import dotenv from "dotenv"
 dotenv.config()
 const app = express()
 
+app.use(express.json())
+app.use(cors())
+app.use(express.static('uploads'))
+
+
 
 const mongoUrl = process.env.MONGODB_URL
 mongoose.connect(mongoUrl).then(() =>{
