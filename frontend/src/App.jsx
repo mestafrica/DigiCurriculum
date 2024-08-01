@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Frontsetup from "./pages/Frontsetup";
+
 
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -14,7 +14,7 @@ function App() {
     </Routes>
     
     </BrowserRouter>
-      <Frontsetup />
+     
       
     </>
   );
