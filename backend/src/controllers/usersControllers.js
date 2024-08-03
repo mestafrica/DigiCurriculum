@@ -25,6 +25,19 @@ export const handleSignup = async (req, res) => {
   try {
     const { firstName, lastName, email, password, school, userType, country } = req.body;
 
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return next(new ErrorHandler("Please enter a valid email", 400));
+    }
+
+    
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json("Password must be at least 6 characters long and contain at least one letter and one number");
+    }
+
+
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
