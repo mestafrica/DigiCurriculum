@@ -1,21 +1,52 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
+const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: function() { return this.isVerified; },
+        maxLength: [30, 'Name cannot exceed 30 characters']
+    },
+    lastName: {
+        type: String,
+        required: function() { return this.isVerified; },
+        maxLength: [30, 'Name cannot exceed 30 characters']
+    },
+    email: {
+        type: String,
+        required: [true, 'Please enter an email address'],
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: function() { return this.isVerified; },
+        minlength: [6, 'Password must be at least 6 characters long'],
+        select: false
+    },
+    country: {
+        type: String,
+        required: true
+    },
+    school: {
+        type: String,
+        required: true
+    },
+    userType: {
+        type: String,
+        enum: ['Teacher', 'Student'],
+        required: true 
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    otp: String,
+    otpExpiry: Date,
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
+});
 
-const schema=mongoose.Schema
-
-
-const userSchema= new schema({
-    name:{type: String, required:true, unique: true},
-    email:{type: String, required:true, unique: true},
-    password:{type: String, required:true},
-    userType:{type: String, enum:['Teacher','Student'],required:true},
-    school:{type: String, required: true},
-    country:{type: String, required:true},
-    otp:{type: String},
-    otpExpires:{type: Date},
-    isVeried:{Boolean, default:false},
-    timestamps:true
-})
-
-
-export const userModel = mongoose.model("user", userSchema);
+export const userModel = mongoose.model('User', userSchema);

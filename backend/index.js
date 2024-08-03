@@ -2,6 +2,8 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
+import AccountRouter from "./src/routes/usersRoutes.js"
+
 
 
 dotenv.config()
@@ -19,6 +21,10 @@ mongoose.connect(mongoUrl).then(() =>{
 }).catch((error) => console.log(error))
 
 const PORT = process.env.PORT || 8080
+
+app.use(AccountRouter)
+
+
 
 app.listen(PORT, () => {
     console.log(`The server is running! on ${PORT}`)
