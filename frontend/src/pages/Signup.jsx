@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { IoEyeOutline, IoEyeOffOutline, IoChevronDown } from "react-icons/io5";
 
 function Signup() {
   const [formData, setFormData] = useState({
-    fname: "",
-    school: "",
-    country: "",
+    role: "",
+    email: "",
     password: "",
     cpassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    cpassword: false,
+  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("I am a");
 
   // Handle input change
   const handleChange = (e) => {
@@ -22,9 +28,9 @@ function Signup() {
   // Validate form data
   const validate = () => {
     const newErrors = {};
-    if (!formData.fname) newErrors.fname = "Full Name is required";
-    if (!formData.school) newErrors.school = "School is required";
-    if (!formData.country) newErrors.country = "Country is required";
+    if (!formData.role) newErrors.role = "Role is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
     if (!formData.password) newErrors.password = "Password is required";
     if (formData.password !== formData.cpassword)
       newErrors.cpassword = "Passwords do not match";
@@ -42,6 +48,13 @@ function Signup() {
     }
   };
 
+  // Handle dropdown selection
+  const handleRoleSelect = (role) => {
+    setFormData({ ...formData, role });
+    setSelectedRole(role);
+    setIsDropdownOpen(false);
+  };
+
   return (
     <div
       className="bg-cover bg-center h-screen flex items-center justify-center"
@@ -49,81 +62,96 @@ function Signup() {
     >
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>
-          <style>
-            {`
-              .placeholder-custom::placeholder {
-                color: #32403B; 
-              }
-            `}
-          </style>
           <h2 className="text-2xl font-bold mb-6 text-center">
             Create An Account
           </h2>
           <p className="text-center mb-6">
-            Create an account to enjoy the world of streamlined learning.
+            Create an account to enjoy the world of streamlined tutoring.
           </p>
           <div className="space-y-4">
-            <div>
-              <input
-                type="text"
-                placeholder="Full Name"
-                name="fname"
-                value={formData.fname}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
-              />
-              {errors.fname && (
-                <p className="text-red-500 text-xs mt-1">{errors.fname}</p>
+            <div className="relative">
+              <div
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="appearance-none border rounded-lg w-full py-3 px-4 text-black leading-tight focus:outline-none focus:shadow-outline placeholder-custom pr-8 cursor-pointer"
+              >
+                {selectedRole}
+                <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black" />
+              </div>
+              {isDropdownOpen && (
+                <div className="absolute z-10 bg-white border rounded-lg shadow-lg w-full mt-1">
+                  <div
+                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => handleRoleSelect("Teacher")}
+                  >
+                    Teacher
+                  </div>
+                  <div
+                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => handleRoleSelect("Student")}
+                  >
+                    Student
+                  </div>
+                  <div
+                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => handleRoleSelect("Researcher")}
+                  >
+                    Researcher
+                  </div>
+                </div>
+              )}
+              {errors.role && (
+                <p className="text-red-500 text-xs mt-1">{errors.role}</p>
               )}
             </div>
             <div>
               <input
-                type="text"
-                placeholder="School"
-                name="school"
-                value={formData.school}
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
               />
-              {errors.school && (
-                <p className="text-red-500 text-xs mt-1">{errors.school}</p>
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
               )}
             </div>
-            <div>
+            <div className="relative">
               <input
-                type="text"
-                placeholder="Country"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
-              />
-              {errors.country && (
-                <p className="text-red-500 text-xs mt-1">{errors.country}</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="password"
+                type={showPassword.password ? "text" : "password"}
                 placeholder="Password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword({ ...showPassword, password: !showPassword.password })}
+                className="absolute right-3 top-3"
+              >
+                {showPassword.password ? <IoEyeOffOutline className="h-5 w-5 text-black" /> : <IoEyeOutline className="h-5 w-5 text-black" />}
+              </button>
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
               )}
             </div>
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={showPassword.cpassword ? "text" : "password"}
                 placeholder="Confirm Password"
                 name="cpassword"
                 value={formData.cpassword}
                 onChange={handleChange}
                 className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword({ ...showPassword, cpassword: !showPassword.cpassword })}
+                className="absolute right-3 top-3"
+              >
+                {showPassword.cpassword ? <IoEyeOffOutline className="h-5 w-5 text-black" /> : <IoEyeOutline className="h-5 w-5 text-black" />}
+              </button>
               {errors.cpassword && (
                 <p className="text-red-500 text-xs mt-1">{errors.cpassword}</p>
               )}
