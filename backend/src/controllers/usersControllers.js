@@ -99,7 +99,7 @@ export const allUsers = async (req, res) => {
     const data = req.body;
     console.log("Request data:", data);
 
-    const fetchAllUsers = await userModel.find({}); // Fetch all users for basic testing
+    const fetchAllUsers = await userModel.find({}); // Fetch all users 
 
     console.log("Fetched users:", fetchAllUsers);
 
@@ -121,7 +121,7 @@ export const singleUser = async (req, res) => {
     const id = req.params.id;
     console.log("Request data:", id);
 
-    const fetchSingleUser = await userModel.findById(id); // Fetch all users for basic testing
+    const fetchSingleUser = await userModel.findById(id); 
 
     console.log("Fetched user:", fetchSingleUser);
 

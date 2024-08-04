@@ -4,12 +4,12 @@ import validator from 'validator';
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: function() { return this.isVerified; },
+        required: true,
         maxLength: [30, 'Name cannot exceed 30 characters']
     },
     lastName: {
         type: String,
-        required: function() { return this.isVerified; },
+        required: true,
         maxLength: [30, 'Name cannot exceed 30 characters']
     },
     email: {
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   
     password: {
         type: String,
-        required: function() { return this.isVerified; },
+        required: true,
         minlength: [6, 'Password must be at least 6 characters long'],
         select: false
         },
@@ -52,5 +52,7 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date
 });
+
+userSchema.index({ email: 1 }, { unique: true });
 
 export const userModel = mongoose.model('User', userSchema);
