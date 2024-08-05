@@ -23,7 +23,7 @@ function CountryDropdown({ selectedCountry, onSelect }) {
         setCountries(countryList);
       } catch (error) {
         setError('Failed to load countries');
-        console.error(error); // Log error for debugging
+        console.error(error); 
       } finally {
         setLoading(false);
       }
@@ -39,7 +39,7 @@ function CountryDropdown({ selectedCountry, onSelect }) {
   const handleSelect = (country) => {
     onSelect(country);
     setIsOpen(false);
-    setFilter(""); // Reset the filter
+    setFilter("");
   };
 
   const handleClickOutside = (e) => {

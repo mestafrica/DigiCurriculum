@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoEyeOutline, IoEyeOffOutline, IoChevronDown } from "react-icons/io5";
+import bgImage from '../../assets/images/b.g.png'; 
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -16,7 +18,8 @@ function Signup() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("I am a");
 
-  // Handle input change
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -25,7 +28,6 @@ function Signup() {
     });
   };
 
-  // Validate form data
   const validate = () => {
     const newErrors = {};
     if (!formData.role) newErrors.role = "Role is required";
@@ -39,16 +41,14 @@ function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      // Submit form data
       console.log("Form submitted:", formData);
+      navigate('/completesignup');
     }
   };
 
-  // Handle dropdown selection
   const handleRoleSelect = (role) => {
     setFormData({ ...formData, role });
     setSelectedRole(role);
@@ -58,7 +58,7 @@ function Signup() {
   return (
     <div
       className="bg-cover bg-center h-screen flex items-center justify-center"
-      style={{ backgroundImage: `url('/src/assets/images/b.g.png')` }}
+      style={{ backgroundImage: `url(${bgImage})` }} // Correct usage of imported image
     >
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>
@@ -167,7 +167,7 @@ function Signup() {
           </div>
           <p className="mt-4 text-center text-gray-600">
             Already have an account?
-            <a href="#signin" className="text-gray-600 underline">
+            <a href="/signin" className="text-gray-600 underline">
               Sign In
             </a>
           </p>

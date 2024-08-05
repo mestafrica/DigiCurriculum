@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CountryDropdown from "../../components/ui/ui/Country";
 import bgImage from '../../assets/images/b.g.png';
 
@@ -9,6 +10,8 @@ function Profile() {
     institution: "",
   });
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +39,7 @@ function Profile() {
     e.preventDefault();
     if (validate()) {
       console.log("Form submitted:", formData);
+      
     }
   };
 
@@ -47,10 +51,10 @@ function Profile() {
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold mb-6 text-center">
-          Create An Account
+            Create An Account
           </h2>
           <p className="text-center mb-6">
-          Create an account to enjoy the world of streamlined learning.
+            Create an account to enjoy the world of streamlined learning.
           </p>
           <div className="space-y-4">
             <div>
@@ -60,7 +64,7 @@ function Profile() {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
+                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               {errors.fullName && (
                 <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
@@ -82,7 +86,7 @@ function Profile() {
                 name="institution"
                 value={formData.institution}
                 onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
+                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               {errors.institution && (
                 <p className="text-red-500 text-xs mt-1">{errors.institution}</p>
