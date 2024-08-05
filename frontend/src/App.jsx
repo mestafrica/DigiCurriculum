@@ -1,10 +1,10 @@
+import Home from "./pages/Home";
 
-import Frontsetup from "./pages/Frontsetup";
 
 function App() {
   return (
     <>
-      <Frontsetup />
+     <Home/>
     </>
   );
 }
