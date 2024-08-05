@@ -1,3 +1,4 @@
+import Image1 from "../assets/images/image1.png";
 import {
   Accordion,
   AccordionContent,
@@ -130,6 +131,24 @@ function Home() {
             </div>
           </AccordionItem>
         </Accordion>
+      </div>
+
+      <div className="bg-slate-50">
+        <div className="md:mt-28 mt-14 md:mx-48 mx-14 ">
+          <img src={Image1} />
+        </div>
+        <div className="flex flex-col md:items-start space-y-5 md:ml-48 ml-14">
+          <h3 className="text-4xl text-green-600 font-semibold mt-5">
+            Ready to level-up?
+          </h3>
+          <h4 className="text-black my-5 w-96 font-bold">
+            Personalized study plans, AI-powered question answers, intelligent
+            simulations, and much more.
+          </h4>
+          <button className="bg-blue-200 font-bold px-14 py-1">
+            Get started - it's free
+          </button>
+        </div>
       </div>
     </div>
   );
