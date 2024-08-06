@@ -3,6 +3,9 @@ import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
 import AccountRouter from "./src/routes/usersRoutes.js"
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './src/utils/swagger.js'
+
 
 
 
@@ -21,6 +24,8 @@ mongoose.connect(mongoUrl).then(() =>{
 }).catch((error) => console.log(error))
 
 const PORT = process.env.PORT || 8080
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter)
 

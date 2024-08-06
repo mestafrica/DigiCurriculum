@@ -79,7 +79,7 @@ export const allUsers = async (req, res) => {
       return res.status(404).json({ message: "No users found" });
     }
 
-    res.status(200).json(fetchAllUsers);
+    res.status(200).json(fetchAllUsers, "Users fetched successfully");
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -96,7 +96,7 @@ export const singleUser = async (req, res) => {
     const fetchSingleUser = await userModel.findById(id); 
 
 
-    res.status(200).json(fetchSingleUser);
+    res.status(200).json(fetchSingleUser,'user fetched successfully');
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -115,7 +115,7 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(updatedUser);
+    res.status(200).json(updatedUser, "user updated successfully");
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ message: "Internal server error" });
