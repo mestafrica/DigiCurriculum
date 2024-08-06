@@ -1,14 +1,12 @@
-import Footer from "@/components/Footer/footer";
-import Navbar from "@/components/Navbar/navbar";
+import Hero from "@/components/ui/ui/Hero";
+
 
 function Home() {
   return (
-    <div>
-      Home
-      <Navbar />
-      <Footer />
-    </div>
-  );
+    <>
+    <Hero/>
+    </>
+  )
 }
 
 export default Home;

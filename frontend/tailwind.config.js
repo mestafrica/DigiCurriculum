@@ -17,14 +17,18 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        karla: ['Karla', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        buttonBg: '#A9DEF9',
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: '#212B27',
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
