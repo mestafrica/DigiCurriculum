@@ -1,8 +1,11 @@
+import Hero from "@/components/ui/ui/Hero";
 
 
 function Home() {
   return (
-    <div>Home</div>
+    <>
+    <Hero/>
+    </>
   )
 }
 
