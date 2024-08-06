@@ -46,7 +46,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-transparent shadow-lg w-full z-10">
+    <nav className="fixed bg-accent shadow-sm w-full z-10">
       <div className="container mx-auto flex justify-between items-center py-4">
         <a href="#" className="text-primary font-bold text-3xl">
           LitmusTest
