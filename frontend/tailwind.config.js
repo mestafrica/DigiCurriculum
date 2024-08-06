@@ -9,6 +9,7 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    listStyleType: { disc: "disc" },
     container: {
       center: true,
       padding: "2rem",
