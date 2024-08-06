@@ -9,7 +9,7 @@ function CompleteSignup() {
   const [error, setError] = useState('');
 
   const handleCompleteRegistration = () => {
-    navigate('/profile');
+    navigate('/signin');
   };
 
   const handleChange = (e, index) => {
