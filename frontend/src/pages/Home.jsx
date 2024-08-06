@@ -1,4 +1,10 @@
 import Image1 from "../assets/images/image1.png";
+import Addfolder from "../assets/images/addfolder.png";
+import Airplanehelix from "../assets/images/airplanehelix.png";
+import Databasescript from "../assets/images/databasescript.png";
+import Aligncenter from "../assets/images/aligncenter.png";
+import Designnib from "../assets/images/designnib.png";
+import Rocket from "../assets/images/rocket.png";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +15,81 @@ import {
 function Home() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-center my-14">
+      <div className="grid grid-cols-3 gap-y-6 md:px-48 px-14">
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Addfolder} />
+            <div>
+              <h2 className="font-semibold">Ask questions</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Ask the AI anything about the curriculum and get instant answers
+              </h3>
+            </div>
+          </article>
+        </div>
+
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Airplanehelix} />
+            <div>
+              <h2 className="font-semibold">study calendar</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Personalized plan to ace your exams
+              </h3>
+            </div>
+          </article>
+        </div>
+
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Databasescript} />
+            <div>
+              <h2 className="font-semibold">assessment</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Comprehensive data by area of knowledge
+              </h3>
+            </div>
+          </article>
+        </div>
+
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Aligncenter} />
+            <div>
+              <h2 className="font-semibold">Exams prep</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Instant simulations for you to practice whenever you want
+              </h3>
+            </div>
+          </article>
+        </div>
+
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Designnib} />
+            <div>
+              <h2 className="font-semibold">Lesson notes</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Generate lessons notes in in seconds on a content area
+              </h3>
+            </div>
+          </article>
+        </div>
+
+        <div className="flex justify-center">
+          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+            <img src={Rocket} />
+            <div>
+              <h2 className="font-semibold">Summaries</h2>
+              <h3 className="w-60 mt-4 text-gray-400">
+                Generate summaries in seconds
+              </h3>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <h1 className="text-2xl font-bold text-center my-20">
         Frequently Asked Questions (FAQ)
       </h1>
       <div className="rounded-lg md:mx-44  ">
@@ -133,19 +213,21 @@ function Home() {
         </Accordion>
       </div>
 
-      <div className="bg-slate-50">
-        <div className="md:mt-28 mt-14 md:mx-48 mx-14 ">
-          <img src={Image1} />
+      <div className="bg-slate-50 md:px-48 px-14 space-y-8">
+        <div className="md:mt-28 mt-14">
+          <img className="w-full" src={Image1} />
         </div>
-        <div className="flex flex-col md:items-start space-y-5 md:ml-48 ml-14">
-          <h3 className="text-4xl text-green-600 font-semibold mt-5">
-            Ready to level-up?
-          </h3>
-          <h4 className="text-black my-5 w-96 font-bold">
-            Personalized study plans, AI-powered question answers, intelligent
-            simulations, and much more.
-          </h4>
-          <button className="bg-blue-200 font-bold px-14 py-1">
+        <div className="flex flex-col md:flex-row justify-between items-start ">
+          <div className="flex flex-col md:items-start space-y-5 ">
+            <h3 className="text-4xl text-green-600 font-semibold mt-5">
+              Ready to level-up?
+            </h3>
+            <h4 className="text-black my-5 w-96 font-bold">
+              Personalized study plans, AI-powered question answers, intelligent
+              simulations, and much more.
+            </h4>
+          </div>
+          <button className="bg-blue-200 font-bold px-14 py-1 mt-20 rounded-sm">
             Get started - it's free
           </button>
         </div>
