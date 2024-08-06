@@ -66,7 +66,7 @@ const Navbar = () => {
               onClick={() => toggleDropdown("userCases")}
               className="flex text-primary font-medium mx-4 focus:outline-none"
             >
-              User Cases
+              Category
               <RiArrowDropDownLine />
             </button>
             {dropdownOpen.userCases && (
@@ -75,19 +75,19 @@ const Navbar = () => {
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 1
+                  Student
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 2
+                  Teacher
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 3
+                  School
                 </a>
               </div>
             )}
@@ -107,19 +107,19 @@ const Navbar = () => {
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 1
+                  Curriculum
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 2
+                  Course Categories
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 3
+                  Question Bank
                 </a>
               </div>
             )}
@@ -151,7 +151,7 @@ const Navbar = () => {
               onClick={() => toggleDropdown("userCases")}
               className="flex text-primary-foreground font-medium mx-4 my-2 focus:outline-none"
             >
-              User Cases
+              Category
               <RiArrowDropDownLine />
             </button>
             {dropdownOpen.userCases && (
@@ -160,19 +160,19 @@ const Navbar = () => {
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 1
+                  Student
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 2
+                  Teacher
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Case 3
+                  School
                 </a>
               </div>
             )}
@@ -192,19 +192,19 @@ const Navbar = () => {
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 1
+                  Curriculumn
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 2
+                  Course Categories
                 </a>
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
-                  Resource 3
+                  Question Bank
                 </a>
               </div>
             )}
