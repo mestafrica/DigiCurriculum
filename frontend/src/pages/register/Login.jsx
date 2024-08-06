@@ -106,7 +106,7 @@ function SignIn() {
             </button>
           </div>
           <p className="mt-4 text-center text-gray-600">
-            Don’t have an account? <a href="#signup" className="text-black underline">Sign up</a>
+            Don’t have an account? <a href="/signup" className="text-black underline">Sign up</a>
           </p>
           <p className="mt-2 text-center text-gray-600 text-xs">
             This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="https://www.google.com/recaptcha/about/" target="_blank" rel="noopener noreferrer" className="text-black underline">Learn more.</a>

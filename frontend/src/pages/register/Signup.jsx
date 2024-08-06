@@ -45,7 +45,7 @@ function Signup() {
     e.preventDefault();
     if (validate()) {
       console.log("Form submitted:", formData);
-      navigate('/completesignup');
+      navigate('/profile');
     }
   };
 
@@ -58,7 +58,7 @@ function Signup() {
   return (
     <div
       className="bg-cover bg-center h-screen flex items-center justify-center"
-      style={{ backgroundImage: `url(${bgImage})` }} // Correct usage of imported image
+      style={{ backgroundImage: `url(${bgImage})` }} 
     >
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>

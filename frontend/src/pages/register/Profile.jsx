@@ -39,6 +39,7 @@ function Profile() {
     e.preventDefault();
     if (validate()) {
       console.log("Form submitted:", formData);
+      navigate('/completesignup');
       
     }
   };
