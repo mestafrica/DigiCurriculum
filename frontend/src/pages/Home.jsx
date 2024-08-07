@@ -60,6 +60,10 @@ function Home() {
 
       <div style={{ backgroundImage: "url(bg2.png)" }}>
         <div>
+          <div>
+            <img src={Talent} />
+          </div>
+
           <h2>Litmus Test - For Teachers</h2>
           <p>
             Litmus Test streamlines classroom administration and enhances the
@@ -67,6 +71,16 @@ function Home() {
             teaching and dedicated student support. The result is an empowered
             and more efficient teaching workforce.
           </p>
+          <ul className="list-disc text-gray-700 mt-6">
+            Classroom Administration:
+            <li>No paperwork, just simple clicks.</li>  Lesson Planning: 
+            <li>Your personalized engaging lesson plans quickly.</li>
+            Professional Development: 
+            <li>Access updated training resources.</li> Student Tracking: 
+            <li>The most reliable and accurate record-keeping.</li>
+            Collaborative Community: 
+            <li>Join a supportive community of educators</li>
+          </ul>
         </div>
       </div>
 
