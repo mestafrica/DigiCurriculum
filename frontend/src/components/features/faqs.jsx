@@ -1,5 +1,5 @@
 import React from "react";
-import Image1 from "../assets/images/image1.png";
+import Image1 from "../../assets/images/image1.png";
 import {
   Accordion,
   AccordionContent,
@@ -191,7 +191,7 @@ export default function FAQS() {
             <h3 className="text-4xl text-green-600 font-semibold mt-5">
               Ready to level-up?
             </h3>
-            <h4 className="text-black my-5 w-96 font-bold">
+            <h4 className="text-black my-5 w-96 font-bold pb-20">
               Personalized study plans, AI-powered question answers, intelligent
               simulations, and much more.
             </h4>

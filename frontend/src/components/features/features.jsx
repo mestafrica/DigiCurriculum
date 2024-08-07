@@ -1,8 +1,9 @@
-import Image2 from "../assets/images/image2.png";
-import Image3 from "../assets/images/image3.png";
-import Checks from "../assets/images/checks.png";
-import Talent from "../assets/images/talent.png";
-import Bg2 from "../assets/images/bg2.png";
+import Image2 from "../../assets/images/image2.png";
+import Image3 from "../../assets/images/image3.png";
+import Checks from "../../assets/images/checks.png";
+import Talent from "../../assets/images/talent.png";
+import Bg from "../../assets/images/bg.png";
+import Bg2 from "../../assets/images/bg2.png";
 
 function Features() {
   return (
@@ -44,7 +45,7 @@ function Features() {
         </div>
       </div>
 
-      <div style={{ backgroundImage: "url(bg2.png)" }}>
+      {/* <div style={{ backgroundImage: "url(bg2.png)" }}>
         <div>
           <div>
             <img src={Talent} />
@@ -68,7 +69,7 @@ function Features() {
             <li>Join a supportive community of educators</li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
