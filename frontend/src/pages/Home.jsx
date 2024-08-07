@@ -10,6 +10,7 @@ import Image2 from "../assets/images/image2.png";
 import Image3 from "../assets/images/image3.png";
 import Checks from "../assets/images/checks.png";
 import Talent from "../assets/images/talent.png";
+import Bg2 from "../assets/images/bg2.png";
 import {
   Accordion,
   AccordionContent,
@@ -20,7 +21,7 @@ import {
 function Home() {
   return (
     <div>
-      <div className="flex gap-x-28" style={{ backgroundImage: "url(bg.png)" }}>
+      <div className="flex gap-x-20" style={{ backgroundImage: "url(bg.png)" }}>
         <div className="p-36">
           <h2 className="font-bold text-3xl ">Litmus Test - for students</h2>
           <p className="text-gray-700 w-96 mt-6">
@@ -47,13 +48,25 @@ function Home() {
         </div>
         <div>
           <div className="flex space-x-12">
-            <img className="p-20" src={Talent} />
-            <img className="p-6" src={Image3} />
+            <img className="p-20 px-2" src={Talent} />
+            <img className="p-6 " src={Image3} />
           </div>
           <img src={Checks} />
           <div className="mt-8 flex justify-center">
             <img src={Image2} />
           </div>
+        </div>
+      </div>
+
+      <div style={{ backgroundImage: "url(bg2.png)" }}>
+        <div>
+          <h2>Litmus Test - For Teachers</h2>
+          <p>
+            Litmus Test streamlines classroom administration and enhances the
+            teaching experience by providing more time for what truly matters –
+            teaching and dedicated student support. The result is an empowered
+            and more efficient teaching workforce.
+          </p>
         </div>
       </div>
 
