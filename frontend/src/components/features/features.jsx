@@ -1,17 +1,22 @@
 import Image2 from "../../assets/images/image2.png";
 import Image3 from "../../assets/images/image3.png";
+import Image4 from "../../assets/images/image4.png";
+import Image5 from "../../assets/images/image5.png";
 import Checks from "../../assets/images/checks.png";
 import Talent from "../../assets/images/talent.png";
-import Bg from "../../assets/images/bg.png";
-import Bg2 from "../../assets/images/bg2.png";
+import Request from "../../assets/images/request.png";
+import Check from "../../assets/images/check.png";
 
 function Features() {
   return (
     <div>
-      <div className="flex gap-x-20" style={{ backgroundImage: "url(bg.png)" }}>
-        <div className="p-36">
+      <div
+        className="flex gap-x-20 mt-10"
+        style={{ backgroundImage: "url(bg.png)", backgroundSize: "cover" }}
+      >
+        <div className="p-24 w-1/2">
           <h2 className="font-bold text-3xl ">Litmus Test - for students</h2>
-          <p className="text-gray-700 w-96 mt-6">
+          <p className="text-gray-700 mt-6">
             Litmus Test tailors educational content to suit each student’s
             unique learning style and requirements, ensuring that vital concepts
             are presented in a manner that resonates best with them. This
@@ -33,7 +38,8 @@ function Features() {
             <li>Foster collaboration providing support and rewards.</li>
           </ul>
         </div>
-        <div>
+
+        <div className="w-1/2">
           <div className="flex space-x-12">
             <img className="p-20 px-2" src={Talent} />
             <img className="p-6 " src={Image3} />
@@ -45,14 +51,27 @@ function Features() {
         </div>
       </div>
 
-      {/* <div style={{ backgroundImage: "url(bg2.png)" }}>
-        <div>
-          <div>
+      <div
+        className="flex p-36"
+        style={{ backgroundImage: "url(bg2.png)", backgroundSize: "cover" }}
+      >
+        <div className="space-y-5 w-1/2">
+          <div className="flex items-center gap-10">
             <img src={Talent} />
+            <img src={Image4} />
           </div>
+          <div className="flex justify-center">
+            <img src={Check} />
+          </div>
+          <div className="flex items-center space-x-12">
+            <img src={Image5} />
+            <img src={Request} />
+          </div>
+        </div>
 
-          <h2>Litmus Test - For Teachers</h2>
-          <p>
+        <div className="px-24 w-1/2">
+          <h2 className="font-bold text-3xl ">Litmus Test - For Teachers</h2>
+          <p className="text-gray-700 mt-6">
             Litmus Test streamlines classroom administration and enhances the
             teaching experience by providing more time for what truly matters –
             teaching and dedicated student support. The result is an empowered
@@ -69,7 +88,7 @@ function Features() {
             <li>Join a supportive community of educators</li>
           </ul>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
