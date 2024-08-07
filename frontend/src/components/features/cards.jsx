@@ -1,10 +1,10 @@
 import React from "react";
-import Addfolder from "../assets/images/addfolder.png";
-import Airplanehelix from "../assets/images/airplanehelix.png";
-import Databasescript from "../assets/images/databasescript.png";
-import Aligncenter from "../assets/images/aligncenter.png";
-import Designnib from "../assets/images/designnib.png";
-import Rocket from "../assets/images/rocket.png";
+import Addfolder from "../../assets/images/addfolder.png";
+import Airplanehelix from "../../assets/images/airplanehelix.png";
+import Databasescript from "../../assets/images/databasescript.png";
+import Aligncenter from "../../assets/images/aligncenter.png";
+import Designnib from "../../assets/images/designnib.png";
+import Rocket from "../../assets/images/rocket.png";
 
 export default function Cards() {
   return (
