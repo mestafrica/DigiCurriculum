@@ -9,9 +9,9 @@ import Rocket from "../../assets/images/rocket.png";
 export default function Cards() {
   return (
     <div>
-      <div className="grid grid-cols-3 gap-y-6 md:px-48 px-14 mt-16">
+      <div className="grid md:grid-cols-3 gap-x-2 gap-y-10 p-8 md:gap-y-6 md:px-48 px-14 mt-16">
         <div className="flex justify-center">
-          <article className="flex items-start gap-6 w-fit shadow-sm p-4 rounded-md">
+          <article className="flex items-start md:gap-6 w-fit shadow-sm p-4 rounded-md">
             <img src={Addfolder} />
             <div>
               <h2 className="font-semibold">Ask questions</h2>
