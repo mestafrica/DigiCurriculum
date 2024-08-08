@@ -9,12 +9,12 @@ import Check from "../../assets/images/check.png";
 
 function Features() {
   return (
-    <div className="p-10">
+    <div className="p-4">
       <div
         className="flex md:flex-row flex-col gap-x-20 mt-10"
         style={{ backgroundImage: "url(bg.png)", backgroundSize: "cover" }}
       >
-        <div className="p-24 md:w-1/2 w-96">
+        <div className="md:p-24 p-10 md:w-1/2 w-96">
           <h2 className="font-bold text-3xl">Litmus Test - for students</h2>
           <p className="text-gray-700 mt-6">
             Litmus Test tailors educational content to suit each student’s
@@ -52,13 +52,13 @@ function Features() {
       </div>
 
       <div
-        className="flex md:flex-row flex-col p-36 "
+        className="flex md:flex-row flex-col md:p-36 "
         style={{ backgroundImage: "url(bg2.png)", backgroundSize: "cover" }}
       >
         <div>
           <div className="space-y-5 md:w-1/2">
             <div className="flex items-center gap-10">
-              <img src={Talent} />
+              <img className="w-40" src={Talent} />
               <img src={Image4} />
             </div>
             <div className="flex justify-center">
@@ -66,12 +66,12 @@ function Features() {
             </div>
             <div className="flex items-center space-x-12">
               <img src={Image5} />
-              <img src={Request} />
+              <img className="w-40" src={Request} />
             </div>
           </div>
         </div>
 
-        <div className="px-24 md:w-1/2 w-96">
+        <div className="md:px-24 p-10 md:w-1/2 w-96">
           <h2 className="font-bold text-3xl ">Litmus Test - For Teachers</h2>
           <p className="text-gray-700 mt-6">
             Litmus Test streamlines classroom administration and enhances the
