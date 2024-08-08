@@ -9,13 +9,13 @@ import Check from "../../assets/images/check.png";
 
 function Features() {
   return (
-    <div>
+    <div className="p-10">
       <div
-        className="flex gap-x-20 mt-10"
+        className="flex md:flex-row flex-col gap-x-20 mt-10"
         style={{ backgroundImage: "url(bg.png)", backgroundSize: "cover" }}
       >
-        <div className="p-24 w-1/2">
-          <h2 className="font-bold text-3xl ">Litmus Test - for students</h2>
+        <div className="p-24 md:w-1/2 w-96">
+          <h2 className="font-bold text-3xl">Litmus Test - for students</h2>
           <p className="text-gray-700 mt-6">
             Litmus Test tailors educational content to suit each student’s
             unique learning style and requirements, ensuring that vital concepts
@@ -39,9 +39,9 @@ function Features() {
           </ul>
         </div>
 
-        <div className="w-1/2">
-          <div className="flex space-x-12">
-            <img className="p-20 px-2" src={Talent} />
+        <div className="md:w-1/2">
+          <div className="md:flex space-x-12">
+            <img className="p-20 md:px-2" src={Talent} />
             <img className="p-6 " src={Image3} />
           </div>
           <img src={Checks} />
@@ -52,24 +52,26 @@ function Features() {
       </div>
 
       <div
-        className="flex p-36"
+        className="flex md:flex-row flex-col p-36 "
         style={{ backgroundImage: "url(bg2.png)", backgroundSize: "cover" }}
       >
-        <div className="space-y-5 w-1/2">
-          <div className="flex items-center gap-10">
-            <img src={Talent} />
-            <img src={Image4} />
-          </div>
-          <div className="flex justify-center">
-            <img src={Check} />
-          </div>
-          <div className="flex items-center space-x-12">
-            <img src={Image5} />
-            <img src={Request} />
+        <div>
+          <div className="space-y-5 md:w-1/2">
+            <div className="flex items-center gap-10">
+              <img src={Talent} />
+              <img src={Image4} />
+            </div>
+            <div className="flex justify-center">
+              <img src={Check} />
+            </div>
+            <div className="flex items-center space-x-12">
+              <img src={Image5} />
+              <img src={Request} />
+            </div>
           </div>
         </div>
 
-        <div className="px-24 w-1/2">
+        <div className="px-24 md:w-1/2 w-96">
           <h2 className="font-bold text-3xl ">Litmus Test - For Teachers</h2>
           <p className="text-gray-700 mt-6">
             Litmus Test streamlines classroom administration and enhances the
