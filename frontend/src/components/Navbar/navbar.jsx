@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { CgMenuRightAlt } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,9 +49,9 @@ const Navbar = () => {
   return (
     <nav className="fixed bg-accent shadow-sm w-full z-10">
       <div className="container mx-auto flex justify-between items-center py-4">
-        <a href="#" className="text-primary font-bold text-3xl">
+        <Link to="/" className="text-primary font-bold text-3xl">
           LitmusTest
-        </a>
+        </Link>
 
         <button
           id="menu-toggle"
@@ -71,24 +72,21 @@ const Navbar = () => {
             </button>
             {dropdownOpen.userCases && (
               <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <a
-                  href="#"
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Student
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Teacher
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   School
-                </a>
+                </Link>
               </div>
             )}
           </div>
@@ -103,43 +101,42 @@ const Navbar = () => {
             </button>
             {dropdownOpen.resources && (
               <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <a
-                  href="#"
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Curriculum
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Course Categories
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Question Bank
-                </a>
+                </Link>
               </div>
             )}
           </div>
 
-          <a href="#" className="text-primary font-medium mx-4">
+          <Link to="#" className="text-primary font-medium mx-4">
             About Us
-          </a>
-          <a href="#" className="text-primary font-medium mx-4">
+          </Link>
+          <Link to="#" className="text-primary font-medium mx-4">
             Contact
-          </a>
+          </Link>
         </div>
 
         <div className="hidden lg:flex items-center">
-          <a href="#" className="text-primary font-bold  mx-4">
+          <Link to="/signin" className="text-primary font-bold  mx-4">
             Login
-          </a>
+          </Link>
+          <Link to="/signup">
           <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
             Get Started - It's Free &gt;
           </button>
+          </Link>
         </div>
       </div>
 
@@ -156,24 +153,21 @@ const Navbar = () => {
             </button>
             {dropdownOpen.userCases && (
               <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <a
-                  href="#"
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Student
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Teacher
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   School
-                </a>
+                </Link>
               </div>
             )}
           </div>
@@ -188,40 +182,39 @@ const Navbar = () => {
             </button>
             {dropdownOpen.resources && (
               <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <a
-                  href="#"
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Curriculumn
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Course Categories
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link to="#"
                   className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
                 >
                   Question Bank
-                </a>
+                </Link>
               </div>
             )}
           </div>
 
-          <a href="#" className="text-primary-foreground mx-4 my-2">
+          <Link to="#" className="text-primary-foreground mx-4 my-2">
             About Us
-          </a>
-          <a href="#" className="text-primary-foreground mx-4 my-2">
+          </Link>
+          <Link to="#" className="text-primary-foreground mx-4 my-2">
             Contact
-          </a>
-          <a href="#" className="text-primary-foreground mx-4 my-2">
+          </Link>
+          <Link to="/signin" className="text-primary-foreground mx-4 my-2">
             Login
-          </a>
+          </Link>
+          <Link to="/signup">
           <button className="bg-[#A9DEF9] text-secondary-foreground px-4 py-2 rounded-lg mx-4 my-2">
             Get Started - It's Free &gt;
           </button>
+          </Link>
         </div>
       )}
     </nav>
