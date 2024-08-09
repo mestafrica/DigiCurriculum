@@ -32,7 +32,7 @@ function Features() {
               <li>Interactive Learning: Dynamic textbooks, audiobooks, and courses.</li>
               
               <li>Personalized Learning: AI-supported tutor for self-paced learning.</li>
-              
+               
               <li>Embrace Mistakes: Viewing mistakes as part of the learning journey.</li>
             
               <li>Motivation: Keep students motivated for continuous improvement.</li>
