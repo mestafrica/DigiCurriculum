@@ -43,7 +43,7 @@ const curriculumSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String },
   timeframes: { type: String },
-  courses: [courseSchema],
+  courses: [courseSchema]
 });
 
 
