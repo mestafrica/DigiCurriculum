@@ -8,7 +8,7 @@ function Hero() {
         className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
-        <h1 className="text-4xl font-bold text-navy-900 text-center mb-4">
+        <h1 className="text-6xl font-bold text-navy-900 text-center mb-4">
           AI-powered Assistance for <br />
           educators and learners.
         </h1>

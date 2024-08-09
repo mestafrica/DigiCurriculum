@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Link } from "react-router-dom";
 
 export default function FAQS() {
   return (
@@ -196,9 +197,9 @@ export default function FAQS() {
               simulations, and much more.
             </h4>
           </div>
-          <button className="bg-blue-200 font-bold px-14 py-1 mt-20 rounded-sm">
+          <Link to="/signup"> <button className="bg-blue-200 font-bold px-14 md: py-1 mt-20 rounded-sm">
             Get started - it's free
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>
