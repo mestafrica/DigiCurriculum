@@ -104,7 +104,7 @@ function Profile() {
           </div>
           <p className="mt-4 text-center text-gray-600">
             Already have an account?
-            <a href="#signin" className="text-gray-600 underline">
+            <a href="/signin" className="text-gray-600 underline">
               Sign In
             </a>
           </p>

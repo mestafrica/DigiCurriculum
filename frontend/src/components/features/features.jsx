@@ -1,5 +1,7 @@
 import Image2 from "../../assets/images/image2.png";
 import Image3 from "../../assets/images/image3.png";
+import Image4 from "../../assets/images/image4.png";
+import Image5 from "../../assets/images/image5.png";
 import Checks from "../../assets/images/checks.png";
 import Talent from "../../assets/images/talent.png";
 import Bg from "../../assets/images/bg.png";
