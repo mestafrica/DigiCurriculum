@@ -23,7 +23,7 @@ const FeaturesTwo = () => {
               />
               <img className="size-full md:w-1/2 p-4" src={Image4} alt="Image 4" />
             </div>
-            <div className="flex justify-center p-6 mt-6 md:mt-8">
+            <div className="flex justify-center p-6  mt-6 md:mt-8">
               <img className="w-full md:w-2/3" src={Check} alt="Check" />
             </div>
             <div className="mt-8 md:mt-12 flex items-center justify-between">
