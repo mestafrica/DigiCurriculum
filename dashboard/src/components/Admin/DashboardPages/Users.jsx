@@ -103,10 +103,10 @@ const UserList = () => {
   return (
     <>
       <div className="px-4 pt-6">
-        <div className="p-4 backdrop-blur-sm bg-white/10 border border-secondary rounded-lg shadow-sm sm:p-6">
+        <div className="p-4 backdrop-blur-sm bg-black/10 border border-secondary rounded-lg shadow-sm sm:p-6">
           <div className="items-center justify-between lg:flex">
             <div className="mb-4 lg:mb-0">
-              <h3 className="mb-2 text-xl font-bold text-white">
+              <h3 className="mb-2 text-xl font-bold text-black">
                 All Users
               </h3>
               <span className="text-base font-normal text-textColor">
@@ -117,7 +117,7 @@ const UserList = () => {
               <div className="flex items-center">
                 <button
                   onClick={() => setUsersModal(true)}
-                  className="mb-4 sm:mb-0 mr-4 inline-flex items-center border focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-4 py-2.5 bg-gray-800 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700"
+                  className="mb-4 sm:mb-0 mr-4 inline-flex items-center border focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-4 py-2.5 bg-secondary text-black border-secondary hover:primary hover:border-primary focus:ring-primary"
                   type="button"
                 >
                   Upload Users
@@ -154,35 +154,35 @@ const UserList = () => {
                   ) : (
                     <>
                       <table className="min-w-full divide-y divide-gray-600">
-                        <thead className="bg-gray-700">
+                        <thead className="bg-primary">
                           <tr>
                             <th
                               scope="col"
-                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-white"
+                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
                               Name
                             </th>
                             <th
                               scope="col"
-                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-white"
+                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
                               Email
                             </th>
                             <th
                               scope="col"
-                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-white"
+                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
                               Referral Code
                             </th>
                             <th
                               scope="col"
-                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-white"
+                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
                               Country
                             </th>
                             <th
                               scope="col"
-                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-white"
+                              className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
                               Action(s)
                             </th>
@@ -194,21 +194,21 @@ const UserList = () => {
                               key={index}
                               className={user.disabled ? "opacity-50" : ""}
                             >
-                              <td className="p-2 text-sm font-normal whitespace-nowrap text-white">
+                              <td className="p-2 text-sm font-normal whitespace-nowrap text-black">
                                 <span className="font-semibold">
                                   {user.name}
                                 </span>
                               </td>
-                              <td className="p-2 text-sm font-medium whitespace-nowrap text-white">
+                              <td className="p-2 text-sm font-medium whitespace-nowrap text-black">
                                 {user.email}
                               </td>
-                              <td className="p-2 text-sm font-medium whitespace-nowrap text-white">
+                              <td className="p-2 text-sm font-medium whitespace-nowrap text-black">
                                 {user.referral_code}
                               </td>
-                              <td className="p-2 text-sm font-medium whitespace-nowrap text-white">
+                              <td className="p-2 text-sm font-medium whitespace-nowrap text-black">
                                 {user.country_code}
                               </td>
-                              <td className="p-2 text-sm font-medium whitespace-nowrap text-white">
+                              <td className="p-2 text-sm font-medium whitespace-nowrap text-black">
                                 <button
                                   onClick={() =>
                                     handleUserStatusChange(
@@ -218,8 +218,8 @@ const UserList = () => {
                                   }
                                   className={`${
                                     user.status === "1"
-                                      ? "mb-4 sm:mb-0 inline-flex items-center text-white bg-red-700 border border-red-700 focus:outline-none hover:bg-red-900"
-                                      : "mb-4 sm:mb-0 inline-flex items-center text-white bg-green-700 border border-green-700 focus:outline-none hover:bg-green-900"
+                                      ? "mb-4 sm:mb-0 inline-flex items-center text-black bg-red-700 border border-red-700 focus:outline-none hover:bg-red-900"
+                                      : "mb-4 sm:mb-0 inline-flex items-center text-black bg-green-700 border border-green-700 focus:outline-none hover:bg-green-900"
                                   }focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5`}
                                   type="button"
                                 >
@@ -234,7 +234,7 @@ const UserList = () => {
                         <button
                           onClick={() => paginate(currentPage - 1)}
                           disabled={currentPage === 1}
-                          className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-4 py-2 text-sm font-medium text-black bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Previous
                         </button>
@@ -248,7 +248,7 @@ const UserList = () => {
                             currentPage ===
                             Math.ceil(userList.length / usersPerPage)
                           }
-                          className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-4 py-2 text-sm font-medium text-black bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Next
                         </button>

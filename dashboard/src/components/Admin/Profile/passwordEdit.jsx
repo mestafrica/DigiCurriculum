@@ -85,7 +85,7 @@ function EditPassword({ closeModel }) {
           <div className="flex justify-between border-b pb-2">
             <h2 className="text-xl font-bold text-textColor">Edit password</h2>
             <div className="flex">
-              <button className="text-accent font-semibold">User info</button>
+              <button className="text-primary font-semibold">User info</button>
             </div>
           </div>
           {errorMessage && (

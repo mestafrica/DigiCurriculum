@@ -114,12 +114,12 @@ function EditProfile({ closeModel }) {
           <div className="flex justify-between border-b pb-2">
             <h2 className="text-xl font-bold text-textColor ">Edit Profile</h2>
             <div className="flex">
-              <button className="text-accent font-semibold">User info</button>
+              <button className="text-primary font-semibold">User info</button>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div>
-              <label className="block text-accent text-sm font-bold mb-2">
+              <label className="block text-primary text-sm font-bold mb-2">
                 Full Name
               </label>
               <input
@@ -134,7 +134,7 @@ function EditProfile({ closeModel }) {
           </div>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div>
-              <label htmlFor="phone" className="block text-accent text-sm font-bold mb-2">
+              <label htmlFor="phone" className="block text-primary text-sm font-bold mb-2">
                 Phone
               </label>
               <input
@@ -149,7 +149,7 @@ function EditProfile({ closeModel }) {
             <div>
               <label
                 htmlFor="genderOptions"
-                className="block text-accent text-sm font-bold mb-2"
+                className="block text-primary text-sm font-bold mb-2"
               >
                 Gender
               </label>
@@ -168,7 +168,7 @@ function EditProfile({ closeModel }) {
           <div className="mt-4">
             <div className="grid grid-cols-2 gap-4 mt-2">
               <div>
-                <label htmlFor="facebook" className="block text-accent text-sm font-bold mb-2">
+                <label htmlFor="facebook" className="block text-primary text-sm font-bold mb-2">
                   Facebook Username
                 </label>
                 <input
@@ -181,7 +181,7 @@ function EditProfile({ closeModel }) {
                 />
               </div>
               <div>
-                <label htmlFor="instagram" className="block text-accent text-sm font-bold mb-2">
+                <label htmlFor="instagram" className="block text-primary text-sm font-bold mb-2">
                   Instagram Username
                 </label>
                 <input

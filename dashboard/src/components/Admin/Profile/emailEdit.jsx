@@ -105,7 +105,7 @@ function EditEmail({ closeModel }) {
           <div className="flex justify-between border-b pb-2">
             <h2 className="text-xl font-bold text-textColor">Update email</h2>
             <div className="flex">
-              <button className="text-accent font-semibold">Email</button>
+              <button className="text-primary font-semibold">Email</button>
             </div>
           </div>
           {errorMessage && (
@@ -119,7 +119,7 @@ function EditEmail({ closeModel }) {
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-accent dark:text-white"
+                  className="block mb-2 text-sm font-medium text-primary dark:text-white"
                 >
                   Your email
                 </label>

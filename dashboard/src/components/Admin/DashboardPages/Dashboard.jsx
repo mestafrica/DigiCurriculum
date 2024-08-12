@@ -91,10 +91,10 @@ const token = sessionStorage.getItem("token")
 
   return (
     <div className="px-4 pt-6">
-      <div className="p-4 backdrop-blur-sm bg-white/10 border border-secondary rounded-lg shadow-sm sm:p-6">
+      <div className="p-4 backdrop-blur-sm bg-black/10 border border-secondary rounded-lg shadow-sm sm:p-6">
         <div className="h-44 grid grid-cols-3 content-center">
           <div>
-            <h3 className="text-lg font-bold text-gray-400 mb-3">
+            <h3 className="text-lg font-bold text-gray-800 mb-3">
               Total No. Users
             </h3>
             <span className="text-3xl font-bold leading-none text-green-500 sm:text-5xl">
@@ -123,7 +123,7 @@ const token = sessionStorage.getItem("token")
           </div>
 
           <div>
-            <h3 className="text-lg font-bold  text-gray-400 mb-2">
+            <h3 className="text-lg font-bold  text-gray-800 mb-2">
               New Users Last Month
             </h3>
             <span className="text-3xl font-bold leading-none text-green-500 sm:text-5xl ">
