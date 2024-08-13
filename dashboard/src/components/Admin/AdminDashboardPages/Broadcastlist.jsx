@@ -18,7 +18,7 @@ const BroadcastList = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://3.89.152.217/api/v1/all-broadcasted-messages",
+        "http://.....217/api/v1/all-broadcasted-messages",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const BroadcastList = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `http://3.89.152.217/api/v1/delete-message-broadcast/${broadcastId}`,
+      url: `http://.....217/api/v1/delete-message-broadcast/${broadcastId}`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

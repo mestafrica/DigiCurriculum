@@ -29,7 +29,7 @@ const UserList = () => {
       };
 
       await fetch(
-        "https://ashtokenreferrals.com/api/v1/all-registered-users",
+        "https://.....com/api/v1/all-registered-users",
         requestOptions
       )
         .then((response) => response.json())
@@ -53,7 +53,7 @@ const UserList = () => {
   const disableUser = async (userId) => {
     try {
       await axios.post(
-        `https://ashtokenreferrals.com/api/v1/disableUser/${userId}`,
+        `https://.....com/api/v1/disableUser/${userId}`,
         {},
         {
           headers: {
@@ -70,7 +70,7 @@ const UserList = () => {
   const enableUser = async (userId) => {
     try {
       await axios.post(
-        `https://ashtokenreferrals.com/api/v1/enableUser/${userId}`,
+        `https://.....com/api/v1/enableUser/${userId}`,
         {},
         {
           headers: {
@@ -172,13 +172,13 @@ const UserList = () => {
                               scope="col"
                               className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
-                              Referral Code
+                              Category
                             </th>
                             <th
                               scope="col"
                               className="p-2 text-xs font-medium tracking-wider text-left uppercase text-black"
                             >
-                              Country
+                              Grade
                             </th>
                             <th
                               scope="col"

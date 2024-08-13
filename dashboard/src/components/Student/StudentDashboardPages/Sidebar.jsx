@@ -11,33 +11,33 @@ import {
 } from "react-icons/lu";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
-const AdminSideBar = ({ isOpen, setIsOpen }) => {
+const StudentSideBar = ({ isOpen, setIsOpen }) => {
   const Menus = [
     {
-      title: "Dashboard",
+      title: "Home",
       icon: <LuTable2 />,
-      link: "/admin-dashboard/dashboard",
+      link: "/student-dashboard/dashboard",
     },
     {
-      title: "Broadcasts",
+      title: "Tasks",
       icon: <BsBroadcast />,
-      link: "/admin-dashboard/broadcasts",
+      link: "/student-dashboard/tasks",
     },
     {
-      title: "Users",
+      title: "Tools",
       icon: <LuUsers2 />,
-      link: "/admin-dashboard/users",
+      link: "/student-dashboard/tools",
     },
-    // {
-    //   title: "Reporting",
-    //   icon: <TbReportAnalytics />,
-    //   link: "/admin-dashboard/report",
-    //   gap: true,
-    // },
+    {
+      title: "Library",
+      icon: <TbReportAnalytics />,
+      link: "/student-dashboard/library",
+      gap: true,
+    },
     {
       title: "Settings",
       icon: <LuCog />,
-      link: "/admin-dashboard/settings",
+      link: "/student-dashboard/settings",
       gap: true,
     },
   ];
@@ -74,8 +74,8 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
   return (
     <div
       className={`${
-        isOpen ? "w-60 bg-[#FCF6BD]" : "w-20"
-      } flex flex-col justify-between backdrop-blur-sm bg-[#FCF6BD]/80 text-black h-[100vh] p-5 duration-300 sticky border border-secondary`}
+        isOpen ? "w-60 bg-[#EAFAF4]" : "w-20"
+      } flex flex-col justify-between backdrop-blur-sm bg-[#EAFAF4]/80 text-black h-[100vh] p-5 duration-300 sticky border border-secondary`}
     >
       <div>
         <LuChevronLeft
@@ -147,6 +147,6 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default AdminSideBar;
+export default StudentSideBar;
 
 

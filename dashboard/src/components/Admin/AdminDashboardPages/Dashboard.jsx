@@ -31,7 +31,7 @@ const token = sessionStorage.getItem("token")
       };
 
      await fetch(
-        "http://3.89.152.217/api/v1/count-total-registered-users",
+        "http://.....217/api/v1/count-total-registered-users",
         requestOptions
       )
         .then((response) => response.json())
@@ -59,7 +59,7 @@ const token = sessionStorage.getItem("token")
       };
 
      await fetch(
-        "http://3.89.152.217/api/v1/overall-total-oustanding-payments",
+        "http://.....217/api/v1/overall-total-oustanding-payments",
         requestOptions
       )
         .then((response) => response.json())
@@ -78,7 +78,7 @@ const token = sessionStorage.getItem("token")
     try {
       
       const [newMemberResponse] = await Promise.all([
-        axios.get("http://3.89.152.217/api/v1/users-registered-in-last-month"),
+        axios.get("http://.....217/api/v1/users-registered-in-last-month"),
       ]);
 
       setTotalNewMember(newMemberResponse.data.total_new_member);

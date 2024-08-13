@@ -59,7 +59,7 @@ const Broadcast = () => {
     };
     console.log({ message });
     return await axios.post(
-      "http://3.89.152.217/api/v1/broadcast-message-to-notification",
+      "http://.....217/api/v1/broadcast-message-to-notification",
       {
         message: message.message,
         subject: message.subject,
@@ -78,7 +78,7 @@ const Broadcast = () => {
       message: form.message,
     };
     return axios.post(
-      "http://3.89.152.217/api/v1/broadcast-message-to-email",
+      "http://.....217/api/v1/broadcast-message-to-email",
       {
         message: message.message,
         subject: message.subject,
@@ -97,7 +97,7 @@ const Broadcast = () => {
       message: form.message,
     };
     return axios.post(
-      "http://3.89.152.217/api/v1/broadcast-message-to-email-and-notification",
+      "http://.....217/api/v1/broadcast-message-to-email-and-notification",
       {
         message: message.message,
         subject: message.subject,
