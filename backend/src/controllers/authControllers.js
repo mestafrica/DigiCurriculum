@@ -58,6 +58,8 @@ export const resendOtp = async (req, res) => {
     res.status(200).json({ message: 'OTP Resent successfully' });
   } catch (error) {
     console.error("Error during OTP resending:", error);
-    res.status(500).json('Internal server error');
+    res.status(500).json({message:'Internal server error',
+      error:error
+    });
   }
 };

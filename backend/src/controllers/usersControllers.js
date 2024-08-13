@@ -59,7 +59,9 @@ export const handleSignup = async (req, res) => {
     res.status(201).json({ message: "Signup successful, OTP sent" });
   } catch (error) {
     console.error("Error during signup:", error);
-    res.status(500).json('Internal server error');
+    res.status(500).json({ message:'Internal server error',
+      error:error
+    });
   }
 }; 
 
@@ -79,7 +81,9 @@ export const allUsers = async (req, res) => {
       return res.status(404).json({ message: "No users found" });
     }
 
-    res.status(200).json(fetchAllUsers, "Users fetched successfully");
+  res.status(200).json({message: "Users fetched successfully",
+    users: fetchAllUsers
+  });
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -96,7 +100,9 @@ export const singleUser = async (req, res) => {
     const fetchSingleUser = await userModel.findById(id); 
 
 
-    res.status(200).json(fetchSingleUser,'user fetched successfully');
+    res.status(200).json({message:'user fetched successfully',
+      user: fetchSingleUser,
+    });
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -115,7 +121,9 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(updatedUser, "user updated successfully");
+    res.status(200).json({message: "user updated successfully",
+      user: updatedUser,
+    });
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ message: "Internal server error" });

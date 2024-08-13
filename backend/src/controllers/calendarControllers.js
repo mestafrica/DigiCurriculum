@@ -120,7 +120,8 @@ export const generateCalendar = async (req, res) => {
         });
 
         await calendar.save();
-        res.status(201).json(calendar);
+        res.status(201).json({message: "schedule generated successfully",
+           schedule: calendar});
 
     } catch (error) {
         console.error("Error generating calendar:", error);
@@ -131,7 +132,8 @@ export const generateCalendar = async (req, res) => {
 export const fetchCalendar = async (req, res) => {
     try {
         const getAllCalendars = await calendarModel.find();
-        res.status(200).json(getAllCalendars);
+        res.status(200).json({message: "Displaying all schedules",
+           schedules: getAllCalendars});
     } catch (error) {
         res.status(500).json({ message: "Error fetching calendars", error });
     }
@@ -149,7 +151,8 @@ export const updateCalendar = async (req, res) => {
             return res.status(404).json({ message: "Calendar entry not found" });
         }
 
-        res.status(200).json(calendarUpdate);
+        res.status(200).json({message: "Schedule updated successfully",
+            calendarUpdate});
     } catch (error) {
         res.status(500).json({ message: "Error updating calendar entry", error });
     }
