@@ -123,7 +123,7 @@ const Navbar = () => {
           <Link to="#" className="text-primary font-medium mx-4">
             About Us
           </Link>
-          <Link to="#" className="text-primary font-medium mx-4">
+          <Link to="/contact" className="text-primary font-medium mx-4">
             Contact
           </Link>
         </div>
