@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import bgFrame from "../../assets/images/Frame5.png"
+import bgFrame2 from "../../assets/images/Frame1.png"
 
 const ContactForm = () => {
   // State to store form data
@@ -61,15 +63,19 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 p-8 bg-background gap-8">
-     <div className="md:col-span-1">
+    <div className="lg:min-h-screen md:max-h-screen grid grid-cols-1 md:grid-cols-3 lg:px-32 lg:py-32 md:p-10 bg-cover bg-center"
+    style={{ backgroundImage: `url(${bgFrame})` }}>
+     <div className="md:col-span-1 bg-cover shadow-md" style={{ backgroundImage: `url(${bgFrame2})` }}>
+     <div className=" p-8 md:p-6">
+      <div className="pt-6">
         <h2 className="text-xl md:text-2xl font-bold mb-4">
           Contact Information
         </h2>
         <p className="text-sm md:text-base text-muted-foreground mb-6">
           Want more Info? We are a dial away!
         </p>
-        <div className="flex items-center mb-4">
+        </div>
+        <div className="flex items-center mb-4 mt-10 pt-10">
           <span className="mr-2">📞</span>
           <span className="text-muted-foreground">+233 000 0009</span>
         </div>
@@ -83,7 +89,7 @@ const ContactForm = () => {
             132 Video Street Accra, Greater-Accra 00233 Ghana
           </span>
         </div>
-        <div className="flex space-x-4 mt-6">
+        <div className="flex space-x-4 mt-6 pt-10">
           <a href="#" className="text-muted-foreground hover:text-primary">
             Twitter
           </a>
@@ -95,9 +101,10 @@ const ContactForm = () => {
           </a>
         </div>
       </div>
+      </div>
       <div className="md:col-span-2">
         <form
-          className="bg-card p-4 md:p-6 rounded-lg shadow-md"
+          className="bg-card p-4 md:p-6 shadow-md"
           onSubmit={handleSubmit}
         >
           <div className="mb-4">
@@ -240,7 +247,7 @@ const ContactForm = () => {
           </button>
         </form>
       </div>
-    </div>
+      </div>
   );
 };
 

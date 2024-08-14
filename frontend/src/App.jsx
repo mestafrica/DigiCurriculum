@@ -5,7 +5,7 @@ import Signup from "./pages/register/Signup";
 import CompleteSignup from "./pages/register/OtpPage";
 import Profile from "./pages/register/Profile";
 import SignIn from "./pages/register/Login";
-import ContactForm from "./components/Contacts/contacts";
+import ContactPage from "./pages/ContactPage";
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -13,7 +13,7 @@ const routes = [
   { path: "/profile", element: <Profile /> },
   { path: "/completesignup", element: <CompleteSignup /> },
   { path: "/signin", element: <SignIn /> },
-  { path: "/contact", element: <ContactForm /> },
+  { path: "/contact", element: <ContactPage /> },
 ];
 
 function App() {
