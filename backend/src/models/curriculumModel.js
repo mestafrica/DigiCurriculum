@@ -10,7 +10,7 @@ const performanceIndicatorSchema = new mongoose.Schema({
   description: { type: String },
   suggestedTimeframe: {type: String},
   assessmentCriteria: {type: String},
-  resources: {type: String}
+  resources: {type: String},
 });
 
 // Schema for SubStrand
@@ -27,7 +27,7 @@ const strandSchema = new mongoose.Schema({
   code: { type: String, required: true, unique: true },
   name: {type: String, required: true},
   description: { type: String },
-  subStrand: [subStrandSchema]
+  subStrand: [subStrandSchema],
   
 });
 
@@ -36,7 +36,7 @@ const courseSchema = new mongoose.Schema({
   courseCode: {type: String, required: true, unique: true },
   courseName: { type: String,required: true},
   description: { type: String },
-  strands: [strandSchema]
+  strands: [strandSchema],
 });
 
 // Schema for Curriculum
@@ -45,7 +45,7 @@ const curriculumSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
   timeframes: { type: String },
-  courses: [courseSchema]
+  courses: [courseSchema],
 });
 
 
