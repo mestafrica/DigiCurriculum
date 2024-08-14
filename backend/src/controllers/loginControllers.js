@@ -5,6 +5,12 @@ import jwt from "jsonwebtoken";
 export const signIn = async (req, res) => {
     try {
       const { email, password } = req.body;
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json("Please enter a valid email") ; 
+      }
+  
   
       // Validate the request body
       if (!email || !password) {
