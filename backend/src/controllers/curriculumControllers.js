@@ -1,7 +1,7 @@
-import Curriculum from'../models/curriculumModel';
+import Curriculum from '../models/curriculumModel.js';
 
 
-exports.createCurriculum = async (req, res) => {
+export const createCurriculum = async (req, res) => {
   try {
     const { code, name, description, timeframes, courses } = req.body;
 
@@ -27,7 +27,7 @@ exports.createCurriculum = async (req, res) => {
 };
 
 
-exports.getCurriculumByGrade = async (req, res) => {
+export const getCurriculumByGrade = async (req, res) => {
   try {
     const { grade } = req.params;
 
@@ -49,7 +49,7 @@ exports.getCurriculumByGrade = async (req, res) => {
 };
 
 
-exports.updateCurriculum = async (req, res) => {
+export const updateCurriculum = async (req, res) => {
   try {
     const { code } = req.params;
     const updates = req.body;
@@ -72,7 +72,7 @@ exports.updateCurriculum = async (req, res) => {
 };
 
 
-exports.deleteCurriculum = async (req, res) => {
+export const deleteCurriculum = async (req, res) => {
   try {
     const { code } = req.params;
 

@@ -1,6 +1,6 @@
 import { calendarModel } from "../models/calendarModel.js";
 import { generateContent } from "../utils/gemini.js";
-import { curriculumModel } from "../models/curriculum.js";
+import Curriculum from "../models/curriculumModel.js";
 
 function CalculateEndDate(startDate, period) {
     const start = new Date(startDate);

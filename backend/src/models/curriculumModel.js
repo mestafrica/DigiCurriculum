@@ -6,8 +6,7 @@ const Schema = mongoose.Schema;
 // PerformanceIndicator Schema
 const performanceIndicatorSchema = new mongoose.Schema({
   code: {type: String, required: true, unique: true},
-  name: {type: String,required: true},
-  description: { type: String },
+  description: { type: String, required: true},
   suggestedTimeframe: {type: String},
   assessmentCriteria: {type: String},
   resources: {type: String},
@@ -17,7 +16,6 @@ const performanceIndicatorSchema = new mongoose.Schema({
 const subStrandSchema = new mongoose.Schema({
   code: { type: String, required: true,unique: true },
   name: { type: String, required: true},
-  description: { type: String },
   performanceIndicator: [performanceIndicatorSchema]
   
 });
@@ -26,7 +24,6 @@ const subStrandSchema = new mongoose.Schema({
 const strandSchema = new mongoose.Schema({
   code: { type: String, required: true, unique: true },
   name: {type: String, required: true},
-  description: { type: String },
   subStrand: [subStrandSchema],
   
 });
@@ -35,20 +32,20 @@ const strandSchema = new mongoose.Schema({
 const courseSchema = new mongoose.Schema({
   courseCode: {type: String, required: true, unique: true },
   courseName: { type: String,required: true},
-  description: { type: String },
   strands: [strandSchema],
 });
 
 // Schema for Curriculum
 const curriculumSchema = new mongoose.Schema({
-  code: { type: String, required: true, unique: true, min: 1 },
-  name: { type: String, required: true },
-  description: { type: String },
-  timeframes: { type: String },
+  gradeLevel: {type: Number, required: true, unique: true, min: 1},
   courses: [courseSchema],
 });
 
 
 const Curriculum = mongoose.model('Curriculum', curriculumSchema);
 
-module.exports = Curriculum;
+export default Curriculum;
+
+
+
+

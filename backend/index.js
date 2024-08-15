@@ -43,7 +43,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter)
 app.use(calendarRouter)
-app.use(curriculumRoutes)
+app.use('/api/vi', curriculumRoutes)
 
 
 
