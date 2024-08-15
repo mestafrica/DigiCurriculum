@@ -18,6 +18,7 @@ export default function About() {
           backgroundImage: "url(about.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="flex flex-col items-center py-44">
