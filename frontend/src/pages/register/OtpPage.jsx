@@ -26,7 +26,6 @@ function CompleteSignup() {
     setLoading(true);
     setError('');
     try {
-      
       await new Promise((resolve) => setTimeout(resolve, 2000));
       alert('OTP has been resent to your email.');
     } catch (err) {
@@ -74,6 +73,15 @@ function CompleteSignup() {
           )}
         </p>
         {error && <p className="text-red-500 mt-2">{error}</p>}
+        <div className="flex justify-center mt-6">
+          <button
+            type="button"
+            onClick={() => navigate('/')} 
+            className="text-gray-600 underline"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     </div>
   );

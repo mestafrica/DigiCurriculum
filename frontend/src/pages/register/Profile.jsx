@@ -38,15 +38,13 @@ function Profile() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Form submitted:", formData);
       navigate('/completesignup');
-      
     }
   };
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
@@ -103,11 +101,20 @@ function Profile() {
             </button>
           </div>
           <p className="mt-4 text-center text-gray-600">
-            Already have an account?
+            Already have an account?{" "}
             <a href="/signin" className="text-gray-600 underline">
               Sign In
             </a>
           </p>
+          <div className="flex justify-center mt-4">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="text-gray-600 underline"
+            >
+              Back to Home
+            </button>
+          </div>
         </form>
       </div>
     </div>
