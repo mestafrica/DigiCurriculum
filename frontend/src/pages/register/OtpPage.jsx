@@ -8,9 +8,9 @@ function CompleteSignup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleCompleteRegistration = () => {
-    navigate('/signin');
-  };
+  // const handleCompleteRegistration = () => {
+  //   navigate('/signin');
+  // };
 
   const handleChange = (e, index) => {
     const { value } = e.target;
@@ -57,9 +57,11 @@ function CompleteSignup() {
         </div>
         <button
           className="bg-buttonBg text-white py-2 px-4 rounded-lg focus:outline-none"
-          onClick={handleCompleteRegistration}
+          // onClick={handleCompleteRegistration}
         >
+          <a href="https://gesstudentdev.netlify.app/dashboard">
           Complete Registration
+          </a>
         </button>
         <p className="mt-4">
           {loading ? (
