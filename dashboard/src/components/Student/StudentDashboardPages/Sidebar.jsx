@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   LuTable2,
   LuUser2,
-  LuCog,
   LuArrowLeftFromLine,
   LuChevronLeft,
 } from "react-icons/lu";
@@ -17,27 +16,27 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
     {
       title: "Home",
       icon: <LuTable2 />,
-      link: "/student/dashboard",
+      link: "/dashboard",
     },
     {
       title: "Tasks",
       icon: <FaTasks />,
-      link: "/student/tasks",
+      link: "/tasks",
     },
     {
       title: "Tools",
       icon: <PiSparkleLight />,
-      link: "/student/tools",
+      link: "/tools",
     },
     {
       title: "Library",
       icon: <IoLibraryOutline />,
-      link: "/student/library",
+      link: "/library",
     },
     {
       title: "Profile",
       icon: <LuUser2 />,
-      link: "/student/settings",
+      link: "/settings",
       gap: true,
     },
   ];
@@ -85,28 +84,9 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
         />
         <div className="flex gap-x-4 items-center">
-          <img src="" alt="unilogo" className="w-8" />
-          {userData ? (
-            <div>
-              <h1
-                className={`text-black rounded-lg origin-left font-medium text-xl duration-200 font-serif ${
-                  !isOpen && "scale-0"
-                }`}
-              >
-                {`${userData.firstName} ${userData.lastName}`}
-              </h1>
-
-              <h1
-                className={`text-black rounded-lg origin-left text-sm duration-200 font-serif ${
-                  !isOpen && "scale-0"
-                }`}
-              >
-                {`${userData.email}`}
-              </h1>
-            </div>
-          ) : (
-            ""
-          )}
+          <Link to="/student" className="text-black font-bold text-3xl">
+          LitmusTest
+        </Link>
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
@@ -139,14 +119,14 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
         </ul>
         <br />
       </div>
+      {/* documentation */}
+      
       <div className={`${!isOpen && "hidden"}`}>
         <hr />
-        <SmallFooter/>
+        <SmallFooter />
       </div>
     </div>
   );
 };
 
 export default StudentSideBar;
-
-

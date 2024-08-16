@@ -97,28 +97,9 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
         />
         <div className="flex gap-x-4 items-center">
-          <img src="" alt="unilogo" className="w-8" />
-          {userData ? (
-            <div>
-              <h1
-                className={`text-black rounded-lg origin-left font-medium text-xl duration-200 font-serif ${
-                  !isOpen && "scale-0"
-                }`}
-              >
-                {`${userData.firstName} ${userData.lastName}`}
-              </h1>
-
-              <h1
-                className={`text-black rounded-lg origin-left text-sm duration-200 font-serif ${
-                  !isOpen && "scale-0"
-                }`}
-              >
-                {`${userData.email}`}
-              </h1>
-            </div>
-          ) : (
-            ""
-          )}
+        <Link to="/" className="text-black font-bold text-3xl">
+          LitmusTest
+        </Link>
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (

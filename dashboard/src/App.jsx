@@ -29,7 +29,7 @@ import AdminCalendar from "./components/Admin/AdminDashboardPages/Calendar";
 
 const routes = [
   {
-    path: "/",
+    path: "/admin",
     element: <Backoffice />,
     children: [
       { path: "dashboard", element: <Dashboard /> },
@@ -43,27 +43,27 @@ const routes = [
     ],
   },
   {
-    path: "/student",
+    path: "/",
     element: <StudentRoom />,
     children: [
       { path: "dashboard", element: <StudentDashboard /> },
       { path: "tasks", element: <Tasks /> },
       { path: "tools", element: <Tools /> },
-      { path: "library", element: <StudentLibrary/> },
-      { path: "settings", element: <ProfileDetailStudent/> },
+      { path: "library", element: <StudentLibrary /> },
+      { path: "settings", element: <ProfileDetailStudent /> },
     ],
   },
   {
     path: "/teacher",
     element: <TeacherRoom />,
     children: [
-      { path: "dashboard", element: <Home/> },
+      { path: "dashboard", element: <Home /> },
       { path: "lessons", element: <Lessons /> },
       { path: "calendar", element: <Calendar /> },
       { path: "tools", element: <AiTools /> },
       { path: "material", element: <Materials /> },
       { path: "ready", element: <Readytouse /> },
-      { path: "settings", element: <ProfileDetailsTeacher/> },
+      { path: "settings", element: <ProfileDetailsTeacher /> },
     ],
   },
 ];

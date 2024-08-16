@@ -189,27 +189,6 @@ const ProfileDetailStudent = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4">
-                <div className="grid grid-cols-2 gap-4 mt-2">
-                  <div>
-                    <label className="block text-gray-800 text-sm font-bold mb-2">
-                      Facebook Username
-                    </label>
-                    <span className=" rounded w-full  text-[#9399A6] leading-tight">
-                      {userData.name}
-                    </span>
-                  </div>
-                  <div>
-                    <label className="block text-gray-800 text-sm font-bold mb-2">
-                      Twitter Username
-                    </label>
-                    <span className=" rounded w-full  text-[#9399A6] leading-tight">
-                      {userData.name}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
               <div className="flex gap-4 my-4">
                 <div className="w-full">
                   <label className="block text-gray-800 text-sm font-bold mb-2">

@@ -110,9 +110,9 @@ function EditProfile({ closeModel }) {
     >
       <div className="w-full lg:w-2/3 p-4">
         <form onSubmit={updadateProfile}>
-        <div className="backdrop-blur-sm bg-white/10 border border-secondary shadow-lg rounded-lg p-4">
+        <div className="bg-white border border-secondary shadow-lg rounded-lg p-4">
           <div className="flex justify-between border-b pb-2">
-            <h2 className="text-xl font-bold text-textColor ">Edit Profile</h2>
+            <h2 className="text-xl font-bold text-black ">Edit Profile</h2>
             <div className="flex">
               <button className="text-primary font-semibold">User info</button>
             </div>
@@ -128,7 +128,7 @@ function EditProfile({ closeModel }) {
                 id="fullname"
                 defaultValue={userData.name}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-700"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100"
               />
             </div>
           </div>
@@ -143,7 +143,7 @@ function EditProfile({ closeModel }) {
                 id="phone"
                 defaultValue={userData.phone}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100"
               />
             </div>
             <div>
@@ -158,43 +158,11 @@ function EditProfile({ closeModel }) {
                 id="genderOptions"
                 value={form.gender}
                 onChange={handleChange}
-                className="shadow border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700"
+                className="shadow border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100"
               >
                 <option value="F">Female</option>
                 <option value="M">Male</option>
               </select>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              <div>
-                <label htmlFor="facebook" className="block text-primary text-sm font-bold mb-2">
-                  Facebook Username
-                </label>
-                <input
-                  type="text"
-                  id="facebook"
-                  name="socialFb"
-                  value={form.socialFb}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700"
-                />
-              </div>
-              <div>
-                <label htmlFor="instagram" className="block text-primary text-sm font-bold mb-2">
-                  Instagram Username
-                </label>
-                <input
-                  type="text"
-                  id="instagram"
-                  name="socialIg"
-                  defaultValue={"Instagram"}
-                  value={form.socialIg}
-                  onChange={handleChange}
-                  placeholder=""
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700"
-                />
-              </div>
             </div>
           </div>
           <div className="flex justify-end gap-4 mt-4">
