@@ -31,7 +31,21 @@ export default {
     fontWeight: {
       normal: '400',
       bold: '700',
-    },    
+    }, 
+    keyframes: {
+      slide: {
+        '0%': { transform: 'translateY(0)' },
+        '16%': { transform: 'translateY(-100%)' },
+        '33%': { transform: 'translateY(-100%)' },
+        '49%': { transform: 'translateY(-200%)' },
+        '66%': { transform: 'translateY(-200%)' },
+        '82%': { transform: 'translateY(-300%)' },
+        '100%': { transform: 'translateY(-400%)' },
+      },
+    },
+    animation: {
+      slide: 'slide 12s infinite',
+    },   
   },
   plugins: [],
 }

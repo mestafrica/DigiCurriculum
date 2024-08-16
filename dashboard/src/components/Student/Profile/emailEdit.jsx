@@ -101,9 +101,9 @@ function EditEmail({ closeModel }) {
       className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center text-white"
     >
       <div className="w-full lg:w-1/3 p-4">
-        <div className="backdrop-blur-sm bg-white/10 border border-secondary shadow-lg rounded-lg p-4">
+        <div className="bg-white border-secondary shadow-lg rounded-lg p-4">
           <div className="flex justify-between border-b pb-2">
-            <h2 className="text-xl font-bold text-textColor">Update email</h2>
+            <h2 className="text-xl font-bold text-black">Update email</h2>
             <div className="flex">
               <button className="text-primary font-semibold">Email</button>
             </div>
@@ -129,7 +129,7 @@ function EditEmail({ closeModel }) {
                   id="email"
                   value={form.email}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700 ${
+                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100${
                     submitted &&
                     (!form.email || !/\S+@\S+\.\S+/.test(form.email))
                       ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
@@ -166,7 +166,7 @@ function EditEmail({ closeModel }) {
                 {!isLoading ? (
                   <button
                     type="submit"
-                    className="mt-4 text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
+                    className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
                   >
                     Update
                   </button>
@@ -177,9 +177,9 @@ function EditEmail({ closeModel }) {
 
               <button
                 onClick={closeModel}
-                className="mt-4 text-white bg-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
+                className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
               >
-                close
+                Close
               </button>
             </div>
           </form>
