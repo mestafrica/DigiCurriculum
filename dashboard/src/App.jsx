@@ -22,14 +22,20 @@ import StudentLibrary from "./components/Student/StudentDashboardPages/Library";
 import TeacherDashboard from "./components/Teacher/TeacherDashboardPages/Teacherroom";
 import TeacherRoom from "./components/Teacher/TeacherDashboardPages/Teacherroom";
 import Home from "./components/Teacher/TeacherDashboardPages/Dashboard";
+import Curriculum from "./components/Admin/AdminDashboardPages/Curriculum";
+import Assessment from "./components/Admin/AdminDashboardPages/Assessment";
+import AdminCalendar from "./components/Admin/AdminDashboardPages/Calendar";
 
 
 const routes = [
   {
-    path: "/admin-dashboard",
+    path: "/",
     element: <Backoffice />,
     children: [
       { path: "dashboard", element: <Dashboard /> },
+      { path: "curriculum", element: <Curriculum /> },
+      { path: "assessment", element: <Assessment /> },
+      { path: "calendar", element: <AdminCalendar /> },
       { path: "broadcasts", element: <BroadcastList /> },
       { path: "users", element: <Users /> },
       { path: "settings", element: <ProfileDetailsAdmin /> },
@@ -37,7 +43,7 @@ const routes = [
     ],
   },
   {
-    path: "/student-dashboard",
+    path: "/student",
     element: <StudentRoom />,
     children: [
       { path: "dashboard", element: <StudentDashboard /> },
@@ -48,7 +54,7 @@ const routes = [
     ],
   },
   {
-    path: "/teacher-dashboard",
+    path: "/teacher",
     element: <TeacherRoom />,
     children: [
       { path: "dashboard", element: <Home/> },

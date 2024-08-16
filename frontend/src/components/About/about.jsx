@@ -1,13 +1,13 @@
 import React from "react";
-import Underline from "../assets/images/underline.png";
-import Content1 from "../assets/images/content1.png";
-import Content2 from "../assets/images/content2.png";
-import Frame1 from "../assets/images/frame1.png";
-import Frame2 from "../assets/images/frame2.png";
-import Frame3 from "../assets/images/frame3.png";
-import Vector from "../assets/images/vector.jpg";
-import Vector2 from "../assets/images/vector2.jpg";
-import Vector3 from "../assets/images/vector3.jpg";
+import Underline from "../../assets/images/underline.png";
+import Content1 from "../../assets/images/content1.png";
+import Content2 from "../../assets/images/content2.png";
+import Frame1 from "../../assets/images/frame1.png";
+import Frame2 from "../../assets/images/frame2.png";
+import Frame3 from "../../assets/images/frame3.png";
+import Vector from "../../assets/images/vector.jpg";
+import Vector2 from "../../assets/images/vector2.jpg";
+import Vector3 from "../../assets/images/vector3.jpg";
 
 export default function About() {
   return (

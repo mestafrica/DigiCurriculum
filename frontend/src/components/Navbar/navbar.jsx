@@ -120,7 +120,7 @@ const Navbar = () => {
             )}
           </div>
 
-          <Link to="#" className="text-primary font-medium mx-4">
+          <Link to="/about" className="text-primary font-medium mx-4">
             About Us
           </Link>
           <Link to="/contact" className="text-primary font-medium mx-4">

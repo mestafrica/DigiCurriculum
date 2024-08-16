@@ -6,6 +6,8 @@ import CompleteSignup from "./pages/register/OtpPage";
 import Profile from "./pages/register/Profile";
 import SignIn from "./pages/register/Login";
 import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
+
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -14,6 +16,7 @@ const routes = [
   { path: "/completesignup", element: <CompleteSignup /> },
   { path: "/signin", element: <SignIn /> },
   { path: "/contact", element: <ContactPage /> },
+  { path: "/about", element: <AboutPage /> },
 ];
 
 function App() {
