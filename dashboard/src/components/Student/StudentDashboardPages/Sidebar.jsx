@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { BsBroadcast } from "react-icons/bs";
-import { TbReportAnalytics } from "react-icons/tb";
 import {
   LuTable2,
-  LuUsers2,
+  LuUser2,
   LuCog,
   LuArrowLeftFromLine,
   LuChevronLeft,
 } from "react-icons/lu";
+import { FaTasks } from "react-icons/fa";
+import { PiSparkleLight } from "react-icons/pi";
+import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
 const StudentSideBar = ({ isOpen, setIsOpen }) => {
@@ -16,28 +17,27 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
     {
       title: "Home",
       icon: <LuTable2 />,
-      link: "/student-dashboard/dashboard",
+      link: "/student/dashboard",
     },
     {
       title: "Tasks",
-      icon: <BsBroadcast />,
-      link: "/student-dashboard/tasks",
+      icon: <FaTasks />,
+      link: "/student/tasks",
     },
     {
       title: "Tools",
-      icon: <LuUsers2 />,
-      link: "/student-dashboard/tools",
+      icon: <PiSparkleLight />,
+      link: "/student/tools",
     },
     {
       title: "Library",
-      icon: <TbReportAnalytics />,
-      link: "/student-dashboard/library",
-      gap: true,
+      icon: <IoLibraryOutline />,
+      link: "/student/library",
     },
     {
-      title: "Settings",
-      icon: <LuCog />,
-      link: "/student-dashboard/settings",
+      title: "Profile",
+      icon: <LuUser2 />,
+      link: "/student/settings",
       gap: true,
     },
   ];

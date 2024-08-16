@@ -8,7 +8,10 @@ import {
   LuCog,
   LuArrowLeftFromLine,
   LuChevronLeft,
+  LuScroll,
+  LuCalendar,
 } from "react-icons/lu";
+import { MdOutlineAssessment } from "react-icons/md";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
 const AdminSideBar = ({ isOpen, setIsOpen }) => {
@@ -16,28 +19,37 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
     {
       title: "Dashboard",
       icon: <LuTable2 />,
-      link: "/admin-dashboard/dashboard",
+      link: "/dashboard",
+    },
+     {
+      title: "Curriculum",
+      icon: <LuScroll />,
+      link: "/curriculum",
+    },
+    {
+      title: "Assessment",
+      icon: <MdOutlineAssessment />,
+      link: "/assessment",
+    },
+    {
+      title: "Calendar",
+      icon: <LuCalendar />,
+      link: "/calendar",
     },
     {
       title: "Broadcasts",
       icon: <BsBroadcast />,
-      link: "/admin-dashboard/broadcasts",
+      link: "/broadcasts",
     },
     {
       title: "Users",
       icon: <LuUsers2 />,
-      link: "/admin-dashboard/users",
+      link: "/users",
     },
-    // {
-    //   title: "Reporting",
-    //   icon: <TbReportAnalytics />,
-    //   link: "/admin-dashboard/report",
-    //   gap: true,
-    // },
     {
       title: "Settings",
       icon: <LuCog />,
-      link: "/admin-dashboard/settings",
+      link: "/settings",
       gap: true,
     },
   ];
