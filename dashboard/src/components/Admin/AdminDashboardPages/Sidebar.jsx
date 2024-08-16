@@ -97,7 +97,7 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
         />
         <div className="flex gap-x-4 items-center">
-        <Link to="/" className="text-black font-bold text-3xl">
+        <Link to="/admin" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
           LitmusTest
         </Link>
         </div>
