@@ -44,7 +44,6 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Form submitted:", formData);
       navigate('/profile');
     }
   };
@@ -57,7 +56,7 @@ function Signup() {
 
   return (
     <div
-      className="bg-cover bg-center h-screen flex items-center justify-center"
+      className="bg-cover bg-center min-h-screen flex flex-col items-center justify-center"
       style={{ backgroundImage: `url(${bgImage})` }} 
     >
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
@@ -79,24 +78,15 @@ function Signup() {
               </div>
               {isDropdownOpen && (
                 <div className="absolute z-10 bg-white border rounded-lg shadow-lg w-full mt-1">
-                  <div
-                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
-                    onClick={() => handleRoleSelect("Teacher")}
-                  >
-                    Teacher
-                  </div>
-                  <div
-                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
-                    onClick={() => handleRoleSelect("Student")}
-                  >
-                    Student
-                  </div>
-                  <div
-                    className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
-                    onClick={() => handleRoleSelect("Researcher")}
-                  >
-                    Researcher
-                  </div>
+                  {['Teacher', 'Student', 'Researcher'].map((role) => (
+                    <div
+                      key={role}
+                      className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
+                      onClick={() => handleRoleSelect(role)}
+                    >
+                      {role}
+                    </div>
+                  ))}
                 </div>
               )}
               {errors.role && (
@@ -166,11 +156,20 @@ function Signup() {
             </button>
           </div>
           <p className="mt-4 text-center text-gray-600">
-            Already have an account?
+            Already have an account?{" "}
             <a href="/signin" className="text-gray-600 underline">
               Sign In
             </a>
           </p>
+          <div className="flex justify-center mt-4">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="text-gray-600 underline"
+            >
+              Back to Home
+            </button>
+          </div>
         </form>
       </div>
     </div>

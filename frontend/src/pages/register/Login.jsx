@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; 
 import bgImage from '../../assets/images/b.g.png';
 
 function SignIn() {
@@ -9,6 +10,8 @@ function SignIn() {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +39,7 @@ function SignIn() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
@@ -82,9 +85,6 @@ function SignIn() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
-              <label className="block text-gray-700 text-sm font-bold mt-2 text-right" htmlFor="showPassword">
-                Hide
-              </label>
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
               )}
@@ -112,6 +112,15 @@ function SignIn() {
             This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="https://www.google.com/recaptcha/about/" target="_blank" rel="noopener noreferrer" className="text-black underline">Learn more.</a>
           </p>
         </form>
+        <div className="flex justify-center mt-4">
+          <button
+            type="button"
+            onClick={() => navigate('/')} 
+            className="text-gray-600 underline"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     </div>
   );
