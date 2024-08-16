@@ -4,7 +4,6 @@ import Backoffice from "./components/Admin/AdminDashboardPages/Backoffice";
 import Dashboard from "./components/Admin/AdminDashboardPages/Dashboard";
 import BroadcastList from "./components/Admin/AdminDashboardPages/Broadcastlist";
 import Users from "./components/Admin/AdminDashboardPages/Users";
-import ProfileDetailsAdmin from "./components/Admin/Profile/ProfileDetailsAdmin";
 import Broadcast from "./components/Admin/AdminDashboardPages/Broadcasts";
 import StudentRoom from "./components/Student/StudentDashboardPages/Studentroom";
 import StudentDashboard from "./components/Student/StudentDashboardPages/Dashboard";
@@ -38,7 +37,6 @@ const routes = [
       { path: "calendar", element: <AdminCalendar /> },
       { path: "broadcasts", element: <BroadcastList /> },
       { path: "users", element: <Users /> },
-      { path: "settings", element: <ProfileDetailsAdmin /> },
       { path: "create/broadcast", element: <Broadcast /> },
     ],
   },
