@@ -9,7 +9,7 @@ const SmallFooter = () => {
       </div>
       <p className="text-sm mb-4">Please check our docs</p>
       <button className="bg-black text-white hover:bg-black/80 py-2 px-4 rounded-full">
-        DOCUMENTATION
+        <a href="https://documenter.getpostman.com/view/37671016/2sA3s6Ep5V" target="_blank" rel="noopener noreferrer">DOCUMENTATION</a>
       </button>
     </div>
   );
