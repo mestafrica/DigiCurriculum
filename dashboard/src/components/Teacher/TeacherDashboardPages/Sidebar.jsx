@@ -91,7 +91,7 @@ const TeacherSideBar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
         />
         <div className="flex gap-x-4 items-center">
-        <Link to="/teacher" className="text-black font-bold text-3xl">
+        <Link to="/teacher" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
           LitmusTest
         </Link>
         </div>
