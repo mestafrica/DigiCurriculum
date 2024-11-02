@@ -39,16 +39,26 @@ const courseSchema = new mongoose.Schema({
   strands: [strandSchema],
 });
 
-// Schema for Curriculum
+// Schema for Create Curriculum
 const curriculumSchema = new mongoose.Schema({
-  code: { type: String, required: true, unique: true, min: 1 },
+  code: { type: String, required: true, unique: true },
   name: { type: String, required: true },
-  description: { type: String },
-  timeframes: { type: String },
-  courses: [courseSchema],
-});
+  grade: { type: Number, required: true, min: 1 },
+  academicYear: { type: String, required: true },
+  strands: [{
+    name: { type: String, required: true },
+    code: { type: String, required: true },
+    subStrand: [{
+      title: { type: String, required: true },
+      contentStandards: { type: String },
+      learningIndicators: [String]
+    }]
+  }]
+},
+  { timestamps: true }
+);
 
 
-const Curriculum = mongoose.model('Curriculum', curriculumSchema);
+const curriculumModel = mongoose.model('curriculumModel', curriculumSchema);
 
-module.exports = Curriculum;
+export default curriculumModel;
