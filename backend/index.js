@@ -49,5 +49,7 @@ app.use(assessmentRoutes);
 app.use(lessonRoutes);
 
 app.listen(PORT, () => {
+    console.log(`The server is running! on ${PORT}`)
+});
   console.log(`The server is running! on ${PORT}`);
 });
