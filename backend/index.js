@@ -4,7 +4,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import AccountRouter from "./src/routes/usersRoutes.js"
 import calendarRouter from "./src/routes/calendarRoutes.js"
-import curriculumRoutes from "./src/routes/curriculumRoutes.js"
+// import curriculumRoutes from "./src/routes/curriculumRoutes.js"
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './src/utils/swagger.js'
 import cookieParser from 'cookie-parser';
@@ -43,7 +43,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter)
 app.use(calendarRouter)
-app.use(curriculumRoutes)
+// app.use(curriculumRoutes)
 
 
 
