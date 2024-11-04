@@ -13,7 +13,7 @@ export const validateCurriculumData = (data) => {
 
 export const createCurriculum = async (req, res) => {
   try {
-    const { code, name, grade, academicYear, strands, subStrands } = req.body;
+    const { code, grade, strands, subStrands } = req.body;
 
     // Validate required fields
     const validateErrors = validateCurriculumData(req.body);
@@ -29,10 +29,8 @@ export const createCurriculum = async (req, res) => {
 
     // Create new curriculum
     const newCurriculum = new curriculumModel({ 
-      code, 
-      name,  
+      code,   
       grade,
-      academicYear,
       strands,
       subStrands
     });
@@ -64,8 +62,6 @@ export const getCurriculumByGrade = async (req, res) => {
       return res.status(400).json({ error: 'Invalid grade format' });
     }
 
-    // Debug logging
-    console.log('Searching for grade:', gradeNumber);
 
     // Find curriculums matching the grade level
     const curriculumList = await curriculumModel.find({ 
