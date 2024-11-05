@@ -4,13 +4,13 @@ import cors from "cors"
 import dotenv from "dotenv"
 import AccountRouter from "./src/routes/usersRoutes.js"
 import calendarRouter from "./src/routes/calendarRoutes.js"
-import curriculumRoutes from "./src/routes/curriculumRoutes.js"
+// import curriculumRoutes from "./src/routes/curriculumRoutes.js"
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './src/utils/swagger.js'
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-
-
+import apiKeyRoutes from "./src/routes/apiKeyRoutes.js"
+// import helmet from 'helmet';
 
 
 
@@ -32,7 +32,7 @@ app.use(session({
   }));
 
 
-const mongoUrl = process.env.MONGODB_URL
+const mongoUrl = process.env.MONGO_URL
 mongoose.connect(mongoUrl).then(() =>{
     console.log('Database is connected')
 }).catch((error) => console.log(error))
@@ -43,7 +43,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter)
 app.use(calendarRouter)
-app.use(curriculumRoutes)
+app.use(apiKeyRoutes)
+// app.use(curriculumRoutes)
 
 
 
