@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import LessonPlan from "../models/lessonPlanModels.js";
-import Curriculum from "../models/Curriculum.js";
+import curriculumModel from "../models/curriculumModel.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -49,7 +49,7 @@ export async function generateLessonPlan(req, res) {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    const curriculum = await Curriculum.findOne({
+    const curriculum = await curriculumModel.findOne({
       gradeLevel,
       "courses.courseName": courseName,
     });
