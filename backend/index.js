@@ -1,4 +1,18 @@
 
+import express from "express"
+import mongoose from "mongoose"
+import cors from "cors"
+import dotenv from "dotenv"
+import AccountRouter from "./src/routes/usersRoutes.js"
+import calendarRouter from "./src/routes/calendarRoutes.js"
+// import curriculumRoutes from "./src/routes/curriculumRoutes.js"
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './src/utils/swagger.js'
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import adminRouter from "./src/routes/adminRoutes.js";
+
+
 
 import express from "express";
 import mongoose from "mongoose";
@@ -41,6 +55,15 @@ mongoose
     console.log("Database is connected");
   })
   .catch((error) => console.log(error));
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(AccountRouter)
+app.use(calendarRouter)
+// app.use(curriculumRoutes)
+app.use(adminRouter)
+
 
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
