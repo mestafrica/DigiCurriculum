@@ -10,6 +10,7 @@ import swaggerSpec from './src/utils/swagger.js'
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import apiKeyRoutes from "./src/routes/apiKeyRoutes.js"
+import developerRouter from "./src/routes/developerRoutes.js"
 // import helmet from 'helmet';
 
 
@@ -44,6 +45,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(AccountRouter)
 app.use(calendarRouter)
 app.use(apiKeyRoutes)
+app.use(developerRouter)
 // app.use(curriculumRoutes)
 
 
