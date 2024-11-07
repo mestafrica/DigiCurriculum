@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import LessonPlan from "../models/lessonPlanModels.js";
-import Curriculum from "../models/Curriculum.js";
+// import Curriculum from "../models/Curriculum.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });

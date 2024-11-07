@@ -91,9 +91,25 @@ export const getCurriculumByGrade = async (req, res) => {
 
 export const getAllCurriculums = async (req, res, next) => {
   try {
+    const { limit = 10, skip = 0 } = req.query;
     // Retrieve all curriculums, exluding the version key
-    const curriculums = await curriculumModel.find({}).select('-__v');
-    res.status(200).json({ message: 'Curriculums retrieved successfully', curriculums });
+    const curriculums = await curriculumModel.find({}).select('-__v')
+    .limit(parseInt(limit))
+    .skip(parseInt(skip));
+
+    const total = await curriculumModel.countDocuments({});
+
+
+    res.status(200).json({ 
+      message: 'Curriculums retrieved successfully',
+      curriculums,
+      pagination: {
+        currentPage: Math.floor(parseInt(skip) / parseInt(limit)) + 1,
+        totalPages: Math.ceil(total / parseInt(limit)),
+        totalItems: total,
+        itemsPerPage: parseInt(limit)
+      }
+     });
   } catch (error) {
     console.error('Error retrieving curriculums:', error);
     res.status(500).json({ error: 'An error occurred while retrieving curriculums', details: error.message });

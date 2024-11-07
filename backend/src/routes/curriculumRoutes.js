@@ -1,20 +1,21 @@
 import { Router } from "express";
 import { bulkGetCurriculums, createCurriculum, deleteCurriculum, getAllCurriculums, getCurriculumByGrade, updateCurriculum } from "../controllers/curriculuControllers.js";
+import { isAuthenticated, hasPermissions } from "../middlewares/auth.js";
 
 const router = Router();
 
 // Routes for CRUD operations
-router.post('/curriculum', createCurriculum);
+router.post('/curriculum',isAuthenticated, hasPermissions('create_curriculum'), createCurriculum);
 
-router.patch('/curriculum/:code', updateCurriculum)
+router.patch('/curriculum/:code',isAuthenticated, hasPermissions('update_curriculum'), updateCurriculum)
 
-router.delete('/curriculum/:code', deleteCurriculum)
+router.delete('/curriculum/:code',isAuthenticated, hasPermissions('delete_curriculum'), deleteCurriculum)
 
 router.get('/curriculum', getAllCurriculums);
 
 router.get('/curriculum/:grade', getCurriculumByGrade);
 
-router.post('/curriculum/bulk', bulkGetCurriculums)
+router.post('/curriculum/bulk',isAuthenticated, hasPermissions('bulk_get_curriculums'), bulkGetCurriculums)
 
 
 export default router;
