@@ -15,9 +15,6 @@ import curriculumRoutes from "./src/routes/curriculumRoutes.js";
 import assessmentRoutes from "./src/routes/assessmentRoutes.js";
 import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 
-import cookieParser from "cookie-parser";
-import session from "express-session";
-
 dotenv.config();
 const app = express();
 
@@ -50,7 +47,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter);
 app.use(calendarRouter);
-// app.use(curriculumRoutes)
+app.use(curriculumRoutes);
 app.use(adminRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
