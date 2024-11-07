@@ -50,7 +50,7 @@ export const resendOtp = async (req, res) => {
     return res.status(404).json('User not found');
   }
 
-  const otp = Math.floor(1000 + Math.random() * 9000000).toString();
+  const otp = Math.floor(1000 + Math.random() * 9000).toString();
   const otpExpiry = Date.now() + 15 * 60 * 1000;
 
   user.otp = otp;

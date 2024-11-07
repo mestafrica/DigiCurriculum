@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Assessment from "../models/assessmentModels.js";
-// import Curriculum from "../models/Curriculum.js";
+import curriculumModel from "../models/curriculumModel.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -74,7 +74,7 @@ async function generateAssessment(req, res) {
       return res.status(400).json({ message: "QuestionType is required." });
     }
 
-    const curriculum = await Curriculum.findOne({
+    const curriculum = await curriculumModel.findOne({
       gradeLevel,
       "courses.courseName": courseName,
     });
