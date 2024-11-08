@@ -22,7 +22,7 @@ import developerRouter from "./src/routes/developerRoutes.js"
 
 dotenv.config();
 const app = express();
-
+const PORT = 8080
 
 app.use(express.json());
 app.use(cors({ origin: process.env.FRONTEND_URI }));
@@ -41,13 +41,12 @@ app.use(
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
-  .connect(mongoUrl)
-  .then(() => {
+.connect(mongoUrl)
+.then(() => {
     console.log("Database is connected");
   })
   .catch((error) => console.log(error));
 
-const PORT = process.env.PORT || 8080
 
 app.use(AccountRouter)
 app.use(apiKeyRoutes)
