@@ -8,9 +8,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import AccountRouter from "./src/routes/usersRoutes.js";
 import calendarRouter from "./src/routes/calendarRoutes.js";
-import curriculumRoutes from "./src/routes/curriculumRoutes.js";
-import assessmentRoutes from "./src/routes/assessmentRoutes.js";
-import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/utils/swagger.js";
 import cookieParser from "cookie-parser";
@@ -19,9 +16,15 @@ import apiKeyRoutes from "./src/routes/apiKeyRoutes.js"
 import developerRouter from "./src/routes/developerRoutes.js"
 // import helmet from 'helmet';
 
+import adminRouter from "./src/routes/adminRoutes.js";
+import curriculumRoutes from "./src/routes/curriculumRoutes.js";
+import assessmentRoutes from "./src/routes/assessmentRoutes.js";
+import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 
 dotenv.config();
 const app = express();
+
+
 const PORT = 8080
 
 app.use(express.json());
@@ -55,12 +58,14 @@ app.use(developerRouter)
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(AccountRouter);
-app.use(calendarRouter);
-app.use(curriculumRoutes);
-app.use(assessmentRoutes);
-app.use(lessonRoutes);
+app.use(AccountRouter)
+app.use(calendarRouter)
+app.use(adminRouter)
+app.use(curriculumRoutes)
+app.use(assessmentRoutes)
+app.use(lessonRoutes)
+
 
 app.listen(PORT, () => {
-    console.log(`The server is running! on ${PORT}`)
+  console.log(`The server is running! on ${PORT}`);
 });
