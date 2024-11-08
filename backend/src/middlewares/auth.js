@@ -1,19 +1,19 @@
 import { expressjwt } from "express-jwt";
 import dotenv from "dotenv";
-import curriculumModel from "../models/curriculumModel.js";
 import { permissions } from "../utils/rbac.js";
+import { adminModel } from "../models/adminModel.js";
 
 dotenv.config();
 
 export const isAuthenticated = expressjwt({
-    secret:process.env.JWT_SECRET,
+    secret:process.env.JWT_PRIVATE_KEY,
     algorithms: ["HS256"],
 })
 
 export const hasPermissions = (action) => {
     return async (req, res, next) => {
         try {
-            const curriculum = await curriculumModel.findById(req.auth.id);
+            const admin = await adminModel.findById(req.auth.id);
 
             const permission = permissions.find(p => p.role === admin.role);
 
