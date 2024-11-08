@@ -1,23 +1,23 @@
 
-import express from "express"
-import mongoose from "mongoose"
-import cors from "cors"
-import dotenv from "dotenv"
-import AccountRouter from "./src/routes/usersRoutes.js"
-import calendarRouter from "./src/routes/calendarRoutes.js"
-import curriculumRoutes from "./src/routes/curriculumRoutes.js"
-import adminRouter from "./src/routes/adminRoutes.js";
-import assessmentRoutes from "./src/routes/assessmentRoutes.js";
-import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import AccountRouter from "./src/routes/usersRoutes.js";
+import calendarRouter from "./src/routes/calendarRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/utils/swagger.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import adminRouter from "./src/routes/adminRoutes.js";
+import curriculumRoutes from "./src/routes/curriculumRoutes.js";
+import assessmentRoutes from "./src/routes/assessmentRoutes.js";
+import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 
 dotenv.config();
 const app = express();
 
-const PORT = 8080
+const PORT = 8080;
 
 app.use(express.json());
 app.use(cors({ origin: process.env.FRONTEND_URI }));
@@ -42,8 +42,7 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(AccountRouter)
 app.use(calendarRouter)
@@ -53,7 +52,6 @@ app.use(assessmentRoutes)
 app.use(lessonRoutes)
 
 
-
 app.listen(PORT, () => {
-    console.log(`The server is running! on ${PORT}`)
+  console.log(`The server is running! on ${PORT}`);
 });
