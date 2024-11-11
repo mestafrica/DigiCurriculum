@@ -28,10 +28,27 @@ const app = express();
 const PORT = 8080
 
 app.use(express.json());
-app.use(cors({ origin: process.env.FRONTEND_URI }));
 app.use(express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:5173",
+]
+app.use((req, res, next) => {
+  cors({
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) 
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })(req, res, next);
+});
 
 app.use(
   session({
