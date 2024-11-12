@@ -1,11 +1,20 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Button } from "./components/ui/button";
+import Login from "./pages/AdminLoginForm";
+import AdminSignupForm from "./pages/AdminSignupForm";
+import Otp from "./pages/Otp";
 
 function App() {
   return (
-    <>
-      <Button>Click me</Button>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<AdminSignupForm />} />
+        <Route path="/otp" element={<Otp />} />
+        <Route path="/login" element={<Login />} />
+        
+      </Routes>
+    </Router>
   );
 }
 
