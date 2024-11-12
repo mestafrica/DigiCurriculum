@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Label from "@/components/ui/Label";
+import { apiPostCurriculum } from "@/services/admin";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CurriculumForm() {
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -25,15 +28,21 @@ function CurriculumForm() {
   // Handle form data collection
   const updateFormData = (data) => setFormData((prev) => ({ ...prev, ...data }));
 
-  // Handle final submission
-  const onSubmit = (data) => {
+  // Handle final submission with API integration and toast notifications
+  const onSubmit = async (data) => {
     updateFormData(data);
-    // Handle submission (e.g., API call or data processing)
-    console.log("Submitted data:", data);
+    try {
+      const response = await apiPostCurriculum(formData);
+      toast.success("Curriculum added successfully!"); // Show success toast
+    } catch (error) {
+      toast.error("Failed to submit curriculum. Please try again."); // Show error toast
+      console.error("Error submitting data:", error);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
+      <ToastContainer /> {/* Toast container for displaying notifications */}
       <div className="p-4 bg-white rounded-lg shadow-md max-w-lg w-full">
         {step === 1 && (
           <form onSubmit={handleSubmit((data) => { updateFormData(data); nextStep(); })}>

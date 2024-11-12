@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Select, SelectValue, SelectItem } from "@/components/ui/select"; // Adjusted imports
 import Label from "@/components/ui/Label"; // Ensure this is a default import
+import { apiGetCurriculum } from "@/services/admin"; // Import the API call
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function CurriculumList({ curriculumData = [] }) { // Default to empty array
-  const [filteredData, setFilteredData] = useState(curriculumData);
+function CurriculumList() {
+  const [curriculumData, setCurriculumData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     grade: '',
     strand: '',
     subStrand: '',
   });
   const [filterOption, setFilterOption] = useState(''); // New state for filter option
+
+  // Fetch curriculum data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await apiGetCurriculum();
+        setCurriculumData(data);
+        setFilteredData(data);
+        toast.success("Curriculum data loaded successfully.");
+      } catch (error) {
+        toast.error("Failed to load curriculum data.");
+        console.error("Error fetching curriculum data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const filterCurriculum = () => {
@@ -37,6 +58,8 @@ function CurriculumList({ curriculumData = [] }) { // Default to empty array
 
   return (
     <div className="p-4 space-y-4">
+      <ToastContainer /> {/* Toast container for displaying notifications */}
+
       {/* Filter Section */}
       <div className="flex flex-col md:flex-row md:justify-end mb-4 space-y-2 md:space-y-0 md:space-x-4">
         <Select onValueChange={(value) => setFilterOption(value)} className="w-full md:w-48">
