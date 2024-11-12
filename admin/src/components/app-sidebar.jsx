@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BookOpen, Bot, SquareTerminal } from "lucide-react";
+import { BookOpen, Bot, SquareTerminal, List } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
@@ -20,6 +20,11 @@ export function AppSidebar({...props}) {
       icon: SquareTerminal,
     },
     {
+      title: "Curriculum List",  // New link added
+      url: "/dashboard/curriculum-list",  // Link to the curriculum list page
+      icon: List,  // Changed icon to 'List' which is more appropriate for listing
+    },
+    {
       title: "Manage Curriculum",
       url: "/dashboard/manage-curriculum",
       icon: Bot,
@@ -37,14 +42,14 @@ export function AppSidebar({...props}) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader />
       <SidebarContent>
-        <NavMain items={navItems} collapsed={collapsed} /> {/* Pass collapsed state */}
+        <NavMain items={navItems} collapsed={collapsed} /> 
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
       <button onClick={() => setCollapsed(!collapsed)}>
-        {collapsed ? "Expand" : "Collapse"}
+        {/* {collapsed ? "Expand" : "Collapse"} */}
       </button>
     </Sidebar>
   );
