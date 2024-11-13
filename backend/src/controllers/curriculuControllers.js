@@ -3,15 +3,13 @@ import curriculumModel from'../models/curriculumModel.js';
 export const validateCurriculumData = (data) => {
   const errors = [];
   if (!data.code) errors.push('Code is required');
-  if (!data.name) errors.push('Name is required');
   if (!data.grade) errors.push('Grade Level is required');
-  if (!data.academicYear) errors.push('Academic Year is required');
   if (!data.strands) errors.push('Strand is required');
   return errors;
 }
 
 
-export const createCurriculum = async (req, res) => {
+export const createCurriculum = async (req, res, next) => {
   try {
     const { code, grade, strands, subStrands } = req.body;
 
@@ -32,15 +30,15 @@ export const createCurriculum = async (req, res) => {
       code,   
       grade,
       strands,
-      subStrands
+      subStrands,
+      admin: req.auth.id
     });
 
     await newCurriculum.save();
 
     res.status(201).json({ message: 'Curriculum created successfully', curriculum: newCurriculum });
   } catch (error) {
-      console.log(error);
-    res.status(500).json({ error: 'An error occurred while creating the curriculum' });
+    next(error);
   }
 }
 
@@ -91,9 +89,25 @@ export const getCurriculumByGrade = async (req, res) => {
 
 export const getAllCurriculums = async (req, res, next) => {
   try {
+    const { limit = 10, skip = 0 } = req.query;
     // Retrieve all curriculums, exluding the version key
-    const curriculums = await curriculumModel.find({}).select('-__v');
-    res.status(200).json({ message: 'Curriculums retrieved successfully', curriculums });
+    const curriculums = await curriculumModel.find({}).select('-__v')
+    .limit(parseInt(limit))
+    .skip(parseInt(skip));
+
+    const total = await curriculumModel.countDocuments({});
+
+
+    res.status(200).json({ 
+      message: 'Curriculums retrieved successfully',
+      curriculums,
+      pagination: {
+        currentPage: Math.floor(parseInt(skip) / parseInt(limit)) + 1,
+        totalPages: Math.ceil(total / parseInt(limit)),
+        totalItems: total,
+        itemsPerPage: parseInt(limit)
+      }
+     });
   } catch (error) {
     console.error('Error retrieving curriculums:', error);
     res.status(500).json({ error: 'An error occurred while retrieving curriculums', details: error.message });

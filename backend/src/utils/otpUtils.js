@@ -5,17 +5,16 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
-
-
 const transporter = nodemailer.createTransport({
     service: "gmail",
+    port: 456,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    from: process.env.EMAIL_USER,
   });
-  
-
 
 
 export const sendOTPEmail = async (email, otp) => {
