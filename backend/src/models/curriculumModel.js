@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { indexCurriculum } from "../service/ai/curriculum.service.js";
 
 
 const Schema = mongoose.Schema;

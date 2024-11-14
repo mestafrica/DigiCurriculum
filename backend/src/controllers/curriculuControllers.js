@@ -15,7 +15,7 @@ export const createCurriculum = async (req, res, next) => {
 
     // Validate required fields
     const validateErrors = validateCurriculumData(req.body);
-    if (validateErrors.lenght > 0) {
+    if (validateErrors.length > 0) {
       return res.status(400).json({ errors: validateErrors });
     }
 
@@ -113,56 +113,6 @@ export const getAllCurriculums = async (req, res, next) => {
     res.status(500).json({ error: 'An error occurred while retrieving curriculums', details: error.message });
   }
 }
-
-// exports.createCurriculum = async (req, res) => {
-//   try {
-//     const { code, name, description, timeframes, courses } = req.body;
-
-    
-//     if (!code || !name || !timeframes) {
-//       return res.status(400).json({ error: 'Code, name, and timeframes are required' });
-//     }
-
-    
-//     const existingCurriculum = await Curriculum.findOne({ code });
-//     if (existingCurriculum) {
-//       return res.status(400).json({ error: 'Curriculum with this code already exists' });
-//     }
-
-    
-//     const newCurriculum = new Curriculum({ code, name, description, timeframes, courses });
-//     await newCurriculum.save();
-
-//     res.status(201).json({ message: 'Curriculum created successfully', curriculum: newCurriculum });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred while creating the curriculum' });
-//   }
-// };
-
-
-
-// export const getCurriculumByGrade = async (req, res) => {
-//   try {
-//     const { grade } = req.params;
-
-    
-//     if (!grade) {
-//       return res.status(400).json({ error: 'Grade is required' });
-//     }
-
-    
-//     const curriculum = await curriculumModel.findOne({ code: new RegExp(`^${grade}`, 'i') });
-//     if (!curriculum) {
-//       return res.status(404).json({ error: 'Curriculum not found for this grade' });
-//     }
-
-//     res.status(200).json({ curriculum });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred while retrieving the curriculum' });
-//   }
-// };
-
-
 
 
 export const updateCurriculum = async (req, res) => {

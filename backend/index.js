@@ -1,7 +1,3 @@
-
-
-
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -20,6 +16,7 @@ import adminRouter from "./src/routes/adminRoutes.js";
 import curriculumRoutes from "./src/routes/curriculumRoutes.js";
 import assessmentRoutes from "./src/routes/assessmentRoutes.js";
 import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
+import searchRoutes from "./src/routes/searchRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -39,7 +36,7 @@ app.use((req, res, next) => {
     origin: (origin, callback) => {
       if (
         !origin ||
-        allowedOrigins.includes(origin) 
+        allowedOrigins.includes(origin)
       ) {
         callback(null, true);
       } else {
@@ -61,8 +58,8 @@ app.use(
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
-.connect(mongoUrl)
-.then(() => {
+  .connect(mongoUrl)
+  .then(() => {
     console.log("Database is connected");
   })
   .catch((error) => console.log(error));
@@ -78,9 +75,11 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(AccountRouter)
 app.use(calendarRouter)
 app.use(adminRouter)
+app.use(searchRoutes)
 app.use(curriculumRoutes)
 app.use(assessmentRoutes)
 app.use(lessonRoutes)
+
 
 
 app.listen(PORT, () => {

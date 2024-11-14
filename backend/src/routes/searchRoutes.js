@@ -1,8 +1,9 @@
-import { keywordSearch } from "../controllers/searchController.js";
-import { Router } from "express";
+import express from "express";
+import { searchCurriculumHandler } from "../controllers/searchCurricula.js"
 
-const router = Router();
+const router = express.Router();
 
-router.post("/search/basic", keywordSearch);
-// router.post("/search/semantic", semanticSearch);
+// Search routes
+router.get("/curriculum/search", searchCurriculumHandler);
 
+export default router;
