@@ -41,8 +41,8 @@ export const hasPermissions = (action) => {
     return async (req, res, next) => {
         try {
             const admin = await adminModel.findById(req.auth.id);
-
-            const permission = permissions.find(p => p.role === admin.role);
+           
+            const permission = permissions.find((p) => p.role.toLowerCase() === admin.role.toLowerCase());
 
             if (!permission) {
                 return res.status(404).json('You do not have permission to perform this action!');

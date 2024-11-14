@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 // Schema for Create Curriculum
 const curriculumSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   code: { type: String, required: true },
   grade: { type: Number, required: true, min: 1 },
   strands: [{
