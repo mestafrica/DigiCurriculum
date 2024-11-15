@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
-import bgImage from "../../src/img/Bgimage.png"
+import bgImage from "../../src/img/Bgimage.png";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function DevLogin() {
   const [formData, setFormData] = useState({
@@ -34,9 +36,16 @@ function DevLogin() {
     event.preventDefault();
     if (validate()) {
       console.log("Developer login data:", formData);
-      navigate('/dashboard'); // Redirect to developer dashboard after login
+      toast.success("Login successful! Redirecting to dashboard..."); // Success Toast
+      // Add a delay of 2 seconds before redirecting to allow the toast to display
+      setTimeout(() => {
+        navigate('/devdashboard'); // Redirect to developer dashboard after login
+      }, 2000); // 2 seconds delay
+    } else {
+      toast.error("Please fill in all fields correctly."); // Error Toast
     }
   };
+  
 
   return (
     <div
@@ -125,6 +134,9 @@ function DevLogin() {
           </button>
         </div>
       </div>
+
+      {/* Toast Container to display toast messages */}
+      <ToastContainer />
     </div>
   );
 }
