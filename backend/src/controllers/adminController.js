@@ -5,7 +5,7 @@ import { sendOTPEmail } from "../utils/otpUtils.js";
 
 
 // Generate a 6-digit OTP
-const generateOtp = () => Math.floor(1000 + Math.random() * 900000).toString();
+const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString();
 
 export const registerAdmin = async (req, res, next) => {
     try {
