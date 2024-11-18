@@ -90,7 +90,6 @@ export const logInAdmin = async (req, res, next) => {
 
 export const getAdminProfile = async (req, res, next) => {
     try {
-        console.log(req.auth);
         const admin = await adminModel
             .findById(req.auth.id)
             .select({ password: false });

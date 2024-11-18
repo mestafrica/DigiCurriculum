@@ -1,13 +1,8 @@
-
-
-
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import AccountRouter from "./src/routes/usersRoutes.js";
-import calendarRouter from "./src/routes/calendarRoutes.js";
+import CalendarRouter from "./src/routes/calendarRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/utils/swagger.js";
 import cookieParser from "cookie-parser";
@@ -61,22 +56,19 @@ app.use(
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
-.connect(mongoUrl)
+.connect(mongoUrl, {
+  useNewUrlParser: true,})
 .then(() => {
     console.log("Database is connected");
   })
   .catch((error) => console.log(error));
 
 
-app.use(AccountRouter)
 app.use(apiKeyRoutes)
 app.use(developerRouter)
-// app.use(curriculumRoutes)
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-app.use(AccountRouter)
-app.use(calendarRouter)
+app.use(CalendarRouter)
 app.use(adminRouter)
 app.use(curriculumRoutes)
 app.use(assessmentRoutes)
