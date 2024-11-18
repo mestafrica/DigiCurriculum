@@ -7,7 +7,8 @@ const developerSchema = new Schema({
     companyDescription: { type: String, required: true },
     companyName: { type: String, required: true, unique: true },
     country: { type: String, required: true },  
-    apiKey: { type: String, }
+    apiKey: { type: String, },
+    role: { type: String, required: true, default: "developer" },
 }, {
     timestamps: true
 });
