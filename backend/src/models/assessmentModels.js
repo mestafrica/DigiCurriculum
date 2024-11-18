@@ -47,7 +47,7 @@
 import mongoose from "mongoose";
 
 const AssessmentSchema = new mongoose.Schema({
-  courseCode: { type: String, required: true },
+  // courseCode: { type: String, required: true },
   strandCode: { type: String, required: true },
   subStrandCode: { type: String, required: false },
   performanceIndicatorCode: { type: String, required: false },
