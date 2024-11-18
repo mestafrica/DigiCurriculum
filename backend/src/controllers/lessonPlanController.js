@@ -32,50 +32,48 @@ function cleanGeneratedContent(content) {
   }
 }
 
-export async function generateLessonPlan(req, res) {
-  const { gradeLevel, courseName, strandName, title, duration, objectives } =
+export const generateLessonPlan = async (req, res, next) => {
+  try {
+  const { name, code, grade, strands, title , duration, objectives} =
     req.body;
 
-  try {
     // Validate required fields
     if (
-      !gradeLevel ||
-      !courseName ||
-      !strandName ||
-      !title ||
-      !duration ||
-      !objectives
+      !name ||
+      !code ||
+      !grade ||
+      !strands 
     ) {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
     const curriculum = await curriculumModel.findOne({
-      gradeLevel,
-      "courses.courseName": courseName,
+      grade, code
+      // "courses.name": name,
     });
 
     if (!curriculum) {
       return res.status(404).json({
-        message: `No curriculum found for grade level ${gradeLevel} with course ${courseName}`,
+        message: `No curriculum found for this grade  ${grade} with course ${code}`,
       });
     }
 
-    const course = curriculum.courses.find((c) => c.courseName === courseName);
-    if (!course) {
-      return res
-        .status(404)
-        .json({ message: `No course found with name ${courseName}` });
-    }
+    // const course=  await curriculumModel.code  (code) === code;
+    // if (!course) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: `No course found with name ${name}` });
+    // }
 
-    const strand = course.strands.find((strand) => strand.name === strandName);
-    if (!strand) {
+    const strand = curriculum.strands.find((strands) => strands === strands);
+    if (!strands) {
       return res
         .status(404)
-        .json({ message: `No strand found with name ${strandName}` });
+        .json({ message: `No strand found with name ${name}` });
     }
 
     const prompt = `
-      Generate a lesson plan for grade ${gradeLevel} for the course ${courseName}, strand ${strandName}.
+      Generate a lesson plan for grade ${grade} for the course ${code}, strands ${name}.
       The lesson plan should have the title "${title}" and last for ${duration} minutes.
       The objectives of the lesson are: ${objectives.join(", ")}.
       
@@ -101,7 +99,7 @@ export async function generateLessonPlan(req, res) {
     `;
 
     const generatedText = await generateContent(prompt);
-    console.log("Generated text:", generatedText);
+    // console.log("Generated text:", generatedText);
 
     const cleanedText = cleanGeneratedContent(generatedText);
 
@@ -116,10 +114,11 @@ export async function generateLessonPlan(req, res) {
     }
 
     const lessonPlan = new LessonPlan({
-      courseCode: course.courseCode,
-      strandCode: strand.code,
+      name,
+      code: code,
+      strands: strand,
       title,
-      gradeLevel,
+      grade,
       duration,
       objectives,
       ...lessonPlanContent,

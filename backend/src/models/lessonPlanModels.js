@@ -1,11 +1,22 @@
 import mongoose from "mongoose";
 
+const Schema = mongoose.Schema;
+
 const LessonPlanSchema = new mongoose.Schema(
   {
-    courseCode: { type: String, required: true },
-    strandCode: { type: String, required: true },
-    title: { type: String, required: true },
-    gradeLevel: { type: Number, required: true },
+    name: { type: String, required: true },
+    code: { type: String, required: true },
+    grade: { type: Number, required: true, min: 1 },
+    strands: [{ 
+      name: { type: String, required: true },
+      code: { type: String, required: true },
+      subStrand: [{
+        code: { type: String, required: true },
+        title: { type: String, required: true },
+        contentStandards: { type: String },
+        learningIndicators: [String]
+      }]
+    }], 
     duration: { type: Number, required: true }, // in minutes
     objectives: [{ type: String, required: true }],
     materials: [String],
@@ -24,8 +35,6 @@ const LessonPlanSchema = new mongoose.Schema(
       },
     ],
     notes: String,
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );

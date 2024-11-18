@@ -1,10 +1,5 @@
 import express from "express";
-import {
-  generateLessonPlan,
-  getLessonPlans,
-  updateLessonPlan,
-  deleteLessonPlan,
-} from "../controllers/lessonPlanController.js";
+import { generateLessonPlan, getLessonPlans, updateLessonPlan, deleteLessonPlan } from "../controllers/lessonPlanController.js";
 
 const router = express.Router();
 
