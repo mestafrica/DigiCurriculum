@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Select, SelectValue, SelectItem } from "@/components/ui/select"; // Adjusted imports
-import Label from "@/components/ui/Label"; // Ensure this is a default import
-import { apiGetCurriculum } from "@/services/admin"; // Import the API call
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { apiGetCurriculum, apiDeleteCurriculum } from "@/services/admin";
+
+// React Icons
+import { FaPlus, FaEye, FaEdit, FaTrash, FaFileExport } from "react-icons/fa";
 
 function CurriculumList() {
   const [curriculumData, setCurriculumData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [filters, setFilters] = useState({
-    grade: '',
-    strand: '',
-    subStrand: '',
-  });
-  const [filterOption, setFilterOption] = useState(''); // New state for filter option
+  const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCurriculumId, setSelectedCurriculumId] = useState(null);
+  const navigate = useNavigate();
 
-  // Fetch curriculum data on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await apiGetCurriculum();
-        setCurriculumData(data);
-        setFilteredData(data);
-        toast.success("Curriculum data loaded successfully.");
+        setCurriculumData(data.curriculums);
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         toast.error("Failed to load curriculum data.");
         console.error("Error fetching curriculum data:", error);
       }
@@ -32,102 +32,152 @@ function CurriculumList() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const filterCurriculum = () => {
-      let data = curriculumData;
+  const handleView = (curriculumId) => {
+    navigate(`/admin-dashboard/curriculum/${curriculumId}`);
+  };
 
-      if (filters.grade) {
-        data = data.filter(entry => entry.class === filters.grade);
-      }
-      if (filters.strand) {
-        data = data.filter(entry => entry.strand === filters.strand);
-      }
-      if (filters.subStrand) {
-        data = data.filter(entry => entry.subStrand === filters.subStrand);
-      }
+  const handleEdit = (curriculumId) => {
+    navigate(`/admin-dashboard/edit-curriculum/${curriculumId}`);
+  };
 
-      setFilteredData(data);
-    };
+  const handleDeleteClick = (curriculumId) => {
+    setSelectedCurriculumId(curriculumId);
+    setShowModal(true);
+  };
 
-    filterCurriculum();
-  }, [filters, curriculumData]);
+  const handleConfirmDelete = async () => {
+    try {
+      await apiDeleteCurriculum(selectedCurriculumId);
+      setCurriculumData((prev) =>
+        prev.filter((item) => item.id !== selectedCurriculumId)
+      );
+      setShowModal(false);
+      toast.success("Curriculum deleted successfully.");
+    } catch (error) {
+      toast.error("Failed to delete curriculum.");
+      console.error("Error deleting curriculum:", error);
+    }
+  };
 
-  const handleFilterChange = (field, value) => {
-    setFilters({ ...filters, [field]: value });
+  const handleExport = () => {
+    toast.info("Export functionality is not implemented yet.");
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <ToastContainer /> {/* Toast container for displaying notifications */}
+    <div className="p-6 space-y-6">
+      <ToastContainer />
 
-      {/* Filter Section */}
-      <div className="flex flex-col md:flex-row md:justify-end mb-4 space-y-2 md:space-y-0 md:space-x-4">
-        <Select onValueChange={(value) => setFilterOption(value)} className="w-full md:w-48">
-          <SelectValue placeholder="Select Filter" />
-          <SelectItem value="">None</SelectItem>
-          <SelectItem value="grade">Grade</SelectItem>
-          <SelectItem value="strand">Strand</SelectItem>
-          <SelectItem value="subStrand">Sub-strand</SelectItem>
-        </Select>
-        <div className="flex items-center w-full md:w-auto">
-          <Label htmlFor="filterValue" className="hidden md:block">{filterOption.charAt(0).toUpperCase() + filterOption.slice(1)}</Label>
-          <Select onValueChange={(value) => handleFilterChange(filterOption, value)} disabled={!filterOption} className="ml-2 w-full md:w-48">
-            <SelectValue placeholder={`Select ${filterOption.charAt(0).toUpperCase() + filterOption.slice(1)}`} />
-            <SelectItem value="">All</SelectItem>
-            {filterOption === 'grade' && (
-              <>
-                <SelectItem value="Class 1">Grade 1</SelectItem>
-                <SelectItem value="Class 2">Grade 2</SelectItem>
-                <SelectItem value="Class 3">Grade 3</SelectItem>
-              </>
-            )}
-            {filterOption === 'strand' && (
-              <>
-                <SelectItem value="Strand A">Strand A</SelectItem>
-                <SelectItem value="Strand B">Strand B</SelectItem>
-              </>
-            )}
-            {filterOption === 'subStrand' && (
-              <>
-                <SelectItem value="Sub-strand A1">Sub-strand A1</SelectItem>
-                <SelectItem value="Sub-strand B1">Sub-strand B1</SelectItem>
-              </>
-            )}
-          </Select>
+      {/* Banner Section */}
+      <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md">
+        <div className="flex-1">
+          <h1 className="text-lg font-semibold text-gray-800">Curriculum List</h1>
+          <p className="text-gray-600">Manage your curriculums effectively.</p>
         </div>
+        <button
+          className="flex items-center bg-blue-500 text-white p-3 rounded-full shadow hover:bg-blue-600 transition"
+          onClick={() => navigate("/admin-dashboard/addcurriculum")}
+        >
+          <FaPlus className="text-lg" />
+        </button>
       </div>
 
-      {/* Curriculum List Section */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border text-left">Grade</th>
-              <th className="px-4 py-2 border text-left">Strand</th>
-              <th className="px-4 py-2 border text-left">Sub-strand</th>
-              <th className="px-4 py-2 border text-left">Content Standards</th>
-              <th className="px-4 py-2 border text-left">Learning Indicators</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((entry, index) => (
-                <tr key={index} className="hover:bg-gray-100 transition-colors">
-                  <td className="px-4 py-2 border">{entry.class}</td>
-                  <td className="px-4 py-2 border">{entry.strand}</td>
-                  <td className="px-4 py-2 border">{entry.subStrand}</td>
-                  <td className="px-4 py-2 border">{entry.contentStandards}</td>
-                  <td className="px-4 py-2 border">{entry.learningIndicators}</td>
-                </tr>
-              ))
-            ) : (
+      {/* Curriculum Table */}
+      <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+        {isLoading ? (
+          <Skeleton height={200} />
+        ) : (
+          <table className="min-w-full border-collapse">
+            <thead className="bg-blue-100 text-gray-800">
               <tr>
-                <td colSpan="5" className="px-4 py-2 text-center border">No entries found</td>
+                <th className="px-4 py-3 border-b text-left font-semibold">Grade</th>
+                <th className="px-4 py-3 border-b text-left font-semibold">Name</th>
+                <th className="px-4 py-3 border-b text-left font-semibold">View</th>
+                <th className="px-4 py-3 border-b text-left font-semibold">Edit</th>
+                <th className="px-4 py-3 border-b text-left font-semibold">Delete</th>
+                <th className="px-4 py-3 border-b text-left font-semibold">Export</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {curriculumData.length > 0 ? (
+                curriculumData.map((entry) => (
+                  <tr key={entry.id} className="hover:bg-gray-100 transition">
+                    <td className="px-4 py-3 border-b">{entry.grade}</td>
+                    <td className="px-4 py-3 border-b">{entry.name}</td>
+                    <td className="px-4 py-3 border-b">
+                      <button
+                        className="p-2 text-green-600 rounded hover:bg-green-100 transition"
+                        onClick={() => handleView(entry.grade)}
+                      >
+                        <FaEye />
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <button
+                        className="p-2 text-yellow-600 rounded hover:bg-yellow-100 transition"
+                        onClick={() => handleEdit(entry.grade)}
+                      >
+                        <FaEdit />
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <button
+                        className="p-2 text-red-600 rounded hover:bg-red-100 transition"
+                        onClick={() => handleDeleteClick(entry.id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <button
+                        className="p-2 text-blue-600 rounded hover:bg-blue-100 transition"
+                        onClick={handleExport}
+                      >
+                        <FaFileExport />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="px-4 py-3 text-center text-gray-500"
+                  >
+                    No entries found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Delete Curriculum</h2>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this curriculum? This action cannot
+              be undone.
+            </p>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                onClick={handleConfirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

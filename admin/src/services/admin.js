@@ -14,15 +14,26 @@ export const apiPostCurriculum = async (payload) => {
     }
   };
   
-  export const apiGetCurriculum = async (curriculumId) => {
+  export const apiGetCurriculum = async () => {
     try {
-      const response = await apiClient.get(`/curriculum/${curriculumId}`);
+      const response = await apiClient.get(`/curriculum`);
       return response.data; // Return the curriculum details
     } catch (error) {
       console.error("Error fetching curriculum:", error);
       throw error;
     }
   };
+
+  export const apiGetCurriculumDetails = async (curriculumId) => {
+    try {
+      const response = await apiClient.get(`/curriculum/${curriculumId}`);
+      return response; // Return the entire response object
+    } catch (error) {
+      console.error("Error fetching curriculum:", error);
+      throw error;
+    }
+  };
+  
 
   export const apiUpdateCurriculum = async (curriculumId, payload) => {
     try {

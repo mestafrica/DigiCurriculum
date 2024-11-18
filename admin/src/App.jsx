@@ -1,30 +1,40 @@
 import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import './App.css';
-import { Button } from './components/ui/button';
-import Page from './app/dashboard/Page'; // Your main dashboard layout
-import CurriculumForm from './app/dashboard/curriculumForm'; // Your curriculum form component
-import ManageCurriculum from './app/dashboard/manageCurriculum'; // Your manage curriculum component
-import BulkOperations from './app/dashboard/bulkOperations'; // Your bulk operations component
-import CurriculumList from './app/dashboard/CurriculumList'; // Your curriculum list component
+import "./App.css";
+
+import AdminDashboard from "./app/dashboard/AdminDashboard";
+import DashboardOverview from "./app/dashboard/DashboardOverview";
+import CurriculumForm from "./app/dashboard/curriculumForm";
+import ManageCurriculum from "./app/dashboard/manageCurriculum";
+import BulkOperations from "./app/dashboard/bulkOperations";
+import CurriculumList from "./app/dashboard/CurriculumList";
+import CurriculumDetail from "./app/dashboard/CurriculumDetail";
+import EditCurriculum from "./app/dashboard/EditCurriculum";
+import Login from "./pages/AdminLoginForm";
+import AdminSignupForm from "./pages/AdminSignupForm";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Home route or main content */}
-        <Route path="/" element={
-          <>
-            <Button>Click me</Button>
-          </>
-        } />
+        {/* Authentication Routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<AdminSignupForm />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* Dashboard route with nested routes */}
-        <Route path="/dashboard" element={<Page />}>
+        {/* New Admin Dashboard */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />}>
+          <Route index element={<DashboardOverview />} />
+          <Route path="dashboard-overview" element={<DashboardOverview />} />
           <Route path="curriculum" element={<CurriculumForm />} />
           <Route path="manage-curriculum" element={<ManageCurriculum />} />
           <Route path="bulk-operations" element={<BulkOperations />} />
-          <Route path="curriculum-list" element={<CurriculumList />} /> {/* New route for curriculum list */}
+          <Route path="curriculum-list" element={<CurriculumList />} />
+          <Route
+            path="curriculum/:curriculumId"
+            element={<CurriculumDetail />}
+          />
+          <Route path="edit-curriculum/:curriculumId" element={<EditCurriculum />} />
         </Route>
       </Routes>
     </Router>
