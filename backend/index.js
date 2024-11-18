@@ -56,7 +56,8 @@ app.use(
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
-.connect(mongoUrl)
+.connect(mongoUrl, {
+  useNewUrlParser: true,})
 .then(() => {
     console.log("Database is connected");
   })

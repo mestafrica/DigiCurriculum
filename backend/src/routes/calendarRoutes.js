@@ -6,15 +6,15 @@ import Router from "express";
 
 const CalendarRouter = Router();
 
-CalendarRouter.post('/create-schedule',isAuthenticated, developerPermission('create_schedule'),generateCalendar);
+CalendarRouter.post('/create-schedule', generateCalendar);
 
 
-CalendarRouter.get('/all-schedules', isAuthenticated, developerPermission('get_all_schedules'), fetchCalendar)
+CalendarRouter.get('/all-schedules', fetchCalendar)
 
 
-CalendarRouter.patch('/update-schedule/:id', isAuthenticated, developerPermission('update_schedule'), updateCalendar)
+CalendarRouter.patch('/update-schedule/:id', updateCalendar)
 
 
-CalendarRouter.delete('/delete-schedule/:id', isAuthenticated, developerPermission('delete_schedule'),deleteCalendar)
+CalendarRouter.delete('/delete-schedule/:id', deleteCalendar)
 
 export default CalendarRouter;

@@ -33,7 +33,7 @@ export const createCurriculum = async (req, res, next) => {
       grade,
       strands,
       subStrands,
-      admin: req.auth.id
+      // admin: req.auth.id
     });
 
     await newCurriculum.save();
