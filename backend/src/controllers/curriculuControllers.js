@@ -2,6 +2,7 @@ import curriculumModel from'../models/curriculumModel.js';
 
 export const validateCurriculumData = (data) => {
   const errors = [];
+  if (!data.name) errors.push('Name is required');
   if (!data.code) errors.push('Code is required');
   if (!data.grade) errors.push('Grade Level is required');
   if (!data.strands) errors.push('Strand is required');
@@ -11,7 +12,7 @@ export const validateCurriculumData = (data) => {
 
 export const createCurriculum = async (req, res, next) => {
   try {
-    const { code, grade, strands, subStrands } = req.body;
+    const { name, code, grade, strands, subStrands } = req.body;
 
     // Validate required fields
     const validateErrors = validateCurriculumData(req.body);
@@ -27,11 +28,12 @@ export const createCurriculum = async (req, res, next) => {
 
     // Create new curriculum
     const newCurriculum = new curriculumModel({ 
+      name,
       code,   
       grade,
       strands,
       subStrands,
-      admin: req.auth.id
+      // admin: req.auth.id
     });
 
     await newCurriculum.save();

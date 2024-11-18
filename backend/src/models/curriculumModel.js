@@ -1,12 +1,10 @@
-import mongoose from "mongoose";
-import { indexCurriculum } from "../service/ai/curriculum.service.js";
+import { model, Schema } from "mongoose";
 
-
-const Schema = mongoose.Schema;
 
 
 // Schema for Create Curriculum
-const curriculumSchema = new mongoose.Schema({
+const curriculumSchema = new Schema({
+  name: { type: String, required: true },
   code: { type: String, required: true },
   grade: { type: Number, required: true, min: 1 },
   strands: [{
@@ -24,9 +22,6 @@ const curriculumSchema = new mongoose.Schema({
 );
 
 
-const curriculumModel = mongoose.model('curriculumModel', curriculumSchema);
+const CurriculumModel = model("Curriculum", curriculumSchema);
 
-export default curriculumModel;
-
-
-
+export default CurriculumModel

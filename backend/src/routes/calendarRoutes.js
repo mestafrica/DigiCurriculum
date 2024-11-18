@@ -1,13 +1,20 @@
 import { deleteCalendar, fetchCalendar, generateCalendar, updateCalendar } from "../controllers/calendarControllers.js";
-import Router from "express"
+import { isAuthenticated, developerPermission } from "../middlewares/auth.js";
+import Router from "express";
 
 
 
-const router = Router();
+const CalendarRouter = Router();
 
-router.post('/create-schedule',generateCalendar);
-router.get('/all-schedules', fetchCalendar)
-router.patch('/update-schedule/:id', updateCalendar)
-router.delete('/delete-schedule/:id',deleteCalendar)
+CalendarRouter.post('/create-schedule', generateCalendar);
 
-export default router;
+
+CalendarRouter.get('/all-schedules', fetchCalendar)
+
+
+CalendarRouter.patch('/update-schedule/:id', updateCalendar)
+
+
+CalendarRouter.delete('/delete-schedule/:id', deleteCalendar)
+
+export default CalendarRouter;

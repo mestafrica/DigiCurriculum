@@ -9,5 +9,19 @@ export const permissions = [
             'get_curriculum_by_grade',
             'bulk_get_curriculums'
         ]
+       
+    },
+    {
+        role: 'developer',
+        actions: [
+            'get_developer',
+            'get_All_developer',
+            'update_developer',
+            'delete_developer',
+            'create_schedule',
+            'update_schedule',
+            'get_all_schedule',
+            'delete_schedule' 
+        ]
     }
 ]
