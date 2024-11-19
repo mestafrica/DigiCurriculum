@@ -91,7 +91,7 @@ export const resetAdminPassword = async (req, res) => {
         await admin.save();
 
         // Create reset URL
-        const resetUrl = `/password-reset/${token}`;
+        const resetUrl = `${process.env.BASE_URL}/password-reset/${token}`;
 
         // Configure email options
         const mailOptions = {

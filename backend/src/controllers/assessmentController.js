@@ -39,8 +39,8 @@ function cleanGeneratedContent(content) {
 
 async function generateAssessment(req, res) {
   const {
-    gradeLevel,
-    courseName,
+    grade,
+    name,
     strandName,
     assessmentType,
     numberOfQuestions,
@@ -50,10 +50,10 @@ async function generateAssessment(req, res) {
 
   try {
     // Validate required fields
-    if (!gradeLevel) {
-      return res.status(400).json({ message: "GradeLevel is required." });
+    if (!grade) {
+      return res.status(400).json({ message: "Grade is required." });
     }
-    if (!courseName) {
+    if (!name) {
       return res.status(400).json({ message: "CourseName is required." });
     }
     if (!strandName) {
@@ -75,24 +75,17 @@ async function generateAssessment(req, res) {
     }
 
     const curriculum = await curriculumModel.findOne({
-      gradeLevel,
-      "courses.courseName": courseName,
+      grade,
+      name
     });
 
     if (!curriculum) {
       return res.status(404).json({
-        message: `No curriculum found for grade level ${gradeLevel} with course ${courseName}`,
+        message: `No curriculum found for grade level ${grade} with course ${name}`,
       });
     }
 
-    const course = curriculum.courses.find((c) => c.courseName === courseName);
-    if (!course) {
-      return res
-        .status(404)
-        .json({ message: `No course found with name ${courseName}` });
-    }
-
-    const strand = course.strands.find((strand) => strand.name === strandName);
+    const strand = curriculum.strands.find((strand) => strand.name === strandName);
     if (!strand) {
       return res
         .status(404)
@@ -100,7 +93,7 @@ async function generateAssessment(req, res) {
     }
 
     const prompt = `
-        Generate an assessment for grade ${gradeLevel} for the course ${courseName}.
+        Generate an assessment for grade ${grade} for the course ${name}.
         The assessment should be of type ${assessmentType} and have ${numberOfQuestions} questions.
         The difficulty level of the questions should be ${difficultyLevel} and the question type should be ${questionType}.
         
@@ -135,12 +128,12 @@ async function generateAssessment(req, res) {
     const duration = Math.ceil(numberOfQuestions * 2); // Assuming 2 minutes per question
 
     const assessment = new Assessment({
-      courseCode: course.courseCode,
+      courseCode: curriculum.code,
       strandCode: strand.code,
       assessmentType,
       questions,
       totalPoints,
-      duration: 60,
+      duration: duration,
       questionType,
       difficultyLevel,
       numberOfQuestions,
