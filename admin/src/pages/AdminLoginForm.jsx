@@ -31,7 +31,7 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
         toast.success('Login successful!');
-        navigate('/dashboard');
+        navigate('/admin-dashboard');
       }
     } catch (error) {
       const errorMessage = error.response?.data?.error || 'Login failed. Please check your credentials.';
