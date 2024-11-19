@@ -56,3 +56,12 @@ export const apiPostCurriculum = async (payload) => {
     }
   };
   
+  export const apiGetStatistics = async () => {
+    try {
+      const response = await apiClient.get('/statistics');
+      return response; // Return the entire response object
+    } catch (error) {
+      console.error("Error fetching statistics:", error);
+      throw error;
+    }
+  };

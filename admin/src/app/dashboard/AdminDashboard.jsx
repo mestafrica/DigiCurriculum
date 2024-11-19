@@ -4,7 +4,6 @@ import {
   FaHome,
   FaFileAlt,
   FaList,
-  FaCogs,
   FaTasks,
   FaUserCircle,
   FaSignOutAlt,
@@ -31,20 +30,37 @@ const AdminDashboard = () => {
 
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
-    document.body.className = newTheme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black";
+    document.body.className =
+      newTheme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black";
   };
 
   const handleLogout = () => {
     setUser(null);
     console.log("User logged out");
-    // Add API integration here when ready.
+    
   };
 
   const navLinks = [
-    { name: "Home", icon: <FaHome />, path: "/admin-dashboard/dashboard-overview" },
-    { name: "Curriculum Form", icon: <FaFileAlt />, path: "/admin-dashboard/curriculum" },
-    { name: "Curriculum List", icon: <FaList />, path: "/admin-dashboard/curriculum-list" },
-    { name: "Bulk Operations", icon: <FaTasks />, path: "/admin-dashboard/bulk-operations" },
+    {
+      name: "Home",
+      icon: <FaHome />,
+      path: "/admin-dashboard/dashboard-overview",
+    },
+    {
+      name: "Curriculum Form",
+      icon: <FaFileAlt />,
+      path: "/admin-dashboard/curriculum",
+    },
+    {
+      name: "Curriculum List",
+      icon: <FaList />,
+      path: "/admin-dashboard/curriculum-list",
+    },
+    // {
+    //   name: "Bulk Operations",
+    //   icon: <FaTasks />,
+    //   path: "/admin-dashboard/bulk-operations",
+    // },
   ];
 
   const generateBreadcrumbs = () => {
@@ -72,7 +88,11 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className={`flex h-screen ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} relative`}>
+    <div
+      className={`flex h-screen ${
+        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
+      } relative`}
+    >
       {/* Sidebar */}
       <div
         className={`${
@@ -80,7 +100,13 @@ const AdminDashboard = () => {
         } bg-[#EEFBF6] text-black transition-all duration-300 z-50 fixed top-0 left-0 h-full`}
       >
         <div className="flex justify-between items-center p-4">
-          <h1 className={`${isSidebarCollapsed ? "hidden" : "block"} text-lg font-bold`}>Admin Dashboard</h1>
+          <h1
+            className={`${
+              isSidebarCollapsed ? "hidden" : "block"
+            } text-lg font-bold`}
+          >
+            Admin Dashboard
+          </h1>
           <button onClick={toggleSidebar} className="text-xl">
             {isSidebarCollapsed ? "☰" : "✕"}
           </button>
@@ -95,7 +121,9 @@ const AdminDashboard = () => {
                 }`}
               >
                 <span className="text-xl">{link.icon}</span>
-                {!isSidebarCollapsed && <span className="ml-4">{link.name}</span>}
+                {!isSidebarCollapsed && (
+                  <span className="ml-4">{link.name}</span>
+                )}
               </Link>
               {/* Tooltip */}
               {isSidebarCollapsed && (
@@ -159,7 +187,11 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? "ml-16" : "ml-64"}`}>
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          isSidebarCollapsed ? "ml-16" : "ml-64"
+        }`}
+      >
         {/* Fixed Breadcrumb */}
         <div
           className="bg-[#EEFBF6] shadow p-4 fixed top-0 left-0 right-0 z-40"

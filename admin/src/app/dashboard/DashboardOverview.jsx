@@ -1,10 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pie, Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
+import { apiGetStatistics } from "../../services/admin";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
 
+const SkeletonLoader = () => (
+  <div className="p-4 space-y-6 animate-pulse">
+    {/* Skeleton for welcome text */}
+    <div className="h-8 bg-gray-200 rounded w-2/3"></div>
+
+    {/* Skeleton for summary cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {[1, 2, 3, 4].map((item) => (
+        <div key={item} className="bg-gray-100 rounded-lg p-4 h-32">
+          <div className="flex flex-col items-center space-y-3">
+            <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
+            <div className="w-20 h-4 bg-gray-200 rounded"></div>
+            <div className="w-16 h-3 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Skeleton for charts */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-gray-100 rounded-lg p-4">
+        <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+        <div className="h-52 bg-gray-200 rounded"></div>
+      </div>
+      <div className="bg-gray-100 rounded-lg p-4">
+        <div className="flex justify-between items-center mb-4">
+          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-gray-200 rounded w-24"></div>
+        </div>
+        <div className="h-52 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+);
+
 const DashboardOverview = () => {
+  const [statistics, setStatistics] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const response = await apiGetStatistics();
+        setStatistics(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
   const summaryData = [
     { label: "Total Curricular", value: 12, icon: "📘", subtitle: "(current year)" },
     { label: "Calendars", value: 8, icon: "📅", subtitle: "(current year)" },
@@ -35,6 +90,9 @@ const DashboardOverview = () => {
       },
     ],
   };
+
+  if (loading) return <SkeletonLoader />;
+  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
 
   return (
     <div className="p-4 space-y-6">
