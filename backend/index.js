@@ -16,6 +16,7 @@ import curriculumRoutes from "./src/routes/curriculumRoutes.js";
 import assessmentRoutes from "./src/routes/assessmentRoutes.js";
 import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 import searchRoutes from "./src/routes/searchRoutes.js";
+import statisticsRouter from "./src/routes/statisticsRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -75,7 +76,7 @@ app.use(searchRoutes)
 app.use(curriculumRoutes)
 app.use(assessmentRoutes)
 app.use(lessonRoutes)
-
+app.use(statisticsRouter)
 
 
 app.listen(PORT, () => {
