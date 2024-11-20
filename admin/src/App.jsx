@@ -5,7 +5,6 @@ import "./App.css";
 import AdminDashboard from "./app/dashboard/AdminDashboard";
 import DashboardOverview from "./app/dashboard/DashboardOverview";
 import CurriculumForm from "./app/dashboard/curriculumForm";
-import BulkOperations from "./app/dashboard/bulkOperations";
 import CurriculumList from "./app/dashboard/CurriculumList";
 import CurriculumDetail from "./app/dashboard/CurriculumDetail";
 import EditCurriculum from "./app/dashboard/EditCurriculum";
@@ -26,7 +25,6 @@ function App() {
           <Route index element={<DashboardOverview />} />
           <Route path="dashboard-overview" element={<DashboardOverview />} />
           <Route path="curriculum" element={<CurriculumForm />} />
-          <Route path="bulk-operations" element={<BulkOperations />} />
           <Route path="curriculum-list" element={<CurriculumList />} />
           <Route
             path="curriculum/:curriculumId"
