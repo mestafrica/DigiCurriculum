@@ -34,12 +34,9 @@ import {
   Edit2,
   Trash2,
   FileDown,
-  Filter,
   ArrowUpDown,
   AlertCircle,
   Loader2,
-  BookOpen,
-  Code,
   Save,
   X,
 } from "lucide-react";
@@ -47,14 +44,13 @@ import { format } from "date-fns";
 import {
   apiDeleteCurriculum,
   apiGetCurriculum,
-  apiGetCurriculumDetails,
   apiUpdateCurriculum,
 } from "@/services/admin";
 
 // Skeleton Component for Loading State
 const TableSkeleton = () => (
   <div className="space-y-3">
-    {[1, 2, 3, 4, 5]?.map((i) => (
+    {Array.from({ length: 5 }, (_, i) => (
       <div key={i} className="flex items-center space-x-4 p-4">
         <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
         <div className="space-y-2 flex-1">
@@ -62,7 +58,7 @@ const TableSkeleton = () => (
           <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
         </div>
         <div className="flex space-x-2">
-          {[1, 2, 3]?.map((j) => (
+          {Array.from({ length: 3 }, (_, j) => (
             <div
               key={j}
               className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"
@@ -92,18 +88,10 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
     try {
       setIsLoading(true);
       setError(null);
-      // Make API call to update curriculum
-      const response = await fetch(`/api/curriculum/${editedCurriculum._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedCurriculum),
-      });
-
-      if (!response.ok) throw new Error("Failed to update curriculum");
-
-      const updatedCurriculum = await response.json();
+      const updatedCurriculum = await apiUpdateCurriculum(
+        editedCurriculum._id,
+        editedCurriculum
+      );
       onSave(updatedCurriculum);
       onClose();
     } catch (err) {
@@ -138,7 +126,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
             <div className="space-y-2">
               <label className="text-sm font-medium">Name</label>
               <Input
-                value={editedCurriculum.name}
+                value={editedCurriculum.name || ""}
                 onChange={(e) =>
                   setEditedCurriculum({
                     ...editedCurriculum,
@@ -151,7 +139,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
               <label className="text-sm font-medium">Grade</label>
               <Input
                 type="number"
-                value={editedCurriculum.grade}
+                value={editedCurriculum.grade || ""}
                 onChange={(e) =>
                   setEditedCurriculum({
                     ...editedCurriculum,
@@ -165,7 +153,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
           <div className="space-y-2">
             <label className="text-sm font-medium">Code</label>
             <Input
-              value={editedCurriculum.code}
+              value={editedCurriculum.code || ""}
               onChange={(e) =>
                 setEditedCurriculum({
                   ...editedCurriculum,
@@ -221,11 +209,12 @@ const CurriculumList = () => {
     try {
       setIsLoading(true);
       const response = await apiGetCurriculum();
-      setCurriculumData(response.curriculums);
+      setCurriculumData(Array.isArray(response.curriculums) ? response.curriculums : []);
       setError(null);
     } catch (err) {
       setError("Failed to load curriculum data. Please try again later.");
       console.error("Error fetching curriculum:", err);
+      setCurriculumData([]); // Initialize with empty array on error
     } finally {
       setIsLoading(false);
     }
@@ -242,26 +231,29 @@ const CurriculumList = () => {
   };
 
   const sortedAndFilteredData = () => {
-    let filteredData = [...curriculumData];
+    let filteredData = [...(curriculumData || [])];
 
+    // Apply search filter
     if (searchQuery) {
       filteredData = filteredData.filter(
         (item) =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.grade.toString().includes(searchQuery)
+          (item.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (item.code || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (item.grade || "").toString().includes(searchQuery)
       );
     }
 
+    // Apply grade filter
     if (filterGrade !== "all") {
       filteredData = filteredData.filter(
         (item) => item.grade === parseInt(filterGrade)
       );
     }
 
+    // Apply sorting
     return filteredData.sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
+      const aValue = a[sortConfig.key] ?? "";
+      const bValue = b[sortConfig.key] ?? "";
 
       if (sortConfig.direction === "asc") {
         return aValue > bValue ? 1 : -1;
@@ -272,7 +264,9 @@ const CurriculumList = () => {
 
   const handleDelete = async () => {
     try {
-      await apiDeleteCurriculum(selectedCurriculum.id);
+      if (!selectedCurriculum?._id) return;
+      
+      await apiDeleteCurriculum(selectedCurriculum._id);
       setCurriculumData((prev) =>
         prev.filter((item) => item._id !== selectedCurriculum._id)
       );
@@ -287,7 +281,7 @@ const CurriculumList = () => {
 
   const handleEditSave = (updatedCurriculum) => {
     setCurriculumData((prev) =>
-      prev?.map((item) =>
+      prev.map((item) =>
         item._id === updatedCurriculum._id ? updatedCurriculum : item
       )
     );
@@ -296,6 +290,8 @@ const CurriculumList = () => {
   };
 
   const handleExport = (curriculum) => {
+    if (!curriculum) return;
+
     const exportData = {
       ...curriculum,
       exportDate: new Date().toISOString(),
@@ -314,7 +310,12 @@ const CurriculumList = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
+
+  const uniqueGrades = Array.from(
+    new Set(curriculumData.map((item) => item.grade).filter(Boolean))
+  ).sort((a, b) => a - b);
 
   return (
     <div className="space-y-6 p-6 pb-16">
@@ -368,13 +369,11 @@ const CurriculumList = () => {
                 onChange={(e) => setFilterGrade(e.target.value)}
               >
                 <option value="all">All Grades</option>
-                {Array.from(new Set(curriculumData?.map((item) => item.grade)))
-                  .sort()
-                  ?.map((grade) => (
-                    <option key={grade} value={grade}>
-                      Grade {grade}
-                    </option>
-                  ))}
+                {uniqueGrades.map((grade) => (
+                  <option key={grade} value={grade}>
+                    Grade {grade}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -428,7 +427,7 @@ const CurriculumList = () => {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    sortedAndFilteredData()?.map((curriculum) => (
+                    sortedAndFilteredData().map((curriculum) => (
                       <TableRow key={curriculum._id}>
                         <TableCell>
                           <Badge variant="outline">
@@ -444,7 +443,7 @@ const CurriculumList = () => {
                         <TableCell>
                           <Badge className="bg-gray-300">
                             <div className="flex gap-3 text-xs w-full text-black">
-                              {curriculum.strands.length} strands
+                              {(curriculum.strands || []).length} strands
                             </div>
                           </Badge>
                         </TableCell>
@@ -505,7 +504,13 @@ const CurriculumList = () => {
       </Card>
 
       {/* Delete Dialog */}
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <Dialog 
+        open={showDeleteDialog} 
+        onOpenChange={(open) => {
+          setShowDeleteDialog(open);
+          if (!open) setSelectedCurriculum(null);
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete Curriculum</DialogTitle>
@@ -517,11 +522,18 @@ const CurriculumList = () => {
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
+              onClick={() => {
+                setShowDeleteDialog(false);
+                setSelectedCurriculum(null);
+              }}
             >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={!selectedCurriculum}
+            >
               Delete
             </Button>
           </DialogFooter>
