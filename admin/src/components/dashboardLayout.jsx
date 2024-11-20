@@ -1,5 +1,5 @@
-import React from 'react';
-import Sidebar07 from '../components/Sidebar07'; // Adjust the path as needed
+import React from "react";
+import Sidebar07 from "./Sidebar07"; // Adjust the path as needed
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -8,9 +8,7 @@ const DashboardLayout = ({ children }) => {
       <Sidebar07 />
 
       {/* Main Content */}
-      <div className="flex-1 p-6 bg-gray-100">
-        {children}
-      </div>
+      <div className="flex-1 p-6 bg-gray-100">{children}</div>
     </div>
   );
 };
