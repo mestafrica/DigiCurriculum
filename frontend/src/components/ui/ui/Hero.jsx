@@ -17,7 +17,7 @@ function Hero() {
           Equip your students, educators, and institution with dynamic tools that drive ongoing <br className="hidden md:inline" />
           development and inspire enduring enthusiasm for learning and teaching.
         </p>
-        <a href="/signup">
+        <a href="https://gesdeveloper.netlify.app/">
         <button
           type="submit"
           className="bg-blue-300 text-black font-bold py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-6 lg:py-4 lg:px-8 rounded-lg focus:outline-none focus:shadow-outline transition transform hover:scale-105"
