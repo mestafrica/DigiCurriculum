@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   BookOpen,
   Bot,
@@ -10,12 +10,14 @@ import {
   Send,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -24,7 +26,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const data = {
   user: {
@@ -35,98 +37,84 @@ const data = {
   navMain: [
     {
       title: "Getting Started",
-      url: "/gettingstarted",
-      // icon: SquareTerminal,
+      url: "",
       icon: Frame,
-      // isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Authentication",
+          url: "/",
+          description: "Register and get your API keys",
         },
-        // {
-        //   title: "Starred",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        // },
+        {
+          title: "Understanding Curriculum",
+          url: "/gettingstarted/curriculum",
+          description: "Learn about curriculum structure",
+        },
       ],
     },
     {
-      title: "Installation",
-      url: "/installation",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        // {
-        //   title: "Explorer",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Quantum",
-        //   url: "#",
-        // },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
+      title: "Curriculum",
+      url: "/curriculum",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "API endpoints Overview",
+          url: "/curriculum/overview",
+          description: "See all available endpoints",
         },
-        // {
-        //   title: "Get Started",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Tutorials",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Changelog",
-        //   url: "#",
-        // },
+        {
+          title: "List All Curricula",
+          url: "/curriculum/list",
+          description: "GET /curriculum - Get all available curricula",
+        },
+        {
+          title: "Get by Grade",
+          url: "/curriculum/grade",
+          description:
+            "GET /curriculum/grade/{grade} - Get curriculum by grade level",
+        },
+        {
+          title: "Search",
+          url: "/curriculum/search",
+          description:
+            "GET /curriculum/search - Search across curriculum content",
+        },
       ],
     },
     {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
+      title: "Assessment",
+      url: "/curriculum",
+      icon: BookOpen,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "API endpoints Overview",
+          url: "/assessment/overview",
+          description: "See all available endpoints",
         },
-        // {
-        //   title: "Team",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Billing",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Limits",
-        //   url: "#",
-        // },
+        {
+          title: "Generate Assessment",
+          url: "/generate/assessment",
+          description: "POST /assessment -  Generate assessments",
+        },
+        {
+          title: "List All Assessment",
+          url: "/assessment/list",
+          description: "GET /assessment - Get all generated assessments",
+        },
+        {
+          title: "Get Assessment",
+          url: "/assessment",
+          description: "GET /assessment - Generate",
+        },
       ],
     },
   ],
   navSecondary: [
     {
-      title: "Support",
-      url: "#",
+      title: "Developer Login",
+      url: "/devlogin",
       icon: LifeBuoy,
     },
-
   ],
   projects: [
     {
@@ -134,41 +122,97 @@ const data = {
       url: "/contribution-guide",
       icon: Frame,
     },
-   
   ],
-}
+};
 
-export function AppSidebar({
-  ...props
-}) {
+const NavMainItem = ({ item }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const Icon = item.icon;
+
   return (
-    (<Sidebar variant="inset" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div
-                  className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between px-2 py-2 text-sm hover:bg-gray-100 rounded-md"
+      >
+        <div className="flex items-center gap-2">
+          {Icon && <Icon className="h-4 w-4" />}
+          <span>{item.title}</span>
+        </div>
+        {item.items && (
+          <span className="ml-2">
+            {isOpen ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </span>
+        )}
+      </button>
+
+      {isOpen && item.items && (
+        <div className="ml-6 mt-1 space-y-1">
+          {item.items.map((subItem, index) => (
+            <a
+              key={index}
+              href={subItem.url}
+              className="block px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md"
+            >
+              {subItem.title}
+              {subItem.description && (
+                <p className="text-xs text-gray-500">{subItem.description}</p>
+              )}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const CustomNavProjects = ({ items }) => {
+  if (!items || items.length === 0) return null;
+
+  return (
+    <div className="space-y-1">
+      {items.map((item, index) => {
+        const Icon = item.icon;
+        return (
+          <a
+            key={index}
+            href={item.url}
+            className="flex items-center gap-2 px-2 py-1.5 text-sm hover:bg-gray-100 rounded-md"
+          >
+            {Icon && <Icon className="h-4 w-4" />}
+            <span>{item.name}</span>
+          </a>
+        );
+      })}
+    </div>
+  );
+};
+
+export function AppSidebar({ ...props }) {
+  return (
+    <Sidebar {...props}>
+      <SidebarHeader>Digital Curriculum API</SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <SidebarMenu>
+          {data.navMain.map((item, index) => (
+            <NavMainItem key={index} item={item} />
+          ))}
+        </SidebarMenu>
+        <SidebarMenu>
+          <CustomNavProjects items={data.projects} />
+        </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <SidebarMenu>
+          <NavSecondary items={data.navSecondary} />
+        </SidebarMenu>
       </SidebarFooter>
-    </Sidebar>)
+    </Sidebar>
   );
 }
+
+export default AppSidebar;
