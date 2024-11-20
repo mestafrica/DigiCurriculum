@@ -54,7 +54,7 @@ import {
 // Skeleton Component for Loading State
 const TableSkeleton = () => (
   <div className="space-y-3">
-    {[1, 2, 3, 4, 5].map((i) => (
+    {[1, 2, 3, 4, 5]?.map((i) => (
       <div key={i} className="flex items-center space-x-4 p-4">
         <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
         <div className="space-y-2 flex-1">
@@ -62,7 +62,7 @@ const TableSkeleton = () => (
           <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
         </div>
         <div className="flex space-x-2">
-          {[1, 2, 3].map((j) => (
+          {[1, 2, 3]?.map((j) => (
             <div
               key={j}
               className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"
@@ -287,7 +287,7 @@ const CurriculumList = () => {
 
   const handleEditSave = (updatedCurriculum) => {
     setCurriculumData((prev) =>
-      prev.map((item) =>
+      prev?.map((item) =>
         item._id === updatedCurriculum._id ? updatedCurriculum : item
       )
     );
@@ -368,9 +368,9 @@ const CurriculumList = () => {
                 onChange={(e) => setFilterGrade(e.target.value)}
               >
                 <option value="all">All Grades</option>
-                {Array.from(new Set(curriculumData.map((item) => item.grade)))
+                {Array.from(new Set(curriculumData?.map((item) => item.grade)))
                   .sort()
-                  .map((grade) => (
+                  ?.map((grade) => (
                     <option key={grade} value={grade}>
                       Grade {grade}
                     </option>
@@ -428,7 +428,7 @@ const CurriculumList = () => {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    sortedAndFilteredData().map((curriculum) => (
+                    sortedAndFilteredData()?.map((curriculum) => (
                       <TableRow key={curriculum._id}>
                         <TableCell>
                           <Badge variant="outline">
