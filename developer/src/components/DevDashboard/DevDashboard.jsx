@@ -18,9 +18,8 @@ const DevDashboard = () => {
       <Sidebar />
 
       {/* Main Content */}
-      <div className="w-4/5 p-10 bg-gray-100">
-        <h1 className="text-3xl font-semibold mb-4">Welcome to the Developer's Dashboard</h1>
-        <p className="text-lg text-gray-700">This is where you can manage your APIs, view usage analytics, and adjust your settings.</p>
+      <div className="w-4/5 p-10 bg-gray-100 h-screen overflow-y-scroll">
+        
 
         {/* Nested routes */}
         <Routes>

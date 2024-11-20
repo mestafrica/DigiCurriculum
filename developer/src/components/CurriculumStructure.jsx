@@ -1,53 +1,46 @@
 import React from "react";
-import { ArrowRight, Key, UserPlus, Book, ExternalLink } from "lucide-react";
+import { ArrowRight, Code } from "lucide-react";
 
-const GettingStarted = () => {
+const CurriculumStructure = () => {
   const steps = [
     {
-      title: "Register as a Developer",
-      icon: <UserPlus className="w-6 h-6" />,
+      title: "Understanding the Curriculum Structure",
+      icon: <Code className="w-6 h-6" />,
       content:
-        "To use the Ghana Education Curriculum API, you'll need to register as a developer. This gives you access to all curriculum data across different grades and subjects.",
-      action: {
-        text: "Register for API access",
-        link: "#",
-      },
-    },
-    {
-      title: "Getting your API Key",
-      icon: <Key className="w-6 h-6" />,
-      content:
-        "Your API key is required to authenticate all requests to the API. Include it in the header of your API requests to access curriculum data.",
+        "The curriculum is organized hierarchically with strands, sub-strands, content standards, and learning indicators.",
       substeps: [
-        "Log in to your developer dashboard",
-        "Navigate to the API Keys section",
-        "Copy  API Key",
-        "Save your API key securely",
+        "Curriculum contains multiple strands",
+        "Each strand has multiple sub-strands",
+        "Sub-strands contain content standards",
+        "Learning indicators detail specific outcomes",
       ],
     },
   ];
 
+  const codeExample = `
+// Example API Response
+{
+  "name": "Mathematics",
+  "code": "MATH-001",
+  "grade": 1,
+  "strands": [{
+    "name": "Number",
+    "code": "NUM-1",
+    "subStrand": [{
+      "code": "NUM-1.1",
+      "title": "Number Operations",
+      "contentStandards": "Demonstrate understanding of whole numbers...",
+      "learningIndicators": [
+        "Count objects up to 100",
+        "Read and write numerals up to 100"
+      ]
+    }]
+  }]
+}`;
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        {/* Header Section */}
-        <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
-            Ghana Education Curriculum API
-          </h1>
-          <p className="text-lg text-gray-600 mb-6">
-            Access Ghana's complete education curriculum programmatically. Build
-            educational apps, learning management systems, and teaching
-            resources using our comprehensive API.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Sample Applications
-            </button>
-          </div>
-        </div>
-
         {/* Steps Section */}
         <div className="space-y-8">
           {steps.map((step, index) => (
@@ -81,7 +74,7 @@ const GettingStarted = () => {
               {step.action && (
                 <a
                   href={step.action.link}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm  bg-[#D0F4DE] hover:bg-[#D0F4DE] text-primary-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   {step.action.text}
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -91,7 +84,14 @@ const GettingStarted = () => {
           ))}
         </div>
 
-        {/* Help Section */}
+        {/* Code Example Section */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm p-8">
+          <h2 className="text-xl font-semibold mb-4">Example Response</h2>
+          <pre className="bg-gray-50 rounded-lg p-6 overflow-x-auto">
+            <code className="text-sm text-gray-800">{codeExample}</code>
+          </pre>
+        </div>
+
         <div className="mt-8 bg-gradient-to-r bg-[#D0F4DE] hover:bg-[#D0F4DE] text-primary-black  rounded-lg shadow-sm p-8 ">
           <h2 className="text-xl font-semibold mb-4">Need Support?</h2>
           <p className="mb-6">
@@ -109,4 +109,4 @@ const GettingStarted = () => {
   );
 };
 
-export default GettingStarted;
+export default CurriculumStructure;
