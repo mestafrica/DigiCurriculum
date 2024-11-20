@@ -50,7 +50,7 @@ import {
 // Skeleton Component for Loading State
 const TableSkeleton = () => (
   <div className="space-y-3">
-    {[1, 2, 3, 4, 5].map((i) => (
+    {Array.from({ length: 5 }, (_, i) => (
       <div key={i} className="flex items-center space-x-4 p-4">
         <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
         <div className="space-y-2 flex-1">
@@ -58,7 +58,7 @@ const TableSkeleton = () => (
           <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
         </div>
         <div className="flex space-x-2">
-          {[1, 2, 3].map((j) => (
+          {Array.from({ length: 3 }, (_, j) => (
             <div
               key={j}
               className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"
@@ -72,7 +72,7 @@ const TableSkeleton = () => (
 
 // EditCurriculumDialog Component
 const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
-  const [editedCurriculum, setEditedCurriculum] = useState(curriculum || {});
+  const [editedCurriculum, setEditedCurriculum] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -82,7 +82,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
     }
   }, [curriculum]);
 
-  if (!curriculum) return null;
+  if (!curriculum || !editedCurriculum) return null;
 
   const handleSave = async () => {
     try {
@@ -209,14 +209,12 @@ const CurriculumList = () => {
     try {
       setIsLoading(true);
       const response = await apiGetCurriculum();
-      setCurriculumData(
-        Array.isArray(response.curriculums) ? response.curriculums : []
-      );
+      setCurriculumData(Array.isArray(response.curriculums) ? response.curriculums : []);
       setError(null);
     } catch (err) {
       setError("Failed to load curriculum data. Please try again later.");
       console.error("Error fetching curriculum:", err);
-      setCurriculumData([]); // Set empty array on error
+      setCurriculumData([]); // Initialize with empty array on error
     } finally {
       setIsLoading(false);
     }
@@ -241,7 +239,7 @@ const CurriculumList = () => {
         (item) =>
           (item.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
           (item.code || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (item.grade?.toString() || "").includes(searchQuery)
+          (item.grade || "").toString().includes(searchQuery)
       );
     }
 
@@ -252,7 +250,7 @@ const CurriculumList = () => {
       );
     }
 
-    // Sort data
+    // Apply sorting
     return filteredData.sort((a, b) => {
       const aValue = a[sortConfig.key] ?? "";
       const bValue = b[sortConfig.key] ?? "";
@@ -265,9 +263,9 @@ const CurriculumList = () => {
   };
 
   const handleDelete = async () => {
-    if (!selectedCurriculum?._id) return;
-
     try {
+      if (!selectedCurriculum?._id) return;
+      
       await apiDeleteCurriculum(selectedCurriculum._id);
       setCurriculumData((prev) =>
         prev.filter((item) => item._id !== selectedCurriculum._id)
@@ -282,8 +280,6 @@ const CurriculumList = () => {
   };
 
   const handleEditSave = (updatedCurriculum) => {
-    if (!updatedCurriculum?._id) return;
-
     setCurriculumData((prev) =>
       prev.map((item) =>
         item._id === updatedCurriculum._id ? updatedCurriculum : item
@@ -307,7 +303,7 @@ const CurriculumList = () => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `curriculum-${curriculum.code || "export"}-${format(
+    link.download = `curriculum-${curriculum.code}-${format(
       new Date(),
       "yyyy-MM-dd"
     )}.json`;
@@ -318,11 +314,7 @@ const CurriculumList = () => {
   };
 
   const uniqueGrades = Array.from(
-    new Set(
-      curriculumData
-        .filter((item) => item?.grade != null)
-        .map((item) => item.grade)
-    )
+    new Set(curriculumData.map((item) => item.grade).filter(Boolean))
   ).sort((a, b) => a - b);
 
   return (
@@ -512,8 +504,8 @@ const CurriculumList = () => {
       </Card>
 
       {/* Delete Dialog */}
-      <Dialog
-        open={showDeleteDialog}
+      <Dialog 
+        open={showDeleteDialog} 
         onOpenChange={(open) => {
           setShowDeleteDialog(open);
           if (!open) setSelectedCurriculum(null);
@@ -530,12 +522,15 @@ const CurriculumList = () => {
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
+              onClick={() => {
+                setShowDeleteDialog(false);
+                setSelectedCurriculum(null);
+              }}
             >
               Cancel
             </Button>
-            <Button
-              variant="destructive"
+            <Button 
+              variant="destructive" 
               onClick={handleDelete}
               disabled={!selectedCurriculum}
             >
