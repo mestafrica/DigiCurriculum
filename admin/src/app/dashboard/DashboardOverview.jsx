@@ -49,6 +49,7 @@ const DashboardOverview = () => {
     const fetchStatistics = async () => {
       try {
         const response = await apiGetStatistics();
+        console.log(response)
         setStatistics(response.data);
         setLoading(false);
       } catch (err) {
@@ -96,7 +97,7 @@ const DashboardOverview = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <h2 className="text-xl font-bold text-gray-800">Hi, [User Name]. Welcome back to your admin portal</h2>
+      
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
