@@ -10,7 +10,7 @@ const GettingStarted = () => {
         "To use the Ghana Education Curriculum API, you'll need to register as a developer. This gives you access to all curriculum data across different grades and subjects.",
       action: {
         text: "Register for API access",
-        link: "#",
+        link: "/devlogin",
       },
     },
     {
