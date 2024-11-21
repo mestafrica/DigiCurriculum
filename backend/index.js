@@ -30,7 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://cool-selkie-833e95.netlify.app"
+  "https://cool-selkie-833e95.netlify.app",
+  "https://gesadmin.netlify.app",
+  "https://gesdev.netlify.app"
 ]
 app.use((req, res, next) => {
   cors({
