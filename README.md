@@ -28,3 +28,6 @@ The platform will host competency frameworks and edtech platform assessments for
 React, Node.js(Express) 
 
 ---
+
+## Interested in contributing
+Please read the [contribution guidelines](https://github.com/mestafrica/DigiCurriculum/blob/main/contributing.md) for details on how to contribute to this project
