@@ -8,6 +8,7 @@ import { getNames } from "country-list";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const DeveloperSignupForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -51,25 +52,29 @@ const DeveloperSignupForm = () => {
   };
 
   // submit handler
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validate()) return;
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://digitizing-the-ges-curriculum-21yp.onrender.com/developers/signup",
-        formData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      toast.success("Registration successful!");
+      const res = await axios.post(`${baseUrl}/developers/signup`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      toast.success(res.data?.message || "Registration successful!");
       setLoading(false);
-      console.log(res.data);
       navigate("/devlogin");
     } catch (error) {
-      toast.error(error.response?.data || "Request failed");
+      const errorMessage =
+        error.response?.data?.message ||
+        (typeof error.response?.data === "string"
+          ? error.response.data
+          : null) ||
+        "Request failed";
+
+      toast.error(errorMessage);
       setLoading(false);
     }
   };
@@ -205,7 +210,7 @@ const DeveloperSignupForm = () => {
 
           <p className="mt-4 text-center text-gray-600">
             Already have an account?{" "}
-            <Link to="/devsignup" className="text-blue-600 underline">
+            <Link to="/devlogin" className="text-blue-600 underline">
               Sign In
             </Link>
           </p>
