@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import bgImage from "../../src/img/Bgimage.png";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios"; // 👈 import axios
 
 function DevLogin() {
   const [formData, setFormData] = useState({
@@ -32,20 +33,45 @@ function DevLogin() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validate()) {
-      console.log("Developer login data:", formData);
-      toast.success("Login successful! Redirecting to dashboard..."); // Success Toast
-      // Add a delay of 2 seconds before redirecting to allow the toast to display
-      setTimeout(() => {
-        navigate('/devdashboard'); // Redirect to developer dashboard after login
-      }, 2000); // 2 seconds delay
+      try {
+
+        // there's currently an error in this url which will be fixed later, therefore, this url could change that is either edited or completely replaced
+        const res = await axios.post(
+          "https://digitizing-the-ges-curriculum-21yp.onrender.comdevelopers/login",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // Token returned from the backend. 
+        // In this project, the token could be saved as "Bearer token" so be sure to check what it is in the documentation ie developer login 
+
+        const token = res.data.token;
+        localStorage.setItem("authToken", token); 
+
+        toast.success("Login successful! Redirecting to dashboard...");
+
+        // Here, I set a setTimeout of two seconds and this is to allow users to read the success and redirecting message above
+        setTimeout(() => {
+          navigate('/devdashboard');
+        }, 2000);
+
+      } catch (error) {
+        console.error(error.response?.data || error.message);
+        toast.error(
+          error.response?.data?.message || "Invalid login credentials"
+        );
+      }
     } else {
-      toast.error("Please fill in all fields correctly."); // Error Toast
+      toast.error("Please fill in all fields correctly.");
     }
   };
-  
 
   return (
     <div
