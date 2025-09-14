@@ -1,179 +1,194 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { IoEyeOutline, IoEyeOffOutline, IoChevronDown } from "react-icons/io5";
-import bgImage from '../../assets/images/b.g.png'; 
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../../services/authService";
 
-function Signup() {
+const Signup = () => {
   const [formData, setFormData] = useState({
-    role: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
-    cpassword: "",
+    confirmPassword: "",
+    userType: "",
+    school: "",
+    country: "",
   });
-  const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    cpassword: false,
-  });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("I am a");
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.role) newErrors.role = "Role is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
-    if (!formData.password) newErrors.password = "Password is required";
-    if (formData.password !== formData.cpassword)
-      newErrors.cpassword = "Passwords do not match";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      navigate('/profile');
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await registerUser({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        userType: formData.userType,
+        school: formData.school,
+        country: formData.country,
+      });
+      navigate("/otp");
+    } catch (err) {
+      setError(err.message || "Signup failed");
     }
   };
 
-  const handleRoleSelect = (role) => {
-    setFormData({ ...formData, role });
-    setSelectedRole(role);
-    setIsDropdownOpen(false);
-  };
-
   return (
-    <div
-      className="bg-cover bg-center min-h-screen flex flex-col items-center justify-center"
-      style={{ backgroundImage: `url(${bgImage})` }} 
-    >
-      <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
-        <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Create An Account
-          </h2>
-          <p className="text-center mb-6">
-            Create an account to enjoy the world of streamlined tutoring.
-          </p>
-          <div className="space-y-4">
-            <div className="relative">
-              <div
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-black leading-tight focus:outline-none focus:shadow-outline placeholder-custom pr-8 cursor-pointer"
-              >
-                {selectedRole}
-                <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black" />
-              </div>
-              {isDropdownOpen && (
-                <div className="absolute z-10 bg-white border rounded-lg shadow-lg w-full mt-1">
-                  {['Teacher', 'Student', 'Researcher'].map((role) => (
-                    <div
-                      key={role}
-                      className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
-                      onClick={() => handleRoleSelect(role)}
-                    >
-                      {role}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {errors.role && (
-                <p className="text-red-500 text-xs mt-1">{errors.role}</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-              )}
-            </div>
-            <div className="relative">
-              <input
-                type={showPassword.password ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword({ ...showPassword, password: !showPassword.password })}
-                className="absolute right-3 top-3"
-              >
-                {showPassword.password ? <IoEyeOffOutline className="h-5 w-5 text-black" /> : <IoEyeOutline className="h-5 w-5 text-black" />}
-              </button>
-              {errors.password && (
-                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-              )}
-            </div>
-            <div className="relative">
-              <input
-                type={showPassword.cpassword ? "text" : "password"}
-                placeholder="Confirm Password"
-                name="cpassword"
-                value={formData.cpassword}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-custom"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword({ ...showPassword, cpassword: !showPassword.cpassword })}
-                className="absolute right-3 top-3"
-              >
-                {showPassword.cpassword ? <IoEyeOffOutline className="h-5 w-5 text-black" /> : <IoEyeOutline className="h-5 w-5 text-black" />}
-              </button>
-              {errors.cpassword && (
-                <p className="text-red-500 text-xs mt-1">{errors.cpassword}</p>
-              )}
-            </div>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-100 via-blue-100 to-purple-100 px-4">
+      <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg transition-all hover:shadow-3xl">
+        <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+          Create Your Account
+        </h2>
+        <p className="text-sm text-gray-600 mb-6 text-center">
+          Join DigiCurriculum and unlock a world of learning 🚀
+        </p>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* First & Last Name */}
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+            />
           </div>
-          <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="w-2/3 bg-buttonBg text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-            >
-              Create Account
-            </button>
-          </div>
-          <p className="mt-4 text-center text-gray-600">
-            Already have an account?{" "}
-            <a href="/signin" className="text-gray-600 underline">
-              Sign In
-            </a>
-          </p>
-          <div className="flex justify-center mt-4">
+
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+          />
+
+          {/* UserType */}
+          <select
+            name="userType"
+            value={formData.userType}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+          >
+            <option value="">I am a...</option>
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Developer">Developer</option>
+          </select>
+
+          {/* School */}
+          <input
+            type="text"
+            name="school"
+            placeholder="School"
+            value={formData.school}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+          />
+
+          {/* Country */}
+          <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            value={formData.country}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+          />
+
+          {/* Password */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+            />
             <button
               type="button"
-              onClick={() => navigate('/')}
-              className="text-gray-600 underline"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
             >
-              Back to Home
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
+
+          {/* Confirm Password */}
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-300 outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
+            >
+              {showConfirmPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-blue-400 to-green-400 hover:from-blue-500 hover:to-green-500 text-white font-semibold py-2 rounded-md transition transform hover:scale-[1.02]"
+          >
+            Sign Up
+          </button>
         </form>
+
+        <p className="mt-6 text-sm text-center text-gray-600">
+          Already have an account?{" "}
+          <Link to="/signin" className="text-blue-500 hover:underline">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default Signup;
