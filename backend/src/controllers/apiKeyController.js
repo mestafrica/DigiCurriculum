@@ -1,23 +1,34 @@
-import ApiKey from "../models/apiKeyModel.js";
+import { DeveloperModel } from "../models/developerModel.js";
 import { generateApiKey } from "../utils/keyGenerator.js";
-import bcrypt from 'bcryptjs'
-export const createdApiKey=async(req,res)=>{
+import bcrypt from "bcryptjs";
+
+export const requestApiKey = async (req, res) => {
     try {
-        const newKey =generateApiKey();
-        console.log(newKey)
-     //   const salt = bcrypt.genSaltSync(10);
-        const hashedKey = await bcrypt.hashSync(newKey,10); // Hash the API
-        console.log(hashedKey)
-        const apiKey = new ApiKey({ key: hashedKey, active: true});
-        await apiKey.save()
-        res.status(201).json({message: 'API key generated successfully', apiKey})
+        const developerId = req.auth.id; // Set by isAuthenticated middleware
 
+        const developer = await DeveloperModel.findById(developerId);
+        if (!developer) {
+            return res.status(404).json({ error: "Developer not found" });
+        }
+
+        if (developer.apiKey) {
+            return res.status(400).json({ error: "API key already exists for this developer." });
+        }
+
+        const plainApiKey = await generateApiKey();
+        const hashedApiKey = bcrypt.hashSync(plainApiKey, 10);
+
+        developer.apiKey = hashedApiKey;
+        await developer.save();
+
+        res.status(201).json({
+            message: "API key generated successfully",
+            apiKey: plainApiKey
+        });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({error:'An error occured while generating the API Key '})
+        res.status(500).json({ error: "Error generating API key" });
     }
-}
-
+};
 
 
 
