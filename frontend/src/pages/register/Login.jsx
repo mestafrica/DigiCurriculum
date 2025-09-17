@@ -1,129 +1,126 @@
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; 
-import bgImage from '../../assets/images/b.g.png';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../services/authService";
 
-function SignIn() {
-  const [formData, setFormData] = useState({
-    emailOrPhone: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({});
+const Login = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.emailOrPhone) newErrors.emailOrPhone = "Email or phone number is required";
-    if (!formData.password) newErrors.password = "Password is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form submitted:", formData);
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await loginUser(formData);
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold mb-6 text-left" style={{ color: '#333333' }}>Sign in</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="emailOrPhone">
-                Email or phone number
-              </label>
-              <input
-                type="text"
-                id="emailOrPhone"
-                name="emailOrPhone"
-                value={formData.emailOrPhone}
-                onChange={handleChange}
-                className="appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline"
-                style={{ color: '#666666' }}
-              />
-              {errors.emailOrPhone && (
-                <p className="text-red-500 text-xs mt-1">{errors.emailOrPhone}</p>
-              )}
-            </div>
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline"
-                  style={{ color: '#666666' }}
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-              )}
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-6">
-            <label className="flex items-center text-gray-700">
-              <input type="checkbox" className="form-checkbox" style={{ color: '#111111' }} />
-              <span className="ml-2">Remember me</span>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-100 to-green-300">
+      <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md transform transition duration-300 hover:scale-[1.01]">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Welcome Back 👋
+        </h2>
+        <p className="text-gray-500 text-center mb-6">
+          Log in to continue to your dashboard
+        </p>
+
+        {error && (
+          <p className="text-red-500 text-sm font-medium mb-4 bg-red-50 p-2 rounded-md text-center">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
             </label>
-            <a href="#need-help" className="text-gray-600 underline">Need help?</a>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-300 outline-none"
+              placeholder="example@email.com"
+            />
           </div>
-          <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="w-1/2 bg-blue-300 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-            >
-              Submit
+
+          {/* Password */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-300 outline-none"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full ${
+              loading ? "bg-green-300" : "bg-green-500 hover:bg-green-600"
+            } text-white font-semibold py-2 rounded-lg shadow-md transition duration-200`}
+          >
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+
+          {/* Options */}
+          <div className="flex justify-between items-center text-sm text-gray-600">
+            <label className="flex items-center">
+              <input type="checkbox" className="mr-2" /> Remember me
+            </label>
+            <button type="button" className="text-green-500 hover:underline">
+              Forgot password?
             </button>
           </div>
-          <p className="mt-4 text-center text-gray-600">
-            Don’t have an account? <a href="/signup" className="text-black underline">Sign up</a>
-          </p>
-          <p className="mt-2 text-center text-gray-600 text-xs">
-            This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="https://www.google.com/recaptcha/about/" target="_blank" rel="noopener noreferrer" className="text-black underline">Learn more.</a>
-          </p>
         </form>
-        <div className="flex justify-center mt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/')} 
-            className="text-gray-600 underline"
+
+        <p className="mt-6 text-sm text-center text-gray-600">
+          Don’t have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-green-600 font-medium hover:underline"
           >
-            Back to Home
-          </button>
-        </div>
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
-}
+};
 
-export default SignIn;
+export default Login;
