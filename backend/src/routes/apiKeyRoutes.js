@@ -1,10 +1,14 @@
+// filepath: [developerRoutes.js](http://_vscodecontentref_/3)
 import express from "express";
-import { createdApiKey } from "../controllers/apiKeyController.js";
+import { requestApiKey } from "../controllers/apiKeyController.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
-const apiKeyRoutes = express.Router();
-apiKeyRoutes.post('/api/keys', /*auth*/createdApiKey );
-export default apiKeyRoutes;
 
+const router = express.Router();
+
+router.post("/developer/api-key", isAuthenticated, requestApiKey);
+
+export default router;
 
 
 
