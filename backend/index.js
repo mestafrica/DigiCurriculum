@@ -28,24 +28,25 @@ app.use(express.json());
 app.use(express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://cool-selkie-833e95.netlify.app",
-  "https://gesadmin.netlify.app",
-  "https://gesdev.netlify.app",
-];
-app.use((req, res, next) => {
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })(req, res, next);
-});
+app.use(cors());
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://cool-selkie-833e95.netlify.app",
+//   "https://gesadmin.netlify.app",
+//   "https://gesdev.netlify.app",
+// ];
+// app.use((req, res, next) => {
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })(req, res, next);
+// });
 
 app.use(
   session({
