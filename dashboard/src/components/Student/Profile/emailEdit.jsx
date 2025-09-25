@@ -13,7 +13,6 @@ function EditEmail({ closeModel }) {
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("token");
 
-
   const isValidForm = () => {
     const { email } = form;
     return email && email;
@@ -57,36 +56,41 @@ function EditEmail({ closeModel }) {
     setSubmitted(true);
 
     if (isValidForm()) {
+      setIsLoading(true);
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://3.89.152.217/api/v1/editProfile",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: form.email,
-    };
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json", // ✅ important
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          email: form.email, // ✅ send as object, not just string
+        },
+      };
 
-    await axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        alert("Update Successfull!")
-        setTimeout(()=>{
-          closeModel();
-        }, 1000);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // setErrorMessage(error.message)
-        alert(error.response.data.message);
-        console.log(error);
-        setIsLoading(false);
-      });
-  }
-  }
+      await axios
+        .request(config)
+        .then((response) => {
+          console.log("✅ Update success:", response.data);
+          alert("Update Successful!");
+          setTimeout(() => {
+            closeModel();
+          }, 1000);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          const message =
+            error.response?.data?.message || "Something went wrong!";
+          alert(message);
+          console.error("❌ Update failed:", error);
+          setIsLoading(false);
+        });
+    }
+  };
 
   const refCloseFormModel = (e) => {
     if (modelRef.current === e.target) {
