@@ -18,19 +18,23 @@ const Login = () => {
     try {
       const data = await loginUser(formData);
 
-      // Save token + userId + userType
+      //  Save auth info temporarily in frontend storage
       localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.user?._id);
+      localStorage.setItem("userId", data.user?.id);
       localStorage.setItem("userType", data.user?.userType);
 
-      // Redirect based on user type
-      if (data.user?.userType === "Student") {
-        navigate("/student-dashboard");
-      } else if (data.user?.userType === "Teacher") {
-        navigate("/teacher-dashboard");
-      } else {
-        navigate("/dashboard"); // fallback
-      }
+      //  Get URLs from .env
+      const studentUrl = import.meta.env.VITE_STUDENT_DASHBOARD_URL;
+      const teacherUrl = import.meta.env.VITE_TEACHER_DASHBOARD_URL;
+
+      //  Redirect by role (with query params, and /dashboard so overview shows)
+  if (data.user?.userType === "Student") {
+  window.location.href = `${import.meta.env.VITE_STUDENT_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
+} else if (data.user?.userType === "Teacher") {
+  window.location.href = `${import.meta.env.VITE_TEACHER_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
+}
+
+
     } catch (err) {
       setError(err.message || "Login failed");
     }
@@ -48,7 +52,6 @@ const Login = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Email */}
           <input
             type="email"
             name="email"
@@ -59,7 +62,6 @@ const Login = () => {
             className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-300 outline-none"
           />
 
-          {/* Password */}
           <input
             type="password"
             name="password"
@@ -70,7 +72,6 @@ const Login = () => {
             className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-300 outline-none"
           />
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-2 rounded-md transition transform hover:scale-[1.02]"
