@@ -33,7 +33,10 @@ function EditEmail({ closeModel }) {
       redirect: "follow",
     };
 
-    fetch("http://3.89.152.217/api/user", requestOptions)
+    fetch(
+      "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setForm({
