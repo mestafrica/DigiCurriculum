@@ -32,7 +32,7 @@ const Signup = () => {
     }
 
     try {
-      await registerUser({
+      const data = await registerUser({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -41,7 +41,20 @@ const Signup = () => {
         school: formData.school,
         country: formData.country,
       });
-      navigate("/otp");
+
+      // Save token + userId after signup
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.user?._id);
+      localStorage.setItem("userType", data.user?.userType);
+
+      // Redirect based on user type
+      if (data.user?.userType === "Student") {
+        navigate("/student-dashboard");
+      } else if (data.user?.userType === "Teacher") {
+        navigate("/teacher-dashboard");
+      } else {
+        navigate("/dashboard"); // fallback
+      }
     } catch (err) {
       setError(err.message || "Signup failed");
     }
@@ -106,7 +119,6 @@ const Signup = () => {
             <option value="">I am a...</option>
             <option value="Student">Student</option>
             <option value="Teacher">Teacher</option>
-            <option value="Developer">Developer</option>
           </select>
 
           {/* School */}
@@ -164,7 +176,9 @@ const Signup = () => {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
               className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
             >
               {showConfirmPassword ? "🙈" : "👁️"}
