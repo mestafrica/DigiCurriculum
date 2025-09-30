@@ -5,7 +5,6 @@ import { sendOTPEmail } from "../utils/otpUtils.js";
 
 dotenv.config();
 
-
 async function hashPassword(password) {
   const saltRounds = 10;
   return await bcrypt.hash(password, saltRounds);
@@ -14,27 +13,28 @@ async function hashPassword(password) {
 const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString(); //4 digit code
 
 export const handleSignup = async (req, res) => {
-
   try {
-    const { firstName, lastName, email, password, school, userType, country } = req.body;
-
+    const { firstName, lastName, email, password, school, userType, country } =
+      req.body;
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json("Please enter a valid email");
     }
 
-
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
     if (!passwordRegex.test(password)) {
-      return res.status(400).json("Password must be at least 6 characters long and contain at least one letter and one number");
+      return res
+        .status(400)
+        .json(
+          "Password must be at least 6 characters long and contain at least one letter and one number"
+        );
     }
-
 
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json('User already exists');
+      return res.status(400).json("User already exists");
     }
 
     const otp = generateOtp();
@@ -50,7 +50,7 @@ export const handleSignup = async (req, res) => {
       password: hashedPassword,
       isVerified: false,
       otp,
-      otpExpiry: Date.now() + 15 * 60 * 1000  // 15 mins expiration
+      otpExpiry: Date.now() + 15 * 60 * 1000, // 15 mins expiration
     });
 
     await newUser.save();
@@ -60,23 +60,17 @@ export const handleSignup = async (req, res) => {
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).json({
-      message: 'Internal server error',
-      error: error
+      message: "Internal server error",
+      error: error,
     });
   }
 };
 
-
 export const allUsers = async (req, res) => {
-
-
   try {
     const data = req.body;
 
-
-    const fetchAllUsers = await userModel.find({}); // Fetch all users 
-
-
+    const fetchAllUsers = await userModel.find({}); // Fetch all users
 
     if (fetchAllUsers.length === 0) {
       return res.status(404).json({ message: "No users found" });
@@ -84,7 +78,7 @@ export const allUsers = async (req, res) => {
 
     res.status(200).json({
       message: "Users fetched successfully",
-      users: fetchAllUsers
+      users: fetchAllUsers,
     });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -93,17 +87,13 @@ export const allUsers = async (req, res) => {
 };
 
 export const singleUser = async (req, res) => {
-
-
   try {
     const id = req.params.id;
 
-
     const fetchSingleUser = await userModel.findById(id);
 
-
     res.status(200).json({
-      message: 'user fetched successfully',
+      message: "user fetched successfully",
       user: fetchSingleUser,
     });
   } catch (error) {
@@ -112,13 +102,15 @@ export const singleUser = async (req, res) => {
   }
 };
 
-
 export const updateUser = async (req, res) => {
   try {
     const id = req.params.id;
     const updateData = req.body;
 
-    const updatedUser = await userModel.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+    const updatedUser = await userModel.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -133,9 +125,6 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
-
 
 export const deleteUser = async (req, res) => {
   try {

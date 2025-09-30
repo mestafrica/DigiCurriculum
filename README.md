@@ -13,7 +13,7 @@ The platform will host competency frameworks and edtech platform assessments for
 
 - 🎨 **Figma Design**: [View on Figma](https://www.figma.com/design/f6ysqYxUe3PWsDMGKWDtDQ/Digitizing-the-GES-Curriculum-Figma?node-id=0-1&p=f)  
 - 📖 **API Documentation (Postman)**: [View Documentation](https://documenter.getpostman.com/view/38771442/2sAY5191F6)  
-- 🌍 **Live URL**: [gesadmin.netlify.app](https://gesadmin.netlify.app/)  
+- 🌍 **Live URL**: [digicurriculum.netlify.app](https://digicurriculum.netlify.app/)  
 
 ---
 
@@ -28,3 +28,6 @@ The platform will host competency frameworks and edtech platform assessments for
 React, Node.js(Express) 
 
 ---
+
+## Interested in contributing
+Please read the [contribution guidelines](https://github.com/mestafrica/DigiCurriculum/blob/main/contributing.md) for details on how to contribute to this project
