@@ -30,7 +30,7 @@ useEffect(() => {
     <div className="mt-14 md:mt-0 md:ml-0 ml-14">
     <h1 className="text-2xl font-semibold text-foreground">Hello, Sika Danquah</h1>
     <p className="text-muted-foreground">Let's create amazing learning experiences together.</p>
-    <div className="flex md:w-0 w-[92%] mx-auto md:items-center md:justify-center md:h-96">
+    <div className="flex  md:items-center md:justify-center md:h-96">
     <div className=" grid grid-cols-2  md:grid-cols-3 gap-4 mt-6">
 
         <div className="bg-card bg-yellow-50  p-4 rounded-lg shadow-md">
