@@ -27,7 +27,7 @@ useEffect(() => {
 
   return (
     
-    <div className="mt-14 md:mt-0 md:ml-0 ml-8">
+    <div className="mt-14 md:mt-0 md:ml-0 ml-14">
     <h1 className="text-2xl font-semibold text-foreground">Hello, Sika Danquah</h1>
     <p className="text-muted-foreground">Let's create amazing learning experiences together.</p>
     <div className="flex md:w-0 w-[92%] mx-auto md:items-center md:justify-center md:h-96">

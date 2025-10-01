@@ -81,7 +81,7 @@ const StudentSideBar = () => {
         className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50 text-black m"
         onClick={() => setIsOpen(true)} 
       >
-        <FaBars className="w-6 h-6 bg-white" />
+        <FaBars className="w-6 h-6 bg-white " />
       </button>
      )}
        
