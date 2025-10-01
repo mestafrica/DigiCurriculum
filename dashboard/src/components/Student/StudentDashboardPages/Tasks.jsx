@@ -3,7 +3,7 @@ import React from "react";
 const Tasks = () => {
   return (
     <>
-     <div class="md:mt-0 mt-6 flex flex-col space-y-4 p-4">
+     <div class="md:mt-0 mt-10 flex flex-col space-y-4 p-4">
   <div class="md:flex space-x-4">
     <div class="md:w-1/4  bg-card p-4 rounded-lg shadow">
       <h2 class="text-lg font-bold text-primary">Upcoming Tasks <span class="text-muted">(5)</span></h2>

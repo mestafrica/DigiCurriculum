@@ -78,7 +78,7 @@ const StudentSideBar = () => {
       {/* 1. Hamburger Icon - visible only on mobile (md:hidden) */}
      {!isOpen && (
        <button
-        className="md:hidden fixed top-0 bg-slate-950 left-0 z-50 text-black m"
+        className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50 text-black m"
         onClick={() => setIsOpen(true)} 
       >
         <FaBars className="w-6 h-6 bg-white" />

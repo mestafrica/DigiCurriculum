@@ -2,7 +2,7 @@ import React from "react";
 
 const StudentLibrary = () => {
   return (
-      <div class="md:mt-0 mt-6 p-4">
+      <div class="md:mt-0 mt-10 p-4">
         <div class="md:flex justify-between mb-4 ">
           <input
             type="text"
