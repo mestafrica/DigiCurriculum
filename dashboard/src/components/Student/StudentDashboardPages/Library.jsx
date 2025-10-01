@@ -2,14 +2,14 @@ import React from "react";
 
 const StudentLibrary = () => {
   return (
-      <div class="p-4">
-        <div class="flex justify-between mb-4">
+      <div class="md:mt-0 mt-10 ml-8 md:ml-0 z-50 p-4">
+        <div class="md:flex justify-between mb-4 ">
           <input
             type="text"
             placeholder="Search for materials by subject"
-            class="border rounded-lg p-2 w-1/2"
+            class="border rounded-lg p-2 w-full md:w-1/2 mb-10 md:mb-0"
           />
-          <div class="flex space-x-4">
+          <div class="flex space-x-1 md:space-x-4">
             <select class="border rounded-lg p-2">
               <option>Subject</option>
             </select>

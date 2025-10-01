@@ -3,9 +3,9 @@ import React from "react";
 const Tasks = () => {
   return (
     <>
-     <div class="flex flex-col space-y-4 p-4">
-  <div class="flex space-x-4">
-    <div class="w-1/4 bg-card p-4 rounded-lg shadow">
+     <div class="md:mt-0 mt-10 flex flex-col ml-8 md:ml-0 space-y-4 p-4">
+  <div class="md:flex space-x-4">
+    <div class="md:w-1/4  bg-card p-4 rounded-lg shadow">
       <h2 class="text-lg font-bold text-primary">Upcoming Tasks <span class="text-muted">(5)</span></h2>
       <div class="space-y-2 mt-2">
         <div class="bg-white p-4 rounded-lg shadow">
@@ -46,7 +46,7 @@ const Tasks = () => {
         </div>
       </div>
     </div>
-    <div class="w-1/4 bg-card p-4 rounded-lg shadow">
+    <div class="md:w-1/4 bg-card p-4 rounded-lg shadow">
       <h2 class="text-lg font-bold text-primary">To Do Tasks <span class="text-muted">(3)</span></h2>
       <div class="space-y-2 mt-2">
         <div class="bg-white p-4 rounded-lg shadow">
@@ -76,7 +76,7 @@ const Tasks = () => {
         </div>
       </div>
     </div>
-    <div class="w-1/4 bg-card p-4 rounded-lg shadow">
+    <div class="md:w-1/4 bg-card p-4 rounded-lg shadow">
       <h2 class="text-lg font-bold text-primary">In Process <span class="text-muted">(2)</span></h2>
       <div class="space-y-2 mt-2">
         <div class="bg-white p-4 rounded-lg shadow">
@@ -89,7 +89,7 @@ const Tasks = () => {
         </div>
       </div>
     </div>
-    <div class="w-1/4 bg-card p-4 rounded-lg shadow">
+    <div class="md:w-1/4 bg-card p-4 rounded-lg shadow">
       <h2 class="text-lg font-bold text-primary">Done <span class="text-muted">(5)</span></h2>
       <div class="space-y-2 mt-2">
         <div class="bg-white p-4 rounded-lg shadow">

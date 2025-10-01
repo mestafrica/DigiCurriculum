@@ -3,7 +3,7 @@ import React from "react";
 const Tools = () => {
   return (
     <div className="min-h-[calc(100vh-54px-52px)] rounded-tl-lg bg-white">
-      <div className="mx-2 flex flex-col gap-4 rounded-lg px-4 py-5 sm:px-6">
+      <div className="mx-2 flex flex-col gap-4 rounded-lg px-4 md:ml-0 ml-8 py-5 sm:px-6">
         <div className="flex w-full flex-col items-center justify-center space-y-8 py-10">
           <div className="w-full max-w-[845px]">
             <div className="mb-9 flex flex-row">
