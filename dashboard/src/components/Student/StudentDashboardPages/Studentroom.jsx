@@ -6,14 +6,14 @@ const StudentRoom = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true); // Sidebar is open by default
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex gap-10 w-full max-w-screen-2xl mx-auto transparent">
+    <div className=" md:min-h-[calc(100vh-64px)] flex gap-10  w-full md:max-w-screen-2xl mx-auto transparent">
       <aside className="fixed z-30">
         {/* Pass the state and setter to AdminSideBar */}
         <StudentSideBar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
       </aside>
       <div
         className={`flex-1 w-full flex flex-col duration-300 ${
-          isSidebarOpen ? "ml-60" : "ml-20"
+          isSidebarOpen ? "md:ml-60" : "md:ml-20"
         }`}
       >
         {/* <NavBar /> */}
