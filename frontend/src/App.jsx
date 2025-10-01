@@ -1,4 +1,3 @@
-// frontend/src/App.jsx
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -9,10 +8,6 @@ import SignIn from "./pages/register/Login";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 
-// 👇 Import the dashboard entry points
-import StudentRoom from "../../dashboard/src/components/Student/StudentDashboardPages/Studentroom.jsx";
-import TeacherRoom from "../../dashboard/src/components/Teacher/TeacherDashboardPages/Teacherroom.jsx";
-
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/signup", element: <Signup /> },
@@ -21,10 +16,6 @@ const routes = [
   { path: "/signin", element: <SignIn /> },
   { path: "/contact", element: <ContactPage /> },
   { path: "/about", element: <AboutPage /> },
-
-  // 👇 new ones
-  { path: "/student/*", element: <StudentRoom /> },
-  { path: "/teacher/*", element: <TeacherRoom /> },
 ];
 
 function App() {

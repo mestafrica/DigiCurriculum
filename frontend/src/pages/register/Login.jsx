@@ -23,16 +23,15 @@ const Login = () => {
       localStorage.setItem("userId", data.user?.id);
       localStorage.setItem("userType", data.user?.userType);
 
-      //  Get URLs from .env
-      const studentUrl = import.meta.env.VITE_STUDENT_DASHBOARD_URL;
-      const teacherUrl = import.meta.env.VITE_TEACHER_DASHBOARD_URL;
+     const studentUrl = import.meta.env.VITE_STUDENT_DASHBOARD_URL;
+const teacherUrl = import.meta.env.VITE_TEACHER_DASHBOARD_URL;
 
-      //  Redirect by role (with query params, and /dashboard so overview shows)
-  if (data.user?.userType === "Student") {
-  window.location.href = `${import.meta.env.VITE_STUDENT_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
+if (data.user?.userType === "Student") {
+  window.location.href = `${studentUrl}/dashboard?token=${data.token}&userId=${data.user.id}`;
 } else if (data.user?.userType === "Teacher") {
-  window.location.href = `${import.meta.env.VITE_TEACHER_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
+  window.location.href = `${teacherUrl}/dashboard?token=${data.token}&userId=${data.user.id}`;
 }
+
 
 
     } catch (err) {
