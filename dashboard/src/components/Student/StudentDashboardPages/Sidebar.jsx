@@ -78,7 +78,7 @@ const StudentSideBar = () => {
       {/* 1. Hamburger Icon - visible only on mobile (md:hidden) */}
      {!isOpen && (
        <button
-        className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50 text-black m"
+        className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50  text-black "
         onClick={() => setIsOpen(true)} 
       >
         <FaBars className="w-6 h-6 bg-white " />
@@ -96,10 +96,11 @@ const StudentSideBar = () => {
       {/* 2. Sidebar Container */}
       <div
         className={`
-          fixed top-0 left-0 h-screen z-40 transition-transform duration-300
+          fixed top-0 left-0 h-screen  z-50 transition-transform duration-300
           transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          bg-[#EAFAF4]/80 text-black p-5 border border-secondary 
-          flex flex-col justify-between md:translate-x-0 md:static
+          bg-[#EAFAF4] text-black p-5 border border-secondary 
+          flex flex-col justify-between md:translate-x-0 md:static 
+            
         `}
       >
         {/* 3. Close Button for Mobile View */}
@@ -113,19 +114,19 @@ const StudentSideBar = () => {
         )}
         
         {/* 4. Desktop Collapse Button */}
-        <LuChevronLeft
+        {/* <LuChevronLeft
           className={`
             hidden md:flex absolute md:text-sky-700 -right-3 top-12  bg-zinc-100 text-4xl 
             border-secondary border rounded-full cursor-pointer 
             ${isOpen ? "" : "rotate-180"  } 
           `}
           onClick={() => setIsOpen(!isOpen)}
-        />
+        /> */}
         
         {/* Sidebar Content */}
         <div>
-          <div className="flex md:gap-x-4 mt-8 md:items-center">
-            <Link to="/" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
+          <div className="flex  md:gap-x-4 mt-8 md:items-center">
+            <Link to="/" className={`${isOpen} text-black font-bold text-3xl`}>
               LitmusTest
             </Link>
           </div>
@@ -145,7 +146,7 @@ const StudentSideBar = () => {
                 >
                   {Menu.icon}
                   <span
-                    className={`${!isOpen && "hidden"} origin-left  duration-200`}
+                    className={`${isOpen} origin-left  duration-200`}
                   >
                     {Menu.title}
                   </span>
@@ -156,17 +157,17 @@ const StudentSideBar = () => {
               onClick={() => signOut()}
               className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
             >
-              <LuArrowLeftFromLine />
+              {/* <LuArrowLeftFromLine />
               <span className={`${!isOpen && "hidden"}  origin-left duration-200`}>
                 Signout
-              </span>
+              </span> */}
             </li>
           </ul>
           <br />
         </div>
 
         {/* Footer */}
-        <div className={`${!isOpen && "hidden"}`}>
+        <div className={`${isOpen}`}>
           <hr />
           <SmallFooter />
         </div>
