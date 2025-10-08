@@ -20,14 +20,18 @@ export const signupDeveloper = async(req, res, next) => {
         // hash password
         const hashedPassword= bcrypt.hashSync(value.password, 10);
 
-        const apiKey = await generateApiKey()
+        // const apiKey = await generateApiKey()
         // save developer into database
         await DeveloperModel.create({
             ...value,
-            password: hashedPassword, apiKey
+            password: hashedPassword, 
+            // apiKey
         });
         // respond to request
-        res.status(200).json({ message: "Developer signed up", apiKey})
+        res.status(200).json({ 
+            message: "Developer signed up",
+            //  apiKey
+            })
     } catch (error) {
         next(error);
     }

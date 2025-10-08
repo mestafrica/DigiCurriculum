@@ -18,6 +18,7 @@ import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 import searchRoutes from "./src/routes/searchRoutes.js";
 import statisticsRouter from "./src/routes/statisticsRoutes.js";
 import router from "./src/routes/usersRoutes.js";
+import config from "./config/index.js";
 
 dotenv.config();
 const app = express();
@@ -28,16 +29,11 @@ app.use(express.json());
 app.use(express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://cool-selkie-833e95.netlify.app",
-  "https://gesadmin.netlify.app",
-  "https://gesdev.netlify.app",
-];
+
 app.use((req, res, next) => {
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || config.allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
