@@ -4,8 +4,8 @@ import EditEmail from "./emailEdit";
 import EditProfile from "./editProfile";
 import EditPassword from "./passwordEdit";
 import axios from "axios";
-import { token } from "../../../../config";
-//import { jwtDecode } from "jwt-decode";
+//import { token } from "../../../../config";
+import { useAuth } from "../../../context/AuthContext";
 //import { useParams } from "react-router-dom";
 
 const ProfileDetailStudent = () => {
@@ -23,41 +23,29 @@ const ProfileDetailStudent = () => {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-  //const { id } = useParams();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  
+  const { token, userId } = useAuth();
+
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (userId) {
+      getUserData();
+    }
+  }, [userId]);
 
   const getUserData = async () => {
     try {
-      // const decoded = jwtDecode(token);
-      // console.log(decoded);
-      // const userId = decoded?.id || decoded?.userId || decoded?.sub;
-
-      // if (!userId) {
-      //   console.error("❌ User ID not found in token");
-      //   return;
-      // }
-
-      const id = "68c2d63504c670a41f02403b";
-      const res = await axios.get(
-        `https://digicurriculum.onrender.com/user/${id}`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Use "userz" instead of "user"
+      const res = await axios.get(`${baseUrl}/user/${userId}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUserData(res.data.user);
-      console.log("User data fetched:", res.data.user);
     } catch (err) {
-      console.error("Error fetching user data:", err);
+      console.error(err)
     }
   };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -211,14 +199,6 @@ const ProfileDetailStudent = () => {
             </div>
 
             <div className="flex gap-4 my-4">
-              <div className="w-full">
-                <label className="block text-gray-800 text-sm font-bold mb-2">
-                  Password
-                </label>
-                <span className=" rounded w-full  text-[#9399A6] leading-tight">
-                  {userData._id}
-                </span>
-              </div>
               <button
                 onClick={() => showPasswordModel(true)}
                 className="w-1/3 max-h-8 min-h-4 bg-secondary hover:bg-primary text-black font-bold rounded"

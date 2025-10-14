@@ -5,6 +5,7 @@ import { loginUser } from "../../services/authService";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,6 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       const data = await loginUser(formData);
@@ -23,20 +25,19 @@ const Login = () => {
       localStorage.setItem("userId", data.user?.id);
       localStorage.setItem("userType", data.user?.userType);
 
-      //  Get URLs from .env
-      const studentUrl = import.meta.env.VITE_STUDENT_DASHBOARD_URL;
-      const teacherUrl = import.meta.env.VITE_TEACHER_DASHBOARD_URL;
-
-      //  Redirect by role (with query params, and /dashboard so overview shows)
-  if (data.user?.userType === "Student") {
-  window.location.href = `${import.meta.env.VITE_STUDENT_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
-} else if (data.user?.userType === "Teacher") {
-  window.location.href = `${import.meta.env.VITE_TEACHER_DASHBOARD_URL}/dashboard?token=${data.token}&userId=${data.user.id}`;
-}
-
-
+      //  Redirect by role
+      if (data.user?.userType === "Student") {
+        window.location.href = `${
+          import.meta.env.VITE_STUDENT_DASHBOARD_URL
+        }/dashboard?token=${data.token}&userId=${data.user.id}`;
+      } else if (data.user?.userType === "Teacher") {
+        window.location.href = `${
+          import.meta.env.VITE_TEACHER_DASHBOARD_URL
+        }/dashboard?token=${data.token}&userId=${data.user.id}`;
+      }
     } catch (err) {
       setError(err.message || "Login failed");
+      setIsLoading(false); // stop loading if error
     }
   };
 
@@ -74,9 +75,36 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-2 rounded-md transition transform hover:scale-[1.02]"
+            disabled={isLoading}
+            className={`w-full flex justify-center items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-2 rounded-md transition transform hover:scale-[1.02] disabled:opacity-70`}
           >
-            Sign In
+            {isLoading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Signing In...
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
@@ -92,3 +120,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import AshtokenLoader from "./Ashtokenloader";
 function EditProfile({ closeModel }) {
   const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     school: "",
   });
 
@@ -14,9 +14,10 @@ function EditProfile({ closeModel }) {
   const modelRef = useRef();
   const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    getUserData();
-  }, []);
+  // useEffect(() => {
+  //   getUserData();
+  // }, []);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const refCloseFormModel = (e) => {
     if (modelRef.current === e.target) {
@@ -31,17 +32,20 @@ function EditProfile({ closeModel }) {
       [name]: value,
     }));
   };
+  const userId = localStorage.getItem("userId");
 
   const updateProfile = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
     try {
+      console.log(userId);
+
       const res = await axios.patch(
-        "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
+        `${baseUrl}/update-user/${userId}`,
         {
-          firstName: form.firstname,
-          lastName: form.lastname,
+          firstName: form.firstName,
+          lastName: form.lastName,
           school: form.school,
         },
         {
@@ -63,43 +67,67 @@ function EditProfile({ closeModel }) {
     }
   };
 
-  const getUserData = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", `Bearer ${token}`);
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`${baseUrl}/user/${userId}`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await res.json();
         setUserData(result);
         setForm({
-          firstname: result.firstName || "",
-          lastname: result.lastName || "",
-          school: result.school || "",
+          firstName: result.user.firstName || "",
+          lastName: result.user.lastName || "",
+          school: result.user.school || "",
         });
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-        // setForm({
-        //   fullname: result.name,
-        //   phone: result.phone,
-        //   gender: result.gender,
-        //   socialFb:
-        //     "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
-        //   socialIg:
-        //     "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
-        // });
-        console.log(result);
-      })
-      .catch((error) => console.error(error));
-  };
+    fetchUserData();
+  }, []);
+
+  // const getUserData = () => {
+  //   const myHeaders = new Headers();
+  //   myHeaders.append("Accept", "application/json");
+  //   myHeaders.append("Authorization", `Bearer ${token}`);
+
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   fetch(`https://digicurriculum.onrender.com/user/${userId}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       setUserData(result);
+  //       setForm({
+  //         firstName: result.firstName || "",
+  //         lastName: result.lastName || "",
+  //         school: result.school || "",
+  //       });
+
+  //       setForm({
+  //         firstName: result.firstName,
+  //         lastName: result.phone,
+  //         school: result.gender,
+  //         // socialFb:
+  //         //   "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
+  //         // socialIg:
+  //         //   "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
+  //       });
+  //       console.log(result);
+  //     })
+  //     .catch((error) => console.error(error));
+  // };
 
   return (
     <div
@@ -124,7 +152,7 @@ function EditProfile({ closeModel }) {
                   First Name
                 </label>
                 <input
-                  name="firstname"
+                  name="firstName"
                   type="text"
                   value={form.firstName}
                   onChange={handleChange}
@@ -136,7 +164,7 @@ function EditProfile({ closeModel }) {
                   Last Name
                 </label>
                 <input
-                  name="lastname"
+                  name="lastName"
                   type="text"
                   value={form.lastName}
                   onChange={handleChange}

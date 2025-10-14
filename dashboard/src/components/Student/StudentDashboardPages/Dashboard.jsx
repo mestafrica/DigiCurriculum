@@ -9,45 +9,43 @@ const StudentDashboard = () => {
   const { token, userId } = useAuth(); // ✅ values come from AuthContext
   const [userInfo, setUserInfo] = useState(null);
 
- useEffect(() => {
-  // Grab query params first
-  const urlParams = new URLSearchParams(window.location.search);
-  let token = urlParams.get("token");
-  let userId = urlParams.get("userId");
+  useEffect(() => {
+    // Grab query params first
+    const urlParams = new URLSearchParams(window.location.search);
+    let token = urlParams.get("token");
+    let userId = urlParams.get("userId");
 
-  if (token && userId) {
-    // ✅ Save in localStorage for persistence
-    localStorage.setItem("token", token);
-    localStorage.setItem("userId", userId);
-  } else {
-    // Fallback: use localStorage
-    token = localStorage.getItem("token");
-    userId = localStorage.getItem("userId");
-  }
-
-  if (!token || !userId) {
-    console.error("❌ No auth info found (token/userId missing)");
-    return;
-  }
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await getUserById(userId, token);
-      console.log("✅ Fetched user:", response);
-      setUserInfo(response.user || response);
-    } catch (error) {
-      console.error("❌ Error fetching user:", error);
+    if (token && userId) {
+      // ✅ Save in localStorage for persistence
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+    } else {
+      // Fallback: use localStorage
+      token = localStorage.getItem("token");
+      userId = localStorage.getItem("userId");
     }
-  };
 
-  fetchUserInfo();
-}, []);
+    if (!token || !userId) {
+      console.error("❌ No auth info found (token/userId missing)");
+      return;
+    }
 
+    const fetchUserInfo = async () => {
+      try {
+        const response = await getUserById(userId, token);
+        setUserInfo(response.user || response);
+      } catch (error) {
+        console.error("❌ Error fetching user:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   return (
     <div className="p-24 bg-background">
       <h1 className="text-2xl font-semibold text-foreground">
-        Hello, {userInfo?.name || "Loading..."}
+        Hello, {userInfo?.firstName || "Loading..."}
       </h1>
       <p className="text-muted-foreground">
         Let's create amazing learning experiences together.
