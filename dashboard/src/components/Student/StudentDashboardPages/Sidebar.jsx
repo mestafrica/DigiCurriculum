@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   LuTable2,
@@ -10,7 +11,6 @@ import { FaTasks } from "react-icons/fa";
 import { PiSparkleLight } from "react-icons/pi";
 import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
-
 const StudentSideBar = ({ isOpen, setIsOpen }) => {
   const Menus = [
     {
@@ -62,8 +62,9 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
   };
 
   const signOut = () => {
-    localStorage.clear();
-    window.location.href = "/";
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    window.location.href = "http://localhost:5174/signin";
   };
 
   useEffect(() => {
@@ -84,9 +85,12 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
         />
         <div className="flex gap-x-4 items-center">
-          <Link to="/" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
-          LitmusTest
-        </Link>
+          <Link
+            to="/"
+            className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}
+          >
+            LitmusTest
+          </Link>
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
@@ -120,7 +124,7 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
         <br />
       </div>
       {/* documentation */}
-      
+
       <div className={`${!isOpen && "hidden"}`}>
         <hr />
         <SmallFooter />
