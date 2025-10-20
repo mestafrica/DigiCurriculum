@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsBroadcast } from "react-icons/bs";
+import { FaBars } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import {
   LuTable2,
@@ -84,20 +85,50 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
   }, [Index]);
 
   return (
-    <div
-      className={`${
-        isOpen ? "w-60 bg-[#EAFAF4]" : "w-20"
-      } flex flex-col justify-between backdrop-blur-sm bg-[#EAFAF4]/80 text-black h-[100vh] p-5 duration-300 sticky border border-secondary`}
-    >
-      <div>
-        <LuChevronLeft
+    <div>
+      
+        {/* Humburger Menu for Mobile devices */}
+      {!isOpen && (
+          <button className="md:hidden fixed top-4  bg-slate-950 left-2.5 z-50  text-black "  onClick={() => setIsOpen(true)} >
+          <FaBars className="w-6 h-6 bg-white " />
+        </button>
+      ) }
+      
+       {/* Overlay when sidebar is open (closes sidebar on click) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      <div className={ `fixed top-0 left-0 h-screen  z-50 transition-transform duration-300
+          transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          bg-[#EAFAF4] text-black p-5 border border-secondary 
+          flex flex-col justify-between md:translate-x-0 md:static`}
+           >
+
+            
+        
+          {/* <LuChevronLeft
           className={`absolute text-sky-700 -right-3 top-12 bg-zinc-100 text-4xl border-secondary border rounded-full ${
             !isOpen && "rotate-180"
           }`}
           onClick={() => setIsOpen(!isOpen)}
-        />
-        <div className="flex gap-x-4 items-center">
-        <Link to="/admin" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
+        /> */}
+            {/* 3. Close Button for Mobile View */}
+        {isOpen && (
+          <button 
+          className="absolute top-4  right-4 md:hidden text-black text-2xl" 
+          onClick={() => setIsOpen(false)}
+        >
+          &times;
+        </button>
+        )}
+
+        {/* Sidebar container */}
+        <div className="flex md:gap-x-4  items-center  ">
+        <Link to="/admin" className={`${isOpen} text-black font-bold text-3xl`}>
           LitmusTest
         </Link>
         </div>
@@ -113,7 +144,7 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
               >
                 {Menu.icon}
                 <span
-                  className={`${!isOpen && "hidden"} origin-left duration-200`}
+                  className={`${isOpen} origin-left duration-200`}
                 >
                   {Menu.title}
                 </span>
@@ -124,18 +155,20 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
             onClick={() => signOut()}
             className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
           >
-            <LuArrowLeftFromLine />
+            {/* <LuArrowLeftFromLine />
             <span className={`${!isOpen && "hidden"} origin-left duration-200`}>
               Signout
-            </span>
+            </span> */}
           </li>
         </ul>
         <br />
-      </div>
-      <div className={`${!isOpen && "hidden"}`}>
+      
+      <div className={`${isOpen}`}>
         <hr />
         <SmallFooter/>
       </div>
+      
+        </div>
     </div>
   );
 };
