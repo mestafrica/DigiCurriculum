@@ -1,14 +1,18 @@
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 import { DeveloperModel } from "../models/developerModel.js";
-export const  apiKeyAuth =async(req,res,next)=>{
+
+export const apiKeyAuth = async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
-    if(!apiKey){
-        return res.status(401).json({error:'API Key is required'})
+    if (!apiKey) {
+        return res.status(401).json({ error: 'API Key is required' });
     }
-    const apiKeys =await DeveloperModel.findOne();
-    const validKey= apiKeys.some(key =>bcrypt.compareSync(apiKey,key.hashedkey))
-    if(!validKey){
-        return res.status(403).json({error:'Invalid API key'});
+    // Find developer with a matching API key (compare with hash)
+    const developers = await DeveloperModel.find({ apiKey: { $exists: true, $ne: null } });
+    const validDeveloper = developers.find(dev => bcrypt.compareSync(apiKey, dev.apiKey));
+    if (!validDeveloper) {
+        return res.status(403).json({ error: 'Invalid API key' });
     }
-    next()
-}
+    req.developer = validDeveloper;
+    next();
+};
+
