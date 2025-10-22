@@ -11,6 +11,8 @@ import { FaTasks } from "react-icons/fa";
 import { PiSparkleLight } from "react-icons/pi";
 import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
+const localUrl = import.meta.env.VITE_LOCAL_URI;
+
 const StudentSideBar = ({ isOpen, setIsOpen }) => {
   const Menus = [
     {
@@ -64,7 +66,7 @@ const StudentSideBar = ({ isOpen, setIsOpen }) => {
   const signOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    window.location.href = "http://localhost:5174/signin";
+    window.location.href = `${localUrl}`;
   };
 
   useEffect(() => {

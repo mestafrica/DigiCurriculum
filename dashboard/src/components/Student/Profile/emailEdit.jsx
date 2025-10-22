@@ -3,6 +3,8 @@ import axios from "axios";
 import LitLoader from "../../Loader/LitLoader";
 import AuthAlert from "../../Auth-Alert/AuthAlert";
 
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 function EditEmail({ closeModel }) {
   const modelRef = useRef();
   const [form, setForm] = useState({
@@ -12,6 +14,7 @@ function EditEmail({ closeModel }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
   const isValidForm = () => {
     const { email } = form;
@@ -33,10 +36,7 @@ function EditEmail({ closeModel }) {
       redirect: "follow",
     };
 
-    fetch(
-      "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
-      requestOptions
-    )
+    fetch(`${baseUrl}/user/${userId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setForm({
@@ -64,7 +64,7 @@ function EditEmail({ closeModel }) {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://digicurriculum.onrender.com/update-user/68c2d63504c670a41f02403b",
+        url: `${baseUrl}/update-user/${userId}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json", // ✅ important

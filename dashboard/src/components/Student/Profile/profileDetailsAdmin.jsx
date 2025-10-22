@@ -6,6 +6,7 @@ import EditPassword from "./passwordEdit";
 import axios from "axios";
 //import { token } from "../../../../config";
 import { useAuth } from "../../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 //import { useParams } from "react-router-dom";
 
 const ProfileDetailStudent = () => {
@@ -24,14 +25,21 @@ const ProfileDetailStudent = () => {
     fileInputRef.current.click();
   };
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  
+
   const { token, userId } = useAuth();
+  const location = useLocation();
+
+  // useEffect(() => {
+  //   if (userId) {
+  //     getUserData();
+  //   }
+  // }, [userId]);
 
   useEffect(() => {
-    if (userId) {
+    if (userId && token) {
       getUserData();
     }
-  }, [userId]);
+  }, [location.pathname, userId, token]);
 
   const getUserData = async () => {
     try {
@@ -43,7 +51,7 @@ const ProfileDetailStudent = () => {
       });
       setUserData(res.data.user);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
   const handleImageChange = (event) => {
