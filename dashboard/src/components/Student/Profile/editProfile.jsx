@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import AshtokenLoader from "./Ashtokenloader";
+import AshtokenLoader from "./AshtokenLoader";
 function EditProfile({ closeModel }) {
   const [form, setForm] = useState({
     firstName: "",

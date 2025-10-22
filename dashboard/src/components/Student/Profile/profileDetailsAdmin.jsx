@@ -4,10 +4,8 @@ import EditEmail from "./emailEdit";
 import EditProfile from "./editProfile";
 import EditPassword from "./passwordEdit";
 import axios from "axios";
-//import { token } from "../../../../config";
 import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
-//import { useParams } from "react-router-dom";
 
 const ProfileDetailStudent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -29,12 +27,7 @@ const ProfileDetailStudent = () => {
   const { token, userId } = useAuth();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     getUserData();
-  //   }
-  // }, [userId]);
-
+  
   useEffect(() => {
     if (userId && token) {
       getUserData();
