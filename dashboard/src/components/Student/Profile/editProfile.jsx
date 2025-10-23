@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import AshtokenLoader from "./AshtokenLoader";
+import AshtokenLoader from "./AshtokenLoader"
 function EditProfile({ closeModel }) {
   const [form, setForm] = useState({
     firstName: "",
@@ -14,9 +14,7 @@ function EditProfile({ closeModel }) {
   const modelRef = useRef();
   const [userData, setUserData] = useState({});
 
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
+  
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const refCloseFormModel = (e) => {
