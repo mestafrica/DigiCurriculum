@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   LuTable2,
@@ -10,6 +11,7 @@ import { FaTasks, FaBars } from "react-icons/fa";
 import { PiSparkleLight } from "react-icons/pi";
 import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
+const localUrl = import.meta.env.VITE_LOCAL_URI;
 
 const StudentSideBar = () => {
   // Use local state for isOpen and a way to set it
@@ -64,8 +66,9 @@ const StudentSideBar = () => {
   };
 
   const signOut = () => {
-    localStorage.clear();
-    window.location.href = "/";
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    window.location.href = `${localUrl}`;
   };
 
   useEffect(() => {

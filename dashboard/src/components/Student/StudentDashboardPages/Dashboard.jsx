@@ -33,7 +33,6 @@ const StudentDashboard = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await getUserById(userId, token);
-        console.log("✅ Fetched user:", response);
         setUserInfo(response.user || response);
       } catch (error) {
         console.error("❌ Error fetching user:", error);
@@ -46,7 +45,7 @@ const StudentDashboard = () => {
   return (
     <div className="mt-14 md:mt-24 w-[90%] md:w-full md:mx-0 mx-auto md:p-24 p-4 bg-background pt-6 md:pt-0">
       <h1 className="text-2xl font-semibold text-foreground">
-        Hello, {userInfo?.name || "Loading..."}
+        Hello, {userInfo?.firstName || "Loading..."}
       </h1>
       <p className="text-muted-foreground">
         Let's create amazing learning experiences together.
