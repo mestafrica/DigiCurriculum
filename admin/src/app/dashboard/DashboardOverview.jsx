@@ -6,7 +6,7 @@ import { apiGetStatistics } from "../../services/admin";
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
 
 const SkeletonLoader = () => (
-  <div className="p-4 space-y-6 animate-pulse">
+  <div className="p-4  space-y-6 animate-pulse">
     {/* Skeleton for welcome text */}
     <div className="h-8 bg-gray-200 rounded w-2/3"></div>
 

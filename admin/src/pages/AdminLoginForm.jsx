@@ -24,7 +24,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        'https://digitizing-the-ges-curriculum-21yp.onrender.com/admin/auth/login',
+        'https://digicurriculum.onrender.com/admin/auth/login',
         formData
       );
 
