@@ -105,7 +105,7 @@ const ProfileDetailStudent = () => {
           <div className="my-4 flex justify-center items-center">
             <img
               src={
-                userData ? `http://.....217/${userData.avatar}` : selectedImage
+                userData ? `http://...217/${userData.avatar}` : selectedImage
               }
               alt="Profile Image"
               className="rounded-full w-44 h-44"
