@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -39,6 +39,9 @@ import {
   AlertTriangle,
 } from "lucide-react";
 
+import { generateDeveloperApiKey, getDeveloperApiKey } from "../../services/apiKeysService";
+
+
 const generateApiKey = () =>
   `pk_${Math.random().toString(36).substr(2, 9)}_${Math.random()
     .toString(36)
@@ -50,40 +53,46 @@ const APIKeysManagement = () => {
   const [showCreateSuccess, setShowCreateSuccess] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedKeyId, setSelectedKeyId] = useState(null);
-  const [keys, setKeys] = useState([
-    {
-      id: 1,
-      name: "Production API Key",
-      key: "pk_live_51NcgDkH32",
-      created: "2024-03-15 09:23:45",
-      lastUsed: "2 minutes ago",
-      status: "active",
-      environment: "production",
-      requests: "10",
-    },
-    {
-      id: 2,
-      name: "Development API Key",
-      key: "pk_test_51NcgDkH32",
-      created: "2024-03-10 14:30:00",
-      lastUsed: "5 hours ago",
-      status: "active",
-      environment: "development",
-      requests: "25",
-    },
-  ]);
-
+  const [keys, setKeys] = useState([]);
   const [showKey, setShowKey] = useState({});
   const [copiedKey, setCopiedKey] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const simulateApiCall = (callback) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      callback();
-      setIsLoading(false);
-    }, 800);
-  };
+  // Fetch developer API keys from backend
+  useEffect(() => {
+    const fetchKeys = async () => {
+      try {
+        const token = localStorage.getItem("developerToken");
+        if (!token) {
+          console.warn("Developer not logged in");
+          return;
+        }
+
+        const data = await getDeveloperApiKey(token);
+
+        if (Array.isArray(data.keys)) {
+          setKeys(data.keys);
+        } else if (data.apiKey) {
+          setKeys([
+            {
+              id: 1,
+              name: "Developer API Key",
+              key: data.apiKey,
+              created: new Date().toLocaleString(),
+              lastUsed: "Never",
+              status: "active",
+              environment: "development",
+              requests: "0",
+            },
+          ]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch API keys:", err);
+      }
+    };
+
+    fetchKeys();
+  }, []);
 
   const handleCopyKey = async (key) => {
     await navigator.clipboard.writeText(key);
@@ -91,30 +100,46 @@ const APIKeysManagement = () => {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  const handleCreateKey = () => {
+  const handleCreateKey = async () => {
     if (!newKeyName.trim()) return;
+    setIsLoading(true);
 
-    simulateApiCall(() => {
+    try {
+      const token = localStorage.getItem("devToken");
+      if (!token) {
+        alert("Developer not logged in!");
+        return;
+      }
+
+      const data = await generateDeveloperApiKey(token);
+
       const newKey = {
         id: keys.length + 1,
         name: newKeyName,
-        key: generateApiKey(),
+        key: data.apiKey || "N/A",
         created: new Date().toLocaleString(),
         lastUsed: "Never",
         status: "active",
         environment: "development",
         requests: "0",
       };
+
       setKeys([...keys, newKey]);
       setNewKeyName("");
       setIsDialogOpen(false);
       setShowCreateSuccess(true);
       setTimeout(() => setShowCreateSuccess(false), 3000);
-    });
+    } catch (error) {
+      console.error("API key creation failed:", error);
+      alert("Failed to create API key. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRegenerateKey = (id) => {
-    simulateApiCall(() => {
+    setIsLoading(true);
+    setTimeout(() => {
       setKeys(
         keys.map((key) =>
           key.id === id
@@ -126,14 +151,17 @@ const APIKeysManagement = () => {
             : key
         )
       );
-    });
+      setIsLoading(false);
+    }, 800);
   };
 
   const handleDeleteKey = (id) => {
-    simulateApiCall(() => {
+    setIsLoading(true);
+    setTimeout(() => {
       setKeys(keys.filter((key) => key.id !== id));
       setShowDeleteDialog(false);
-    });
+      setIsLoading(false);
+    }, 800);
   };
 
   return (

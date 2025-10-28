@@ -50,8 +50,10 @@ function DevLogin() {
 
         // Token returned from the backend.
 
-        const token = res.data.token;
-        localStorage.setItem("authToken", token);
+       const token = res.data.accessToken;
+localStorage.setItem("developerToken", token);
+
+        // console.log("Login response data:", res.data);
 
         toast.success("Login successful! Redirecting to dashboard...");
         setLoading(false);

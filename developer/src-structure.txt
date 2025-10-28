@@ -1,0 +1,85 @@
+Folder PATH listing
+Volume serial number is 5226-69B9
+C:\USERS\EDDIE\DESKTOP\DIGICURRICULUM\DEVELOPER\SRC
+|   App.css
+|   App.jsx
+|   index.css
+|   main.jsx
+|   server.js
+|   
++---app
+|   \---dashboard
+|           page.jsx
+|           
++---assets
+|       react.svg
+|       
++---components
+|   |   app-sidebar.jsx
+|   |   AssessmenGeneration.jsx
+|   |   AssessmentEndpoints.jsx
+|   |   Contribution.jsx
+|   |   CurriculumEndpoints.jsx
+|   |   CurriculumStructure.jsx
+|   |   DevLogin.jsx
+|   |   DevPasswordRem.jsx
+|   |   DevSignup.jsx
+|   |   GetAllCurricula.jsx
+|   |   GetAssessment.jsx
+|   |   GetCurriculumByGrade.jsx
+|   |   GettingStarted.jsx
+|   |   Installation.jsx
+|   |   ListAssessments.jsx
+|   |   nav-main.jsx
+|   |   nav-projects.jsx
+|   |   nav-secondary.jsx
+|   |   nav-user.jsx
+|   |   search-form.jsx
+|   |   SearchCurriculum.jsx
+|   |   
+|   +---DevDashboard
+|   |       AddedAPIs.jsx
+|   |       APIDocumentation.jsx
+|   |       APIKeysManagement.jsx
+|   |       APIUsageAnalytics.jsx
+|   |       DevDashboard.jsx
+|   |       DeveloperHome.jsx
+|   |       Notifications.jsx
+|   |       Settings.jsx
+|   |       Sidebar.jsx
+|   |       SupportCommunity.jsx
+|   |       
+|   \---ui
+|           accordion.jsx
+|           alert.jsx
+|           avatar.jsx
+|           badge.jsx
+|           breadcrumb.jsx
+|           button.jsx
+|           card.jsx
+|           collapsible.jsx
+|           dialog.jsx
+|           dropdown-menu.jsx
+|           input.jsx
+|           label.jsx
+|           select.jsx
+|           separator.jsx
+|           sheet.jsx
+|           sidebar.jsx
+|           skeleton.jsx
+|           table.jsx
+|           tabs.jsx
+|           tooltip.jsx
+|           
++---hooks
+|       use-mobile.jsx
+|       
++---img
+|       Bgimage.png
+|       
++---lib
+|       utils.js
+|       
+\---services
+        apiKeysService.js
+        
