@@ -77,18 +77,17 @@ const StudentSideBar = () => {
 
   return (
     <div>
-        
       {/* 1. Hamburger Icon - visible only on mobile (md:hidden) */}
-     {!isOpen && (
-       <button
-        className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50  text-black "
-        onClick={() => setIsOpen(true)} 
-      >
-        <FaBars className="w-6 h-6 bg-white " />
-      </button>
-     )}
-       
-        {/* Overlay when sidebar is open (closes sidebar on click) */}
+      {!isOpen && (
+        <button
+          className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50  text-black "
+          onClick={() => setIsOpen(true)}
+        >
+          <FaBars className="w-6 h-6 bg-white " />
+        </button>
+      )}
+
+      {/* Overlay when sidebar is open (closes sidebar on click) */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
@@ -100,7 +99,7 @@ const StudentSideBar = () => {
       <div
         className={`
           fixed top-0 left-0 h-screen  z-50 transition-transform duration-300
-          transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          transform ${isOpen ? "translate-x-0" : "-translate-x-full"}
           bg-[#EAFAF4] text-black p-5 border border-secondary 
           flex flex-col justify-between md:translate-x-0 md:static 
             
@@ -108,14 +107,14 @@ const StudentSideBar = () => {
       >
         {/* 3. Close Button for Mobile View */}
         {isOpen && (
-          <button 
-          className="absolute top-4  right-4 md:hidden text-black text-2xl" 
-          onClick={() => setIsOpen(false)}
-        >
-          &times;
-        </button>
+          <button
+            className="absolute top-4  right-4 md:hidden text-black text-2xl"
+            onClick={() => setIsOpen(false)}
+          >
+            &times;
+          </button>
         )}
-        
+
         {/* 4. Desktop Collapse Button */}
         {/* <LuChevronLeft
           className={`
@@ -125,7 +124,7 @@ const StudentSideBar = () => {
           `}
           onClick={() => setIsOpen(!isOpen)}
         /> */}
-        
+
         {/* Sidebar Content */}
         <div>
           <div className="flex  md:gap-x-4 mt-8 md:items-center">
@@ -148,9 +147,7 @@ const StudentSideBar = () => {
                   }}
                 >
                   {Menu.icon}
-                  <span
-                    className={`${isOpen} origin-left  duration-200`}
-                  >
+                  <span className={`${isOpen} origin-left  duration-200`}>
                     {Menu.title}
                   </span>
                 </li>
@@ -158,12 +155,14 @@ const StudentSideBar = () => {
             ))}
             <li
               onClick={() => signOut()}
-              className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
+              className="flex flex-row rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
             >
-              {/* <LuArrowLeftFromLine />
-              <span className={`${!isOpen && "hidden"}  origin-left duration-200`}>
+              <LuArrowLeftFromLine />
+              <button
+                className={`${isOpen && "hidden"}  origin-left duration-200`}
+              >
                 Signout
-              </span> */}
+              </button>
             </li>
           </ul>
           <br />
