@@ -23,13 +23,15 @@ const Login = () => {
     setLoading(true);
 
     try {
+      const BASE_URL = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(
-        'https://digicurriculum.onrender.com/admin/auth/login',
+       ` ${BASE_URL}/admin/auth/login`,
         formData
       );
 
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
+        localStorage.setItem('adminId', response.data.id );
         toast.success('Login successful!');
         navigate('/admin-dashboard');
       }

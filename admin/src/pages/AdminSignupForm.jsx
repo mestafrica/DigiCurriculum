@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import loadingGif from "../assets/images/loading.gif"; 
+import loadingGif from "../assets/images/loading.gif";
 import 'react-toastify/dist/ReactToastify.css';
 import bgImage from '../assets/images/b.g.png';
 
@@ -29,7 +29,13 @@ const AdminSignupForm = () => {
 
     try {
       // Send API request to the backend
-      const response = await axios.post('https://digitizing-the-ges-curriculum-21yp.onrender.com/admin/auth/register', data);
+      const BASE_URL = import.meta.env.VITE_BASE_URL;
+      const response = await axios.post(`${BASE_URL}/admin/auth/register`, data);
+      localStorage.setItem('token', response.data.token);
+       
+      localStorage.setItem( 'adminId',  response.data.user._id );
+      console.log('Saved Admin ID:', response.data.user._id );
+      
 
       // Handle successful response
       if (response.status === 201) {
@@ -170,7 +176,7 @@ const AdminSignupForm = () => {
               placeholder="Enter role"
               required
             />
-          </div> 
+          </div>
 
           <div className="flex justify-center mt-6">
             <button
