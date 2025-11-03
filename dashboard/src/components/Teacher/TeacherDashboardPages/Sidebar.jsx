@@ -7,49 +7,50 @@ import {
   LuUsers2,
   LuCog,
   LuArrowLeftFromLine,
-  LuChevronLeft,
 } from "react-icons/lu";
+import { FaBars } from "react-icons/fa";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
-const TeacherSideBar = ({ isOpen, setIsOpen }) => {
+const localUrl = import.meta.env.VITE_LOCAL_URI;
+
+const TeacherSideBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [Index, setIndex] = useState(null);
+
   const Menus = [
     {
       title: "Home",
       icon: <LuTable2 />,
-      link: "/teacher-dashboard/dashboard",
+      link: "/teacher/dashboard",
     },
     {
       title: "My Lessons",
       icon: <BsBroadcast />,
-      link: "/teacher-dashboard/lessons",
+      link: "/teacher/lessons",
     },
     {
       title: "My Materials",
       icon: <LuUsers2 />,
-      link: "/teacher-dashboard/material",
+      link: "/teacher/material",
     },
     {
       title: "Calendar",
       icon: <TbReportAnalytics />,
-      link: "/teacher-dashboard/calendar",
-      gap: true,
+      link: "/teacher/calendar",
     },
     {
       title: "Ready To Use",
       icon: <TbReportAnalytics />,
-      link: "/teacher-dashboard/ready",
-      gap: true,
+      link: "/teacher/ready",
     },
     {
-      title: "Settings",
+      title: "Profile",
       icon: <LuCog />,
-      link: "/teacher-dashboard/settings",
+      link: "/teacher/profile",
       gap: true,
     },
   ];
-
-  const [userData, setUserData] = useState({});
-  const [Index, setIndex] = useState(null);
 
   const changeIndex = (index) => {
     localStorage.setItem("sidebarIndex", index);
@@ -69,71 +70,105 @@ const TeacherSideBar = ({ isOpen, setIsOpen }) => {
   };
 
   const signOut = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userType");
+  localStorage.removeItem("sidebarIndex");
+
+  // ✅ Force redirect to the actual frontend landing page
+  window.location.href = import.meta.env.VITE_BASE_URL;
+};
+
 
   useEffect(() => {
     getUserData();
   }, [Index]);
 
   return (
-    <div
-      className={`${
-        isOpen ? "w-60 bg-[#EAFAF4]" : "w-20"
-      } flex flex-col justify-between backdrop-blur-sm bg-[#EAFAF4]/80 text-black h-[100vh] p-5 duration-300 sticky border border-secondary`}
-    >
-      <div>
-        <LuChevronLeft
-          className={`absolute text-sky-700 -right-3 top-12 bg-zinc-100 text-4xl border-secondary border rounded-full ${
-            !isOpen && "rotate-180"
-          }`}
-          onClick={() => setIsOpen(!isOpen)}
-        />
-        <div className="flex gap-x-4 items-center">
-        <Link to="/teacher" className={`${!isOpen && "hidden"} text-black font-bold text-3xl`}>
-          LitmusTest
-        </Link>
-        </div>
-        <ul className="pt-6">
-          {Menus.map((Menu, index) => (
-            <Link key={index} to={`${Menu.link}`}>
-              <li
-                className={`flex rounded-md p-2 cursor-pointer bg-none text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 
-                ${Menu.gap ? "mt-7" : "mt-2"} ${
-                  Index == index ? "backdrop-blur-sm bg-white/70" : ""
-                } `}
-                onClick={() => changeIndex(index)}
-              >
-                {Menu.icon}
-                <span
-                  className={`${!isOpen && "hidden"} origin-left duration-200`}
-                >
-                  {Menu.title}
-                </span>
-              </li>
-            </Link>
-          ))}
-          <li
-            onClick={() => signOut()}
-            className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
+    <div>
+      {/* 1. Hamburger Icon for Mobile */}
+      {!isOpen && (
+        <button
+          className="md:hidden fixed top-3 bg-slate-950 left-2.5 z-50"
+          onClick={() => setIsOpen(true)}
+        >
+          <FaBars className="w-6 h-6 bg-white" />
+        </button>
+      )}
+
+      {/* 2. Overlay (Mobile only) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      {/* 3. Sidebar Container */}
+      <div
+        className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-300
+          transform ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          bg-[#EAFAF4] text-black p-5 border border-secondary 
+          flex flex-col justify-between md:translate-x-0 md:static`}
+      >
+        {/* Close Button (Mobile) */}
+        {isOpen && (
+          <button
+            className="absolute top-4 right-4 md:hidden text-black text-2xl"
+            onClick={() => setIsOpen(false)}
           >
-            <LuArrowLeftFromLine />
-            <span className={`${!isOpen && "hidden"} origin-left duration-200`}>
-              Signout
-            </span>
-          </li>
-        </ul>
-        <br />
-      </div>
-      <div className={`${!isOpen && "hidden"}`}>
-        <hr />
-        <SmallFooter/>
+            &times;
+          </button>
+        )}
+
+        {/* Header + Menu */}
+        <div>
+          <div className="flex md:gap-x-4 mt-8 md:items-center">
+            <Link to="/teacher/dashboard" className="text-black font-bold text-3xl">
+              LitmusTest
+            </Link>
+          </div>
+
+          <ul className="pt-6">
+            {Menus.map((Menu, index) => (
+              <Link key={index} to={Menu.link}>
+                <li
+                  className={`flex rounded-md p-2 cursor-pointer text-black hover:text-primary text-sm items-center gap-x-4 
+                    ${Menu.gap ? "mt-7" : "mt-2"} 
+                    ${Index == index ? "backdrop-blur-sm bg-white/70" : ""}
+                  `}
+                  onClick={() => {
+                    changeIndex(index);
+                    setIsOpen(false);
+                  }}
+                >
+                  {Menu.icon}
+                  <span className="origin-left duration-200">
+                    {Menu.title}
+                  </span>
+                </li>
+              </Link>
+            ))}
+
+            {/* Signout */}
+            <li
+              onClick={signOut}
+              className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary text-sm items-center gap-x-4 mt-2"
+            >
+              <LuArrowLeftFromLine />
+              <span className="origin-left duration-200">Signout</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Footer */}
+        <div>
+          <hr />
+          <SmallFooter />
+        </div>
       </div>
     </div>
   );
 };
 
 export default TeacherSideBar;
-
-

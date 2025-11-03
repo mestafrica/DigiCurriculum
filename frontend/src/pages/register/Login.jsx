@@ -20,24 +20,31 @@ const Login = () => {
     try {
       const data = await loginUser(formData);
 
-      //  Save auth info temporarily in frontend storage
+      // ✅ Save authentication info in localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.user?.id);
       localStorage.setItem("userType", data.user?.userType);
 
-      //  Redirect by role
+      // ✅ Redirect users by role
       if (data.user?.userType === "Student") {
+        // Student → /dashboard
         window.location.href = `${
-          import.meta.env.VITE_STUDENT_DASHBOARD_URL
+          import.meta.env.VITE_DASHBOARD_URL
         }/dashboard?token=${data.token}&userId=${data.user.id}`;
       } else if (data.user?.userType === "Teacher") {
+        // Teacher → /teacher/dashboard
         window.location.href = `${
-          import.meta.env.VITE_TEACHER_DASHBOARD_URL
-        }/dashboard?token=${data.token}&userId=${data.user.id}`;
+          import.meta.env.VITE_DASHBOARD_URL
+        }/teacher/dashboard?token=${data.token}&userId=${data.user.id}`;
+      } else {
+        // fallback → main dashboard
+        window.location.href = `${
+          import.meta.env.VITE_DASHBOARD_URL
+        }/dashboard`;
       }
     } catch (err) {
       setError(err.message || "Login failed");
-      setIsLoading(false); // stop loading if error
+      setIsLoading(false);
     }
   };
 
@@ -120,4 +127,3 @@ const Login = () => {
 };
 
 export default Login;
-
