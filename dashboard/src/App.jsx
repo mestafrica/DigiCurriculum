@@ -61,7 +61,7 @@ const routes = [
       { path: "tools", element: <AiTools /> },
       { path: "material", element: <Materials /> },
       { path: "ready", element: <Readytouse /> },
-      { path: "settings", element: <ProfileDetailsTeacher /> },
+      { path: "profile", element: <ProfileDetailsTeacher /> },
     ],
   },
 ];
