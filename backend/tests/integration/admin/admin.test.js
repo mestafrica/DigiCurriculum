@@ -17,7 +17,7 @@ describe("Admin Endpoints", () => {
     testAdmin = await adminModel.create({
       firstName: "Test",
       lastName: "Admin",
-      email: "test@admin.com", //Replace with your test email
+      email: "existing@admin.com", // Changed to different email
       password: hashedPassword,
       role: "admin",
       isVerified: true,
@@ -29,13 +29,13 @@ describe("Admin Endpoints", () => {
     });
   });
 
-  // Registration tests (your existing tests)
+  // Registration tests
   describe("POST /admin/auth/register", () => {
     it("should register a new admin successfully", async () => {
       const newAdmin = {
         firstName: "Test",
         lastName: "Admin",
-        email: "test@admin.com", //Replace with your test email
+        email: "test@admin.com", // This is now unique
         password: "Password123",
         role: "admin",
       };
@@ -59,7 +59,7 @@ describe("Admin Endpoints", () => {
       const existingAdmin = {
         firstName: "Existing",
         lastName: "Admin",
-        email: "test@admin.com", //Replace with your test email
+        email: "duplicate@admin.com",
         password: "Password123",
         role: "admin",
       };
@@ -80,7 +80,7 @@ describe("Admin Endpoints", () => {
   describe("POST /admin/auth/login", () => {
     it("should login successfully with valid credentials", async () => {
       const response = await request(app).post("/admin/auth/login").send({
-        email: "test@admin.com",
+        email: "existing@admin.com",  
         password: "Password123",
       });
 
@@ -91,7 +91,7 @@ describe("Admin Endpoints", () => {
 
     it("should fail with invalid password", async () => {
       const response = await request(app).post("/admin/auth/login").send({
-        email: "test@admin.com",
+        email: "existing@admin.com", // Use the email from beforeEach
         password: "wrongpassword",
       });
 
