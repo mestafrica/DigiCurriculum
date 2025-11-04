@@ -49,7 +49,7 @@ import {
 
 // Skeleton Component for Loading State
 const TableSkeleton = () => (
-  <div className="space-y-3">
+  <div className="space-y-3 ">
     {Array.from({ length: 5 }, (_, i) => (
       <div key={i} className="flex items-center space-x-4 p-4">
         <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
@@ -104,7 +104,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="md:max-w-4xl md:max-h-[80vh] w-full h-full overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Edit Curriculum</span>
@@ -122,7 +122,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
         )}
 
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Name</label>
               <Input
@@ -136,7 +136,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Grade</label>
+              <label className="text-sm font-medium  ">Grade</label>
               <Input
                 type="number"
                 value={editedCurriculum.grade || ""}
@@ -265,7 +265,7 @@ const CurriculumList = () => {
   const handleDelete = async () => {
     try {
       if (!selectedCurriculum?._id) return;
-      
+
       await apiDeleteCurriculum(selectedCurriculum._id);
       setCurriculumData((prev) =>
         prev.filter((item) => item._id !== selectedCurriculum._id)
@@ -320,10 +320,10 @@ const CurriculumList = () => {
   return (
     <div className="space-y-6 p-6 pb-16">
       <Card>
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-between">
+        <CardHeader className="space-y-1 ">
+          <div className="flex md:flex-row flex-col md:items-center justify-between gap-6 md:gap-1">
             <div>
-              <CardTitle className="text-2xl font-bold">
+              <CardTitle className="text-lg md:text-2xl font-bold">
                 Curriculum Management
               </CardTitle>
               <CardDescription>
@@ -332,9 +332,9 @@ const CurriculumList = () => {
             </div>
             <Button
               onClick={() => navigate("/admin-dashboard/curriculum")}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 w-48 md:w-86"
             >
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 md:h-4 md:w-4" />
               Add Curriculum
             </Button>
           </div>
@@ -343,16 +343,15 @@ const CurriculumList = () => {
         <CardContent>
           {error && (
             <Alert
-              className={`mb-4 ${
-                error.type === "success" ? "bg-green-50" : "bg-red-50"
-              }`}
+              className={`mb-4 ${error.type === "success" ? "bg-green-50" : "bg-red-50"
+                }`}
             >
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error.message || error}</AlertDescription>
             </Alert>
           )}
 
-          <div className="flex items-center justify-between mb-6 gap-4">
+          <div className="hidden md:flex md:flex-row flex-col md:items-center justify-between mb-6  gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
               <Input
@@ -381,10 +380,10 @@ const CurriculumList = () => {
           {isLoading ? (
             <TableSkeleton />
           ) : (
-            <div className="rounded-md border">
+            <div className="hidden md:block rounded-md border">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow >
                     <TableHead
                       onClick={() => handleSort("grade")}
                       className="cursor-pointer w-[100px]"
@@ -411,6 +410,7 @@ const CurriculumList = () => {
                         Name
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                       </div>
+                      {/* Desktop view */}
                     </TableHead>
                     <TableHead className="w-[100px]">Strands</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -500,12 +500,45 @@ const CurriculumList = () => {
               </Table>
             </div>
           )}
+          {/* mobile view */}
+
         </CardContent>
       </Card>
+      <div className="block md:hidden space-y-4">
+        {sortedAndFilteredData().map((curriculum) => (
+          <Card key={curriculum._id} className="p-4">
+            <div className="flex justify-between items-center mb-2">
+              <Badge className={'bg-white text-black border border-gray-400'}>Grade {curriculum.grade}</Badge>
+              <div className="flex ">
+                <Button size="icon" variant="ghost" title="View">
+                  <Eye className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="ghost" title="Edit">
+                  <Edit2 className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="ghost" title="Delete">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleExport(curriculum)}
+                  title="Export"
+                >
+                  <FileDown className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <p className="mt-1">Code: {curriculum.code}</p>
+            <p className="mt-1">Name: {curriculum.name}</p>
+            <p className="inline-block bg-gray-300 rounded-full border-transparent px-3 py-1 mt-1">Strands: {(curriculum.strands || []).length}</p>
+          </Card>
+        ))}
+      </div>
 
       {/* Delete Dialog */}
-      <Dialog 
-        open={showDeleteDialog} 
+      <Dialog
+        open={showDeleteDialog}
         onOpenChange={(open) => {
           setShowDeleteDialog(open);
           if (!open) setSelectedCurriculum(null);
@@ -529,8 +562,8 @@ const CurriculumList = () => {
             >
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={handleDelete}
               disabled={!selectedCurriculum}
             >

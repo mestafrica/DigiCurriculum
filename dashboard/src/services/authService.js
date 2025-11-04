@@ -1,8 +1,10 @@
 // src/services/authService.js
 import axios from "axios";
 
-const API_BASE_URL = "https://digicurriculum.onrender.com"; // ✅ correct backend domain
 
+// const API_BASE_URL = "https://digicurriculum.onrender.com"; // ✅ correct backend domain
+
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 // ================= USER AUTH =================
 
 // Signup

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import bgFrame from "../../assets/images/Frame5.png"
-import bgFrame2 from "/contact-bg.png"
+//import bgFrame2 from "/contact-bg.png"
 
 const ContactForm = () => {
   // State to store form data
