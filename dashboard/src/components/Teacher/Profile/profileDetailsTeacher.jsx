@@ -40,9 +40,7 @@ const ProfileDetailTeacher = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
+  const handleButtonClick = () => fileInputRef.current.click();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -60,7 +58,7 @@ const ProfileDetailTeacher = () => {
       return;
     }
 
-    let imageData = new FormData();
+    const imageData = new FormData();
     imageData.append("avatar", selectedFile);
 
     try {
@@ -70,7 +68,6 @@ const ProfileDetailTeacher = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("✅ Image updated:", response.data);
       setUploadStatus("Image updated successfully!");
       getUserData();
     } catch (error) {
@@ -81,122 +78,112 @@ const ProfileDetailTeacher = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center p-8">
+      <div className="flex flex-col lg:flex-row justify-center items-start gap-6 p-6">
         {/* LEFT SIDE - Avatar + Upload */}
-        <div className="w-full h-full lg:w-1/3 p-4 backdrop-blur-sm bg-black/10 border border-[#A7D7C5] rounded-lg">
-          <div className="text-center">
-            <h2 className="text-2xl text-primary font-bold">
+        <div className="w-full lg:w-1/3 backdrop-blur-sm bg-white/60 border border-[#A7D7C5] rounded-2xl p-6 shadow-md">
+          <div className="text-center mb-4">
+            <h2 className="text-xl md:text-2xl text-primary font-bold">
               {userData.firstName} {userData.lastName}
             </h2>
           </div>
 
-          <div className="my-4 flex justify-center items-center">
+          <div className="my-4 flex justify-center">
             <img
               src={userData?.avatar ? `${baseUrl}/${userData.avatar}` : selectedImage}
               alt="Profile Avatar"
-              className="rounded-full w-44 h-44 object-cover border border-secondary"
+              className="rounded-full w-40 h-40 md:w-44 md:h-44 object-cover border border-secondary shadow"
             />
           </div>
 
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center gap-3">
             <input
               type="file"
               ref={fileInputRef}
               onChange={handleImageChange}
               className="hidden"
             />
-            <div className="flex flex-col gap-4">
-              <button
-                onClick={handleButtonClick}
-                className="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded"
-              >
-                Select Image
-              </button>
-              <button
-                onClick={handleUpload}
-                className="bg-secondary hover:bg-primary text-black font-bold py-2 px-4 rounded"
-              >
-                Update Avatar
-              </button>
-            </div>
-            <p className="text-sm text-zinc-500 mt-2">
-              Upload a new avatar. Larger images will be resized automatically.
+
+            <button
+              onClick={handleButtonClick}
+              className="w-full md:w-3/4 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition"
+            >
+              Select Image
+            </button>
+
+            <button
+              onClick={handleUpload}
+              className="w-full md:w-3/4 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
+            >
+              Update Avatar
+            </button>
+
+            <p className="text-xs text-gray-500 mt-2 text-center leading-snug">
+              Upload a new avatar. Larger images will be resized automatically. <br />
               Maximum upload size is 1MB.
             </p>
-          </div>
 
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-800">{uploadStatus}</p>
+            {uploadStatus && (
+              <p className="text-sm text-gray-800 font-medium mt-2">{uploadStatus}</p>
+            )}
           </div>
         </div>
 
         {/* RIGHT SIDE - Profile Info */}
-        <div className="w-full lg:w-2/3 px-4">
-          <div className="backdrop-blur-sm bg-black/10 border border-[#A7D7C5] shadow-lg rounded-lg p-4">
-            <div className="flex justify-between border-b pb-2">
-              <h2 className="text-xl font-bold text-gray-800">Your Profile</h2>
-              <button className="text-primary font-semibold">User Info</button>
+        <div className="w-full lg:w-2/3 backdrop-blur-sm bg-white/60 border border-[#A7D7C5] rounded-2xl p-6 shadow-md">
+          <div className="flex flex-col sm:flex-row justify-between border-b pb-3 mb-4">
+            <h2 className="text-lg md:text-xl font-bold text-gray-800">Your Profile</h2>
+            <button className="text-primary font-semibold text-sm mt-2 sm:mt-0">User Info</button>
+          </div>
+
+          <div className="flex flex-col gap-5">
+            {/* Full Name */}
+            <div className="flex flex-col md:flex-row md:items-center gap-3">
+              <div className="flex-1">
+                <label className="block text-gray-800 text-sm font-bold mb-1">Full Name</label>
+                <p className="text-[#9399A6]">{userData.firstName} {userData.lastName}</p>
+              </div>
+              <button
+                onClick={() => setShowProfileModal(true)}
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+              >
+                Update Profile
+              </button>
             </div>
 
-            <div className="flex flex-col gap-4 mt-4">
-              <div className="flex flex-wrap gap-4 my-4">
-                <div className="w-full md:w-2/3">
-                  <label className="block text-gray-800 text-sm font-bold mb-2">
-                    Full Name
-                  </label>
-                  <span className="text-[#9399A6] leading-tight">
-                    {userData.firstName} {userData.lastName}
-                  </span>
-                </div>
-                <button
-                  onClick={() => setShowProfileModal(true)}
-                  className="md:w-1/3 w-full bg-secondary hover:bg-primary text-black font-bold py-2 rounded"
-                >
-                  Update Profile
-                </button>
-              </div>
+            {/* School */}
+            <div>
+              <label className="block text-gray-800 text-sm font-bold mb-1">School</label>
+              <p className="text-[#9399A6]">{userData.school || "—"}</p>
+            </div>
 
-              <div className="flex flex-wrap gap-4 my-4">
-                <div className="w-full md:w-2/3">
-                  <label className="block text-gray-800 text-sm font-bold mb-2">
-                    School
-                  </label>
-                  <span className="text-[#9399A6] leading-tight">
-                    {userData.school || "—"}
-                  </span>
-                </div>
+            {/* Email */}
+            <div className="flex flex-col md:flex-row md:items-center gap-3">
+              <div className="flex-1">
+                <label className="block text-gray-800 text-sm font-bold mb-1">Email Address</label>
+                <p className="text-[#9399A6]">{userData.email}</p>
               </div>
+              <button
+                onClick={() => setShowEmailModal(true)}
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+              >
+                Update Email
+              </button>
+            </div>
 
-              <div className="flex flex-wrap gap-4 my-4">
-                <div className="w-full md:w-2/3">
-                  <label className="block text-gray-800 text-sm font-bold mb-2">
-                    Email Address
-                  </label>
-                  <span className="text-[#9399A6] leading-tight">
-                    {userData.email}
-                  </span>
-                </div>
-                <button
-                  onClick={() => setShowEmailModal(true)}
-                  className="md:w-1/3 w-full bg-secondary hover:bg-primary text-black font-bold py-2 rounded"
-                >
-                  Update Email
-                </button>
-              </div>
-
-              <div className="flex gap-4 my-4">
-                <button
-                  onClick={() => setShowPasswordModal(true)}
-                  className="md:w-1/3 w-full bg-secondary hover:bg-primary text-black font-bold py-2 rounded"
-                >
-                  Update Password
-                </button>
-              </div>
+            {/* Password */}
+            <div className="flex justify-start">
+              <button
+                onClick={() => setShowPasswordModal(true)}
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+              >
+                Update Password
+              </button>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Modals */}
       {showProfileModal && <EditProfile closeModel={() => setShowProfileModal(false)} />}
       {showEmailModal && <EditEmail closeModel={() => setShowEmailModal(false)} />}
       {showPasswordModal && <EditPassword closeModel={() => setShowPasswordModal(false)} />}

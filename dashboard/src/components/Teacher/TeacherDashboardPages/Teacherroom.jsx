@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import TeacherSideBar from "./Sidebar";
 
 const TeacherRoom = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/"); // redirect to login if not logged in
+    }
+  }, [navigate]);
 
   return (
     <div className="md:min-h-[calc(100vh-64px)] flex gap-10 w-full md:max-w-screen transparent">
