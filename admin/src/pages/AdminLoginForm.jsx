@@ -31,7 +31,6 @@ const Login = () => {
 
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
-        localStorage.setItem('adminId', response.data.id );
         toast.success('Login successful!');
         navigate('/admin-dashboard');
       }

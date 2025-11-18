@@ -33,9 +33,6 @@ const AdminSignupForm = () => {
       const response = await axios.post(`${BASE_URL}/admin/auth/register`, data);
       localStorage.setItem('token', response.data.token);
        
-      localStorage.setItem( 'adminId',  response.data.user._id );
-      console.log('Saved Admin ID:', response.data.user._id );
-      
 
       // Handle successful response
       if (response.status === 201) {
@@ -92,7 +89,7 @@ const AdminSignupForm = () => {
             ))}
           </div>
           <button
-            onClick={handleOtpSubmit}
+            onClick={handleOtpChange}
             disabled={loading}
             className="w-full bg-[#456990] text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline"
           >
