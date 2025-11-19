@@ -1,33 +1,38 @@
 import Task from "../models/taskModel.js";
 
+// allowed statuses centralised
+const VALID_STATUSES = ["upcoming-tasks", "to-do", "in-progress", "done"];
+
 // Create a new task
 export const createTask = async (req, res) => {
   try {
-    // expressjwt stores decoded token in req.auth
     const userId = req.auth?.userId || req.auth?.sub;
-    
-    if (!userId) {
-      console.log("req.auth:", req.auth); // Debug log
+    if (!userId)
       return res.status(401).json({ error: "Unauthorized - No user ID found" });
-    }
 
     const { title, description, subjectTag, status } = req.body;
-    
+
     if (!title || !subjectTag) {
-      return res.status(400).json({ error: "Title and subject tag are required" });
+      return res
+        .status(400)
+        .json({ error: "Title and subject tag are required" });
     }
 
-    const task = await Task.create({ 
-      title, 
-      description, 
-      subjectTag, 
-      status: status || 'upcoming-tasks',
-      owner: userId 
+    if (status && !VALID_STATUSES.includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
+    }
+
+    const task = await Task.create({
+      title,
+      description: description || "",
+      subjectTag,
+      status: status || "upcoming-tasks",
+      owner: userId,
     });
-    
-    return res.status(201).json({ 
+
+    return res.status(201).json({
       message: "Task created successfully",
-      task 
+      task,
     });
   } catch (error) {
     console.error("createTask error:", error);
@@ -42,12 +47,12 @@ export const getAllTasks = async (req, res) => {
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     const tasks = await Task.find({ owner: userId }).sort({ createdAt: -1 });
-    
+
     const groupedTasks = {
-      'upcoming-tasks': tasks.filter(t => t.status === 'upcoming-tasks'),
-      'to-do': tasks.filter(t => t.status === 'to-do'),
-      'in-progress': tasks.filter(t => t.status === 'in-progress'),
-      'done': tasks.filter(t => t.status === 'done')
+      "upcoming-tasks": tasks.filter((t) => t.status === "upcoming-tasks"),
+      "to-do": tasks.filter((t) => t.status === "to-do"),
+      "in-progress": tasks.filter((t) => t.status === "in-progress"),
+      done: tasks.filter((t) => t.status === "done"),
     };
 
     return res.status(200).json(groupedTasks);
@@ -64,13 +69,12 @@ export const getTasksByStatus = async (req, res) => {
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     const { status } = req.params;
-    const validStatuses = ['upcoming-tasks', 'to-do', 'in-progress', 'done'];
-    
-    if (!validStatuses.includes(status)) {
+    if (!VALID_STATUSES.includes(status))
       return res.status(400).json({ error: "Invalid status" });
-    }
 
-    const tasks = await Task.find({ owner: userId, status }).sort({ createdAt: -1 });
+    const tasks = await Task.find({ owner: userId, status }).sort({
+      createdAt: -1,
+    });
     return res.status(200).json(tasks);
   } catch (error) {
     console.error("getTasksByStatus error:", error);
@@ -86,9 +90,9 @@ export const getTaskById = async (req, res) => {
 
     const { id } = req.params;
     const task = await Task.findOne({ _id: id, owner: userId });
-    
+
     if (!task) return res.status(404).json({ error: "Task not found" });
-    
+
     return res.status(200).json(task);
   } catch (error) {
     console.error("getTaskById error:", error);
@@ -96,26 +100,42 @@ export const getTaskById = async (req, res) => {
   }
 };
 
-// Update a task
+// Update a task 
 export const updateTask = async (req, res) => {
   try {
     const userId = req.auth?.userId || req.auth?.sub;
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     const { id } = req.params;
-    const { title, description, subjectTag } = req.body;
+    const { title, description, subjectTag, status } = req.body;
+
+    const update = {};
+    if (typeof title !== "undefined") update.title = title;
+    if (typeof description !== "undefined") update.description = description;
+    if (typeof subjectTag !== "undefined") update.subjectTag = subjectTag;
+    if (typeof status !== "undefined") {
+      if (!VALID_STATUSES.includes(status))
+        return res.status(400).json({ error: "Invalid status value" });
+      update.status = status;
+    }
+
+    // prevent owner modification
+    delete update.owner;
 
     const task = await Task.findOneAndUpdate(
       { _id: id, owner: userId },
-      { $set: { title, description, subjectTag } },
+      { $set: update },
       { new: true, runValidators: true }
     );
 
-    if (!task) return res.status(404).json({ error: "Task not found" });
-    
-    return res.status(200).json({ 
+    if (!task)
+      return res
+        .status(404)
+        .json({ error: "Task not found or not owned by user" });
+
+    return res.status(200).json({
       message: "Task updated successfully",
-      task 
+      task,
     });
   } catch (error) {
     console.error("updateTask error:", error);
@@ -123,7 +143,7 @@ export const updateTask = async (req, res) => {
   }
 };
 
-// Move task to different status
+// Move task to different status 
 export const moveTaskStatus = async (req, res) => {
   try {
     const userId = req.auth?.userId || req.auth?.sub;
@@ -131,11 +151,9 @@ export const moveTaskStatus = async (req, res) => {
 
     const { id } = req.params;
     const { status } = req.body;
-    
-    const validStatuses = ['upcoming-tasks', 'to-do', 'in-progress', 'done'];
-    if (!validStatuses.includes(status)) {
+
+    if (!VALID_STATUSES.includes(status))
       return res.status(400).json({ error: "Invalid status" });
-    }
 
     const task = await Task.findOneAndUpdate(
       { _id: id, owner: userId },
@@ -143,11 +161,14 @@ export const moveTaskStatus = async (req, res) => {
       { new: true }
     );
 
-    if (!task) return res.status(404).json({ error: "Task not found" });
-    
-    return res.status(200).json({ 
+    if (!task)
+      return res
+        .status(404)
+        .json({ error: "Task not found or not owned by user" });
+
+    return res.status(200).json({
       message: "Task status updated successfully",
-      task 
+      task,
     });
   } catch (error) {
     console.error("moveTaskStatus error:", error);
@@ -163,9 +184,12 @@ export const deleteTask = async (req, res) => {
 
     const { id } = req.params;
     const deleted = await Task.findOneAndDelete({ _id: id, owner: userId });
-    
-    if (!deleted) return res.status(404).json({ error: "Task not found" });
-    
+
+    if (!deleted)
+      return res
+        .status(404)
+        .json({ error: "Task not found or not owned by user" });
+
     return res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
     console.error("deleteTask error:", error);
@@ -180,5 +204,5 @@ export default {
   getTaskById,
   updateTask,
   moveTaskStatus,
-  deleteTask
+  deleteTask,
 };
