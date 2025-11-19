@@ -14,7 +14,7 @@ function EditPassword({ closeModel }) {
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const userId = localStorage.getItem("user_id");
+  const userId = localStorage.getItem("userId");
 
   const isValidForm = () => {
     const { oldPassword, password, confirmPassword } = form;

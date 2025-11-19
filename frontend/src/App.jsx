@@ -8,7 +8,6 @@ import SignIn from "./pages/register/Login";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 
-
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/signup", element: <Signup /> },
