@@ -1,7 +1,7 @@
 import Task from "../models/taskModel.js";
 
 // allowed statuses centralised
-const VALID_STATUSES = ["upcoming-tasks", "to-do", "in-progress", "done"];
+const VALID_STATUSES = ["upcomingTasks", "toDo", "inProgress", "done"];
 
 // Create a new task
 export const createTask = async (req, res) => {
@@ -26,7 +26,7 @@ export const createTask = async (req, res) => {
       title,
       description: description || "",
       subjectTag,
-      status: status || "upcoming-tasks",
+      status: status || "upcomingTasks",
       owner: userId,
     });
 
@@ -48,14 +48,8 @@ export const getAllTasks = async (req, res) => {
 
     const tasks = await Task.find({ owner: userId }).sort({ createdAt: -1 });
 
-    const groupedTasks = {
-      "upcoming-tasks": tasks.filter((t) => t.status === "upcoming-tasks"),
-      "to-do": tasks.filter((t) => t.status === "to-do"),
-      "in-progress": tasks.filter((t) => t.status === "in-progress"),
-      done: tasks.filter((t) => t.status === "done"),
-    };
-
-    return res.status(200).json(groupedTasks);
+    // Return a single object containing a flat tasks array
+    return res.status(200).json({ tasks });
   } catch (error) {
     console.error("getAllTasks error:", error);
     return res.status(500).json({ error: "Failed to fetch tasks" });
@@ -100,7 +94,7 @@ export const getTaskById = async (req, res) => {
   }
 };
 
-// Update a task 
+// Update a task
 export const updateTask = async (req, res) => {
   try {
     const userId = req.auth?.userId || req.auth?.sub;
@@ -143,7 +137,7 @@ export const updateTask = async (req, res) => {
   }
 };
 
-// Move task to different status 
+// Move task to different status
 export const moveTaskStatus = async (req, res) => {
   try {
     const userId = req.auth?.userId || req.auth?.sub;
