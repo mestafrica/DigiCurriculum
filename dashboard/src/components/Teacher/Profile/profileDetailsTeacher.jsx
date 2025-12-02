@@ -95,12 +95,12 @@ const ProfileDetailsTeacher = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center p-8">
-        <div className="w-full h-full lg:w-1/3 p-4 backdrop-blur-sm bg-black/10 border border-[#A7D7C5] rounded-lg">
+      <div className="flex flex-wrap justify-center   p-8">
+        <div className="w-full h-full lg:w-1/3 p-4 md:backdrop-blur-sm md:bg-black/10 border border-[#A7D7C5] rounded-lg ">
           <div className="text-center">
             <h2 className="text-2xl text-primary font-bold">{userData.name}</h2>
           </div>
-          <div className="my-4 flex justify-center items-center">
+          <div className="my-4 flex justify-center  items-center">
             <img
               src={
                 userData
@@ -111,7 +111,7 @@ const ProfileDetailsTeacher = () => {
               className="rounded-full w-44 h-44"
             />
           </div>
-          <div className="text-center">
+          <div className="text-center ">
             <input
               type="file"
               ref={fileInputRef}
@@ -142,7 +142,7 @@ const ProfileDetailsTeacher = () => {
           </div>
         </div>
         <div className="w-full lg:w-2/3 px-4">
-          <div className="backdrop-blur-sm bg-black/10 border border-[#A7D7C5] shadow-lg rounded-lg p-4">
+          <div className="backdrop-blur-sm bg-black/10 border border-[#A7D7C5] shadow-lg rounded-lg md:p-4">
             <div className="flex justify-between border-b pb-2">
               <h2 className="text-xl font-bold text-gray-800">Edit Profile</h2>
               <div className="flex">

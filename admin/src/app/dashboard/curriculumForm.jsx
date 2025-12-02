@@ -145,10 +145,10 @@ const CurriculumForm = () => {
   };
 
   const renderBasicInfo = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className=" md:space-y-6">
+      <div className="flex flex-col md:grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-center">
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="flex md:block text-sm font-medium mb-1">
             Name <span className="text-red-500">*</span>
           </label>
           <Input
@@ -156,10 +156,11 @@ const CurriculumForm = () => {
             value={formData.name}
             onChange={handleBasicInfoChange}
             placeholder="Curriculum Name"
+            
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="flex md:block text-sm font-medium mb-1">
             Code <span className="text-red-500">*</span>
           </label>
           <Input
@@ -170,7 +171,7 @@ const CurriculumForm = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="flex md:block text-sm font-medium mb-1">
             Grade <span className="text-red-500">*</span>
           </label>
           <Input
@@ -394,7 +395,7 @@ const CurriculumForm = () => {
   );
 
   const renderLearningIndicators = () => (
-    <div className="space-y-6">
+    <div className="md:space-y-6">
       {formData.strands.map((strand, strandIndex) => (
         <Card key={strandIndex} className="border border-gray-200">
           <CardHeader className="p-4">
@@ -406,7 +407,7 @@ const CurriculumForm = () => {
                 <h3 className="font-medium mb-2">
                   Sub-Strand: {subStrand.title}
                 </h3>
-                <div className="space-y-3">
+                <div className="md:space-y-3">
                   {subStrand.learningIndicators.map(
                     (indicator, indicatorIndex) => (
                       <div key={indicatorIndex} className="flex gap-2">
@@ -420,9 +421,8 @@ const CurriculumForm = () => {
                               e.target.value
                             )
                           }
-                          placeholder={`Learning Indicator ${
-                            indicatorIndex + 1
-                          }`}
+                          placeholder={`Learning Indicator ${indicatorIndex + 1
+                            }`}
                         />
                         {subStrand.learningIndicators.length > 1 && (
                           <Button
@@ -458,7 +458,7 @@ const CurriculumForm = () => {
                     }}
                     className="w-full mt-2"
                   >
-                    <Plus size={16} className="mr-2" />
+                    <Plus size={16} className="md:mr-2" />
                     Add Learning Indicator
                   </Button>
                 </div>
@@ -471,15 +471,15 @@ const CurriculumForm = () => {
   );
 
   const renderReview = () => (
-    <div className="space-y-6">
+    <div className="md:space-y-6 ">
       <div>
-        <h3 className="text-lg font-medium mb-2">Basic Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <h3 className="text-lg md:flex-1 font-medium mb-2 sm:text-center ">Basic Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 md:mr-20">
           <div>
-            <span className="font-medium">Name:</span> {formData.name}
+            <span className="font-medium ">Name:</span> {formData.name}
           </div>
           <div>
-            <span className="font-medium">Code:</span> {formData.code}
+            <span className="font-medium ">Code:</span> {formData.code}
           </div>
           <div>
             <span className="font-medium">Grade:</span> {formData.grade}
@@ -488,28 +488,28 @@ const CurriculumForm = () => {
       </div>
 
       <div>
-        <h3 className="text-lg font-medium mb-2">Strands</h3>
+        <h3 className="text-lg md:flex-1 font-medium mb-2 sm:text-center ">Strands</h3>
         {formData?.strands?.map((strand, index) => (
-          <div key={index} className="mb-6 pl-4 border-l-2 border-gray-200">
+          <div key={index} className="mb-6 md:pl-4 border-l-2 border-gray-200">
             <h4 className="font-medium">
               Strand {index + 1}: {strand?.name}
             </h4>
-            <div className="ml-4 space-y-2">
+            <div className="md:ml-4 space-y-2 sm:text-center">
               <div>Code: {strand?.code}</div>
 
-              <h5 className="font-medium mt-4">Sub-strands:</h5>
+              <h5 className="font-medium md:flex-1 mt-4 sm:text-center">Sub-strands:</h5>
               {strand.subStrand.map((sub, subIndex) => (
                 <div
                   key={subIndex}
-                  className="ml-4 mb-4 pl-4 border-l-2 border-gray-100"
+                  className="md:ml-4 mb-4 md:pl-4 border-l-2 border-gray-100"
                 >
                   <div>Title: {sub?.title}</div>
                   <div>Code: {sub?.code}</div>
                   <div>Content Standards: {sub?.contentStandards}</div>
 
                   <div className="mt-2">
-                    <span className="font-medium">Learning Indicators:</span>
-                    <ul className="list-disc ml-6">
+                    <span className="font-medium md:flex-1 sm:text-center">Learning Indicators:</span>
+                    <ul className="md:list-disc md:ml-6">
                       {sub?.learningIndicators.map((indicator, i) => (
                         <li key={i}>{indicator}</li>
                       ))}
@@ -529,7 +529,7 @@ const CurriculumForm = () => {
       case 1:
         return renderBasicInfo();
       case 2:
-        return renderStrands();
+        return renderStrands(); 
       case 3:
         return renderSubStrands();
       case 4:
@@ -537,7 +537,7 @@ const CurriculumForm = () => {
       case 5:
         return renderReview();
       default:
-        return null;
+        return null; 
     }
   };
 
@@ -554,7 +554,7 @@ const CurriculumForm = () => {
     } catch (error) {
       setError(
         error.response.data.error ||
-          "Failed to save curriculum. Please try again."
+        "Failed to save curriculum. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -562,31 +562,36 @@ const CurriculumForm = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>Create New Curriculum</CardTitle>
+    <div className="md:container  md:w-full md:px-2 md:py-4 md:max-w-4xl md:mx-auto  ">
+      <Card >
+        <CardHeader >
+          <CardTitle >Create New Curriculum</CardTitle>
           <Progress
             value={(currentStep / STEPS.length) * 100}
             className="mt-2"
           />
-          <div className="flex justify-between mt-4">
-            {STEPS.map((step) => (
+          <div className="flex md:justify-between mt-4 gap-1 md:flex-wrap md:gap-2 ">
+            {/* For Mobile view */}
+           <div className="text-sm font-medium text-blue-600 md:hidden">
+            {STEPS[currentStep - 1].title}
+            </div>
+             {STEPS.map((step) => (
               <div
                 key={step.id}
-                className={`text-sm ${
-                  currentStep === step.id
-                    ? "text-blue-600 font-medium"
-                    : "text-gray-500"
-                }`}
+                  
+                className={`hidden md:flex text-sm  flex-1 text-center px-3 py-1 rounded transition-all ${currentStep === step.id
+                    ? "text-blue-600 font-medium  "
+                    : "text-gray-500  "
+                  }`}
               >
                 {step.title}
               </div>
             ))}
+           
           </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 ">
             {renderCurrentStep()}
 
             {error && (
@@ -603,7 +608,7 @@ const CurriculumForm = () => {
               </Alert>
             )}
 
-            <div className="flex justify-between mt-6">
+            <div className="flex md:flex-row flex-col gap-2 justify-between mt-6">
               <Button
                 type="button"
                 variant="outline"
@@ -627,7 +632,7 @@ const CurriculumForm = () => {
                     </>
                   ) : (
                     <>
-                      <Save size={16} className="mr-2" />
+                      <Save size={16} className="md:qmr-2 sm:w-32" />
                       Submit Curriculum
                     </>
                   )}
@@ -636,7 +641,7 @@ const CurriculumForm = () => {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className="bg-blue-500 hover:bg-blue-600"
+                  className="bg-blue-500  hover:bg-blue-600"
                 >
                   Next
                   <ArrowRight size={16} className="ml-2" />
