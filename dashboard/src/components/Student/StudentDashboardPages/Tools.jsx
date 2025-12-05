@@ -73,14 +73,14 @@ const Tools = () => {
   return (
     <div className="flex flex-col width-full bg-gray-100 justify-center p-6 gap-y-20">
       <div className="mb-9 flex flex-row w-max p-4 m-auto">
-        <h1 className="font-quicksand text-4xl   text-black font-bold">
-          Hello, {userInfo?.firstName || "Loading..."}
+        <h1 className="font-quicksand text-4xl   text-blue-500 font-bold">
+          Hello, <span className="text-orange-300">{userInfo?.firstName || "Loading..."}</span> 
         </h1>
       </div>
       <div className="flex flex-col h-screen bg-gray-100 items-center">
         <div className="w-full max-w-[700px] bg-white shadow-lg rounded-2xl flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="bg-blue-600 text-white text-center py-3 font-semibold text-lg">
+          <div className="bg-orange-300 text-white text-center py-3 font-semibold text-lg">
             Your AI Chat Assistant
           </div>
 
@@ -129,7 +129,7 @@ const Tools = () => {
             <button
               type="submit"
               disabled={loading}
-              className="ml-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition disabled:bg-blue-300"
+              className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition disabled:bg-blue-300"
             >
               Send
             </button>
