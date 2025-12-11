@@ -24,6 +24,10 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.user?.id);
       localStorage.setItem("userType", data.user?.userType);
+      // Store user's name for navbar initial
+if (data.user?.name || data.user?.firstName) {
+  localStorage.setItem("userName", data.user.name || data.user.firstName);
+}
 
       // ✅ Redirect users by role
       if (data.user?.userType === "Student") {
