@@ -29,8 +29,6 @@ if (data.user?.name || data.user?.firstName) {
   localStorage.setItem("userName", data.user.name || data.user.firstName);
 }
 
-      
-
       // ✅ Redirect users by role
       if (data.user?.userType === "Student") {
         // Student → /dashboard

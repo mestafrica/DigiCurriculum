@@ -1,7 +1,7 @@
 import { userModel } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import { sendOTPEmail } from "../utils/otpUtils.js";
+// import { sendOTPEmail } from "../utils/otpUtils.js";
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ async function hashPassword(password) {
   return await bcrypt.hash(password, saltRounds);
 }
 
-const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString(); //4 digit code
+// const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString(); //4 digit code
 
 export const handleSignup = async (req, res) => {
   try {
@@ -37,7 +37,7 @@ export const handleSignup = async (req, res) => {
       return res.status(400).json("User already exists");
     }
 
-    const otp = generateOtp();
+    // const otp = generateOtp();
     const hashedPassword = await hashPassword(password);
 
     const newUser = new userModel({
@@ -49,14 +49,14 @@ export const handleSignup = async (req, res) => {
       firstName,
       password: hashedPassword,
       isVerified: false,
-      otp,
-      otpExpiry: Date.now() + 15 * 60 * 1000, // 15 mins expiration
+      // otp,
+      // otpExpiry: Date.now() + 15 * 60 * 1000, // 15 mins expiration
     });
 
     await newUser.save();
-    await sendOTPEmail(email, otp);
+    // await sendOTPEmail(email, otp);
 
-    res.status(201).json({ message: "Signup successful, OTP sent" });
+    res.status(201).json({ message: "Signup successful" });
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).json({
@@ -139,6 +139,19 @@ export const deleteUser = async (req, res) => {
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error("Error deleting user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+//logic to logout user
+export const logoutUser = async (req, res) => {
+  try {
+    res.status(200).json({ 
+      message: "User logged out successfully" 
+    });
+  } catch (error) {
+    console.error("Error during logout:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
