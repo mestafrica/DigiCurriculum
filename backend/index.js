@@ -22,6 +22,9 @@ import chatRouter from "./src/service/chat.route.js";
 import taskRouter from "./src/routes/taskRoutes.js";
 import config from "./config/index.js";
 
+
+// For caleneder event
+import calendarEventRouter from "./src/routes/calendarEventRoutes.js";
 dotenv.config();
 const app = express();
 
@@ -78,6 +81,11 @@ app.use(statisticsRouter);
 app.use(router);
 app.use(chatRouter);
 app.use(taskRouter);
+
+
+// For calendar event
+app.use(calendarEventRouter);
+
 
 app.listen(PORT, () => {
   console.log(`The server is running! on ${PORT}`);
