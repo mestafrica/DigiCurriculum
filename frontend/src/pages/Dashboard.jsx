@@ -10,7 +10,7 @@ function Dashboard() {
     if (!userId) return;
 
     axios
-      .get(`https://digicurriculum.onrender.com/user/${userId}`)
+      .get(`${import.meta.env.VITE_API_URL}/user/${userId}`)
       .then((res) => {
         setUser(res.data.user);
       })

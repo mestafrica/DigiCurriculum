@@ -1,6 +1,7 @@
 import dev from "./dev.js";
 import prod from "./prod.js";
 import test from "./test.js";
+import combined from "./combined.js";
 
 const env = process.env.NODE_ENV || "development";
 
@@ -12,6 +13,9 @@ switch (env) {
     break;
   case "test":
     config = test;
+    break;
+  case "combined":
+    config = combined;
     break;
   default:
     config = dev;
