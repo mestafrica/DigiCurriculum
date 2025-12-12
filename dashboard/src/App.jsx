@@ -22,6 +22,8 @@ import Home from "./components/Teacher/TeacherDashboardPages/Dashboard";
 import Curriculum from "./components/Admin/AdminDashboardPages/Curriculum";
 import Assessment from "./components/Admin/AdminDashboardPages/Assessment";
 import AdminCalendar from "./components/Admin/AdminDashboardPages/Calendar";
+import CreateTask from "./components/Student/StudentDashboardPages/CreateTask";
+import EditTask from "./components/Student/StudentDashboardPages/editTask";
 
 const routes = [
   {
@@ -48,6 +50,8 @@ const routes = [
       { path: "tools", element: <Tools /> },
       { path: "library", element: <StudentLibrary /> },
       { path: "settings", element: <ProfileDetailStudent /> },
+      { path: "create-task", element: <CreateTask /> },
+      { path: "tasks/:id/edit", element: <EditTask />} ,
     ],
   },
   {
