@@ -7,7 +7,7 @@ import { FaBars } from "react-icons/fa";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
 const dashboardUrl = import.meta.env.VITE_LOCAL_URI;
-const frontendUrl = "http://localhost:5173"; // ✅ main frontend landing
+const frontendUrl = "/"; // ✅ main frontend landing (relative path since dashboard is now in frontend)
 
 const TeacherSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);

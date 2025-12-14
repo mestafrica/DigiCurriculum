@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { useAuth } from "../../../../context/AuthContext";
 import { getUserById } from "../../../../services/authService";
 
@@ -74,7 +75,7 @@ const Tools = () => {
     <div className="flex flex-col width-full bg-gray-100 justify-center p-6 gap-y-20">
       <div className="mb-9 flex flex-row w-max p-4 m-auto">
         <h1 className="font-quicksand text-4xl   text-blue-500 font-bold">
-          Hello, <span className="text-orange-300">{userInfo?.firstName || "Loading..."}</span> 
+          Hello, <span className="text-orange-300">{userInfo?.firstName || "Loading..."}</span>
         </h1>
       </div>
       <div className="flex flex-col h-screen bg-gray-100 items-center">
@@ -89,18 +90,22 @@ const Tools = () => {
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`flex ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
               >
                 <div
-                  className={`px-4 py-2 rounded-2xl text-sm max-w-[75%] ${
-                    msg.sender === "user"
+                  className={`px-4 py-2 rounded-2xl text-sm max-w-[75%] ${msg.sender === "user"
                       ? "bg-blue-500 text-white rounded-br-none"
                       : "bg-gray-200 text-gray-800 rounded-bl-none"
-                  }`}
+                    }`}
                 >
-                  {msg.text}
+                  {msg.sender === "bot" ? (
+                    <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:my-2 prose-strong:text-gray-900">
+                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    msg.text
+                  )}
                 </div>
               </div>
             ))}

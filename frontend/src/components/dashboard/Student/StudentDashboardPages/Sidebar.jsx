@@ -7,7 +7,7 @@ import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
 const dashboardUrl = import.meta.env.VITE_LOCAL_URI;
-const frontendUrl = "http://localhost:5173"; // ✅ points to frontend app
+const frontendUrl = "/";
 
 const StudentSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
