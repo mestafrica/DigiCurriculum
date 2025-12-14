@@ -16,16 +16,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter an email address'],
         unique: true,
-       validate: [validator.isEmail, "Please enter valid email address"]
-        },
-  
+        validate: [validator.isEmail, "Please enter valid email address"]
+    },
+
     password: {
         type: String,
         required: true,
         minlength: [6, 'Password must be at least 6 characters long'],
         select: false
-        },
-    
+    },
+
     country: {
         type: String,
         required: true
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     userType: {
         type: String,
         enum: ['Teacher', 'Student'],
-        required: true 
+        required: true
     },
     isVerified: {
         type: Boolean,
@@ -52,7 +52,5 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date
 });
-
-userSchema.index({ email: 1 }, { unique: true });
 
 export const userModel = mongoose.model('User', userSchema);

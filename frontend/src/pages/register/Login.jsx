@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,31 +22,26 @@ const Login = () => {
     try {
       const data = await loginUser(formData);
 
-      // ✅ Save authentication info in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.user?.id);
-      localStorage.setItem("userType", data.user?.userType);
-      // Store user's name for navbar initial
-if (data.user?.name || data.user?.firstName) {
-  localStorage.setItem("userName", data.user.name || data.user.firstName);
-}
+      // ✅ Save authentication info via AuthContext
+      login({
+        token: data.token,
+        userId: data.user?.id,
+        userType: data.user?.userType,
+      });
 
-      // ✅ Redirect users by role
-      if (data.user?.userType === "Student") {
-        // Student → /dashboard
-        window.location.href = `${
-          import.meta.env.VITE_DASHBOARD_URL
-        }/dashboard?token=${data.token}&userId=${data.user.id}`;
-      } else if (data.user?.userType === "Teacher") {
-        // Teacher → /teacher/dashboard
-        window.location.href = `${
-          import.meta.env.VITE_DASHBOARD_URL
-        }/teacher/dashboard?token=${data.token}&userId=${data.user.id}`;
+      // Store user's name for navbar initial
+      if (data.user?.name || data.user?.firstName) {
+        localStorage.setItem("userName", data.user.name || data.user.firstName);
+      }
+
+      // ✅ Redirect users by role using React Router
+      if (data.user?.userType === "Teacher") {
+        navigate("/teacher/dashboard");
+      } else if (data.user?.userType === "Admin") {
+        navigate("/admin/dashboard");
       } else {
-        // fallback → main dashboard
-        window.location.href = `${
-          import.meta.env.VITE_DASHBOARD_URL
-        }/dashboard`;
+        // Default: Student
+        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message || "Login failed");

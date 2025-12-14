@@ -42,6 +42,11 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         buttonBg: '#A9DEF9',
+        // Dashboard-specific colors
+        textColor: "#E3E2F2",
+        backgroundColor: "#070712",
+        accent1: "#0f0f1c",
+        accent2: "#e3e2f2",
         primary: {
           DEFAULT: '#212B27',
           foreground: "hsl(var(--primary-foreground))",
