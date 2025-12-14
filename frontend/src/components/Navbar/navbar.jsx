@@ -69,11 +69,16 @@ const Navbar = () => {
   };
 
   const handleDashboard = () => {
-    // Keep same flow as earlier: send user to the dashboard app
+    // Navigate within the same app using React Router
     if (user?.type === "Teacher") {
-      window.location.href = `${import.meta.env.VITE_DASHBOARD_URL}/teacher/dashboard`;
+      navigate("/teacher/dashboard");
+    } else if (user?.type === "Student") {
+      navigate("/dashboard");
+    } else if (user?.type === "Admin") {
+      navigate("/admin/dashboard");
     } else {
-      window.location.href = `${import.meta.env.VITE_DASHBOARD_URL}/dashboard`;
+      // Fallback
+      navigate("/dashboard");
     }
   };
 
