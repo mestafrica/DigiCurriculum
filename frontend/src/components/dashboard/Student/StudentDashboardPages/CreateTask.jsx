@@ -5,7 +5,7 @@ import { useAuth } from "../../../../context/AuthContext";
 const CreateTask = () => {
   const [title, setTitle] = useState("");
   const [subjectTag, setSubjectTag] = useState("");
-  const [status, setStatus] = useState("upcoming");
+  const [status, setStatus] = useState("upcomingTasks");
   const [description, setDescription] = useState("");
   const [showToast, setShowToast] = useState(false);
   const { token } = useAuth();
