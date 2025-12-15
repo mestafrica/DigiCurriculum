@@ -192,11 +192,11 @@ const Navbar = () => {
             </div>
           )}
 
-          <a href="https://gesdeveloper.netlify.app/">
+          <Link to="/signup">
             <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
               Get Started - It's Free &gt;
             </button>
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -258,11 +258,11 @@ const Navbar = () => {
                 )}
               </div>
 
-              <a href="https://gesdeveloper.netlify.app/" className="w-full flex justify-center">
+              <Link to="/signup" className="w-full flex justify-center">
                 <button className="bg-[#A9DEF9] text-secondary-foreground px-4 py-2 rounded-lg mx-4 my-2">
                   Get Started - It's Free &gt;
                 </button>
-              </a>
+              </Link>
             </div>
           )}
         </div>
