@@ -59,9 +59,9 @@ const StudentDashboard = () => {
           {/* Lesson Notes */}
           <div className="p-6 bg-yellow-50 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 cursor-pointer">
             <img src={image} alt="lesson-notes" className="w-16 mx-auto" />
-            <h2 className="text-xl font-semibold text-center mt-4">tasks</h2>
+            <h2 className="text-xl font-semibold text-center mt-4">Tasks</h2>
             <p className="text-muted-foreground text-center mt-2">
-              Easily generate structured lesson notes.
+              Plan your studies with a your task manager.
             </p>
           </div>
         </Link>
@@ -74,7 +74,7 @@ const StudentDashboard = () => {
               AI Tools
             </h2>
             <p className="text-muted-foreground text-center mt-2">
-              Prepare your lesson calendar instantly.
+              Get instant assistance from your AI partner.
             </p>
           </div>
         </Link>
@@ -87,7 +87,7 @@ const StudentDashboard = () => {
               Library
             </h2>
             <p className="text-muted-foreground text-center mt-2">
-              Generate customized student assignments effortlessly.
+              Find books and other materials to make learning easy.
             </p>
           </div>
         </Link>
