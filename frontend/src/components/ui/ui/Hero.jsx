@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -73,11 +74,11 @@ const Hero = () => {
             <p className="text-base sm:text-lg md:text-xl mb-6">
               {slides[currentIndex].text}
             </p>
-            <a href="https://gesdeveloper.netlify.app/">
+            <Link to="/signup">
               <button className="bg-blue-400 text-black font-bold py-3 px-8 rounded-lg shadow hover:bg-blue-500 transition transform hover:scale-105">
                 Experience the change now &gt;
               </button>
-            </a>
+            </Link>
           </div>
         </motion.div>
       </AnimatePresence>
@@ -102,9 +103,8 @@ const Hero = () => {
           <div
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`w-3 h-3 rounded-full cursor-pointer ${
-              i === currentIndex ? "bg-blue-400" : "bg-gray-400"
-            }`}
+            className={`w-3 h-3 rounded-full cursor-pointer ${i === currentIndex ? "bg-blue-400" : "bg-gray-400"
+              }`}
           />
         ))}
       </div>
