@@ -48,7 +48,7 @@ export const handleSignup = async (req, res) => {
       lastName,
       firstName,
       password: hashedPassword,
-      isVerified: false,
+      isVerified: true,
       // otp,
       // otpExpiry: Date.now() + 15 * 60 * 1000, // 15 mins expiration
     });
@@ -155,3 +155,6 @@ export const logoutUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+// Digi-Curriculum
