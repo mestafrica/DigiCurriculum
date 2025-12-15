@@ -81,43 +81,41 @@ const Tasks = () => {
 
   return (
     <>
-      <div className="md:mt-0 mt-10 flex flex-col items-center p-4 bg-blue-100">
-  <div className="bg-blue-100 flex flex-col md:flex-row gap-4 w-full">
-    
-    <TaskColumn 
-      title="Upcoming Tasks"
-      tasks={filterTasks("upcomingTasks")}
-      onDelete={deleteTask}
-    />
+      <div className="md:mt-20 mt-10 flex flex-col items-center p-4 bg-blue-100">
+        <div className="bg-blue-100 flex flex-col md:flex-row gap-4 w-full ">
+          <TaskColumn
+            title="Upcoming Tasks"
+            tasks={filterTasks("upcomingTasks")}
+            onDelete={deleteTask}
+          />
 
-    <TaskColumn
-      title="To Do Tasks"
-      tasks={filterTasks("toDo")}
-      onDelete={deleteTask}
-    />
+          <TaskColumn
+            title="To Do Tasks"
+            tasks={filterTasks("toDo")}
+            onDelete={deleteTask}
+          />
 
-    <TaskColumn
-      title="In Progress"
-      tasks={filterTasks("inProgress")}
-      onDelete={deleteTask}
-    />
+          <TaskColumn
+            title="In Progress"
+            tasks={filterTasks("inProgress")}
+            onDelete={deleteTask}
+          />
 
-    <TaskColumn
-      title="Done"
-      tasks={filterTasks("done")}
-      onDelete={deleteTask}
-    />
-  </div>
+          <TaskColumn
+            title="Done"
+            tasks={filterTasks("done")}
+            onDelete={deleteTask}
+          />
+        </div>
 
-  <div className="flex justify-center mt-4">
-    <Link to="/create-task">
-      <button className="bg-secondary text-secondary-foreground px-4 py-2 rounded">
-        +
-      </button>
-    </Link>
-  </div>
-</div>
-
+        <div className="flex justify-center mt-4">
+          <Link to="/create-task">
+            <button className="bg-secondary text-secondary-foreground px-4 py-2 rounded">
+              +
+            </button>
+          </Link>
+        </div>
+      </div>
     </>
   );
 };

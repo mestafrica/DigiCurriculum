@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 
 const TaskColumn = ({ title, tasks, onDelete }) => {
   const statusStyles = {
-  upcomingTasks:
-    "bg-blue-50 border-blue-300 shadow-blue-200 hover:shadow-blue-100",
-  toDo:
-    "bg-yellow-50 border-yellow-300 shadow-yellow-200 hover:shadow-yellow-100",
-  inProgress:
-    "bg-purple-50 border-purple-300 shadow-purple-200 hover:shadow-purple-100",
-  done:
-    "bg-green-50 border-green-300 shadow-green-200 hover:shadow-green-100",
-};
+    upcomingTasks:
+      "bg-blue-50 border-blue-300 shadow-blue-50 hover:shadow-blue-100",
+    toDo: "bg-yellow-50 border-yellow-300 shadow-yellow-50 hover:shadow-yellow-100",
+    inProgress:
+      "bg-purple-50 border-purple-300 shadow-purple-50 hover:shadow-purple-100",
+    done: "bg-green-50 border-green-300 shadow-green-50 hover:shadow-green-100",
+  };
 
   return (
     <div className="md:w-1/4 bg-card p-4 rounded-lg shadow">
@@ -19,7 +17,7 @@ const TaskColumn = ({ title, tasks, onDelete }) => {
         {title} <span className="text-orange-500">({tasks.length})</span>
       </h2>
 
-      <div className="space-y-2 mt-2 ">
+      <div className="space-y-2 mt-8 ">
         {tasks.map((task) => (
           <div
             key={task._id}
