@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const BroadcastList = () => {
   const token = sessionStorage.getItem("token")
   
@@ -18,7 +20,7 @@ const BroadcastList = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://.....217/api/v1/all-broadcasted-messages",
+        `${apiUrl}/api/v1/all-broadcasted-messages`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,7 +46,7 @@ const BroadcastList = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `http://.....217/api/v1/delete-message-broadcast/${broadcastId}`,
+      url: `${apiUrl}/api/v1/delete-message-broadcast/${broadcastId}`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

@@ -197,11 +197,11 @@ export default function FAQS() {
               simulations, and much more.
             </h4>
           </div>
-          <a href="https://gesdeveloper.netlify.app/">
-          <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
-            Get Started - It's Free &gt;
-          </button>
-          </a>
+          <Link to="/signup">
+            <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
+              Get Started - It's Free &gt;
+            </button>
+          </Link>
         </div>
       </div>
     </div>

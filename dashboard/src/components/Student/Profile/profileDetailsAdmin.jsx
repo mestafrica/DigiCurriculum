@@ -6,6 +6,8 @@ import EditPassword from "./passwordEdit";
 import axios from "axios";
 import { token } from "../../../../config";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ProfileDetailStudent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
@@ -38,7 +40,7 @@ const ProfileDetailStudent = () => {
       redirect: "follow",
     };
 
-    fetch("http://.....217/api/user", requestOptions)
+    fetch(`${apiUrl}/api/user`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setUserData(result);
@@ -71,7 +73,7 @@ const ProfileDetailStudent = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://.....217/api/v1/updateAvatar",
+      url: `${apiUrl}/api/v1/updateAvatar`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -104,7 +106,7 @@ const ProfileDetailStudent = () => {
             <img
               src={
                 userData
-                  ? `http://.....217/${userData.avatar}`
+                  ? `${apiUrl}/${userData.avatar}`
                   : selectedImage
               }
               alt="Profile Image"

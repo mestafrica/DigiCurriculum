@@ -6,7 +6,7 @@ export const createdApiKey=async(req,res)=>{
         const newKey =generateApiKey();
         console.log(newKey)
      //   const salt = bcrypt.genSaltSync(10);
-        const hashedKey = await bcrypt.hashSync(newKey,10); // Hash the API
+        const hashedKey = await bcrypt.hash(newKey,10); // Hash the API
         console.log(hashedKey)
         const apiKey = new ApiKey({ key: hashedKey, active: true});
         await apiKey.save()

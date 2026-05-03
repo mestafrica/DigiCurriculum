@@ -5,6 +5,8 @@ import image from "../../../assets/Images/lesson.svg"
 import image2 from "../../../assets/Images/calendar.svg"
 import image3 from "../../../assets/Images/assignment.svg"
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 
 const StudentDashboard = () => {
@@ -14,7 +16,7 @@ const StudentDashboard = () => {
 useEffect(() => {
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get('http://..../me',
+            const response = await axios.get(`${apiUrl}/me`,
             {withCredentials: true});
             console.log(response.data);
             setUserInfo(response.data);    

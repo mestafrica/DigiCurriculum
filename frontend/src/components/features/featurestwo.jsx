@@ -33,10 +33,10 @@ const FeaturesTwo = () => {
           </div>
           <div className="p-6 md:p-8 lg:p-10">
             <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl">
-              Litmus Test - For Teachers
+              DigiCurriculum - For Teachers
             </h2>
             <p className="text-gray-700 mt-4 md:mt-6">
-              Litmus Test streamlines classroom administration and enhances the
+              DigiCurriculum streamlines classroom administration and enhances the
               teaching experience by providing more time for what truly matters
               – teaching and dedicated student support. The result is an
               empowered and more efficient teaching workforce.

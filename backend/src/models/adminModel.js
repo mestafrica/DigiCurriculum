@@ -15,6 +15,4 @@ const adminSchema = new Schema({
     resetPasswordExpire: Date
 });
 
-adminSchema.index({ email: 1 }, { unique: true });
-
 export const adminModel = model('Admin', adminSchema);

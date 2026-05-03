@@ -1,5 +1,5 @@
 import { userModel } from "../models/userModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const signIn = async (req, res) => {

@@ -5,8 +5,14 @@ export const  apiKeyAuth =async(req,res,next)=>{
     if(!apiKey){
         return res.status(401).json({error:'API Key is required'})
     }
-    const apiKeys =await DeveloperModel.findOne();
-    const validKey= apiKeys.some(key =>bcrypt.compareSync(apiKey,key.hashedkey))
+    const apiKeys =await DeveloperModel.find();
+    let validKey = false;
+    for (const key of apiKeys) {
+        if (key.hashedkey && await bcrypt.compare(apiKey, key.hashedkey)) {
+            validKey = true;
+            break;
+        }
+    }
     if(!validKey){
         return res.status(403).json({error:'Invalid API key'});
     }

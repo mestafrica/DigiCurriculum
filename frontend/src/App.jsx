@@ -7,6 +7,7 @@ import Profile from "./pages/register/Profile";
 import SignIn from "./pages/register/Login";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
+import AIAssistant from "./pages/AIAssistant";
 
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
   { path: "/signin", element: <SignIn /> },
   { path: "/contact", element: <ContactPage /> },
   { path: "/about", element: <AboutPage /> },
+  { path: "/assistant", element: <AIAssistant /> },
 ];
 
 function App() {

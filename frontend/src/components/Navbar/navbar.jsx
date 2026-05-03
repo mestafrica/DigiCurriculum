@@ -126,17 +126,20 @@ const Navbar = () => {
           <Link to="/contact" className="text-primary font-medium mx-4">
             Contact
           </Link>
+          <Link to="/assistant" className="text-primary font-medium mx-4">
+            AI Assistant
+          </Link>
         </div>
 
         <div className="hidden lg:flex items-center">
           <Link to="/signin" className="text-primary font-bold  mx-4">
             Login
           </Link>
-          <a href="https://gesdeveloper.netlify.app/">
-          <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
-            Get Started - It's Free &gt;
-          </button>
-          </a>
+          <Link to="/signup">
+            <button className="bg-[#A9DEF9] text-secondary-foreground font-bold px-4 py-2 rounded-lg mx-4">
+              Get Started - It's Free &gt;
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -201,11 +204,14 @@ const Navbar = () => {
             )}
           </div>
 
-          <Link to="#" className="text-primary-foreground mx-4 my-2">
+          <Link to="/about" className="text-primary-foreground mx-4 my-2">
             About Us
           </Link>
-          <Link to="#" className="text-primary-foreground mx-4 my-2">
+          <Link to="/contact" className="text-primary-foreground mx-4 my-2">
             Contact
+          </Link>
+          <Link to="/assistant" className="text-primary-foreground mx-4 my-2">
+            AI Assistant
           </Link>
           <Link to="/signin" className="text-primary-foreground mx-4 my-2">
             Login

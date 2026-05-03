@@ -18,7 +18,7 @@ export const signupDeveloper = async(req, res, next) => {
             return res.status(409).json("Developer already exist!");
         }
         // hash password
-        const hashedPassword= bcrypt.hashSync(value.password, 10);
+        const hashedPassword= await bcrypt.hash(value.password, 10);
 
         const apiKey = await generateApiKey()
         // save developer into database
@@ -48,7 +48,7 @@ export const loginDeveloper = async (req, res, next) => {
             return res.status(404).json('User does not exit')
         }
         // password comparism
-        const correctPassword = bcrypt.compareSync(value.password, user.password);
+        const correctPassword = await bcrypt.compare(value.password, user.password);
         if (!correctPassword) {
             return res.status(401).json("Invalid credentials");
         }

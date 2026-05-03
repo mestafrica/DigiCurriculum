@@ -53,6 +53,4 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire: Date
 });
 
-userSchema.index({ email: 1 }, { unique: true });
-
 export const userModel = mongoose.model('User', userSchema);

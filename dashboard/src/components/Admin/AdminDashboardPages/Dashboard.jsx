@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Dashboard = () => {
 const token = sessionStorage.getItem("token")
 
@@ -31,7 +33,7 @@ const token = sessionStorage.getItem("token")
       };
 
      await fetch(
-        "http://.....217/api/v1/count-total-registered-users",
+        `${apiUrl}/api/v1/count-total-registered-users`,
         requestOptions
       )
         .then((response) => response.json())
@@ -59,7 +61,7 @@ const token = sessionStorage.getItem("token")
       };
 
      await fetch(
-        "http://.....217/api/v1/overall-total-oustanding-payments",
+        `${apiUrl}/api/v1/overall-total-oustanding-payments`,
         requestOptions
       )
         .then((response) => response.json())
@@ -78,7 +80,7 @@ const token = sessionStorage.getItem("token")
     try {
       
       const [newMemberResponse] = await Promise.all([
-        axios.get("http://.....217/api/v1/users-registered-in-last-month"),
+        axios.get(`${apiUrl}/api/v1/users-registered-in-last-month`),
       ]);
 
       setTotalNewMember(newMemberResponse.data.total_new_member);
