@@ -1,6 +1,6 @@
-import { userModel } from "../models/userModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
+import { userModel } from "../models/userModel.js";
 // import { sendOTPEmail } from "../utils/otpUtils.js";
 
 dotenv.config();
@@ -147,8 +147,8 @@ export const deleteUser = async (req, res) => {
 //logic to logout user
 export const logoutUser = async (req, res) => {
   try {
-    res.status(200).json({ 
-      message: "User logged out successfully" 
+    res.status(200).json({
+      message: "User logged out successfully"
     });
   } catch (error) {
     console.error("Error during logout:", error);
