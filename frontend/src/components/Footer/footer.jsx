@@ -44,7 +44,7 @@ const Footer = () => {
               <div>
                 <h3 className="font-semibold">More</h3>
                 <ul className="list-disc list-inside">
-                <Link to="#"><li>API</li></Link>
+                <Link to="https://gesdeveloper.netlify.app/"><li>API</li></Link>
                 <Link to="#"><li>Features</li></Link>
                 <Link to="#"><li>GES</li></Link>
                 </ul>

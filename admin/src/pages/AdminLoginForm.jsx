@@ -23,8 +23,9 @@ const Login = () => {
     setLoading(true);
 
     try {
+      const BASE_URL = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(
-        'https://digitizing-the-ges-curriculum-21yp.onrender.com/admin/auth/login',
+       ` ${BASE_URL}/admin/auth/login`,
         formData
       );
 

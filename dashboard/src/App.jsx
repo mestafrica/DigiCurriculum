@@ -54,6 +54,7 @@ const routes = [
     path: "/admin",
     element: <Backoffice />,
     children: [
+      { path: "", element: <Navigate to="dashboard" replace /> }, // 👈 default redirect
       { path: "dashboard", element: <Dashboard /> },
       { path: "curriculum", element: <Curriculum /> },
       { path: "assessment", element: <Assessment /> },
@@ -73,19 +74,22 @@ const routes = [
       { path: "tools", element: <Tools /> },
       { path: "library", element: <StudentLibrary /> },
       { path: "settings", element: <ProfileDetailStudent /> },
+      { path: "create-task", element: <CreateTask /> },
+      { path: "tasks/:id/edit", element: <EditTask />} ,
     ],
   },
   {
     path: "/teacher",
     element: <TeacherRoom />,
     children: [
+      { path: "", element: <Navigate to="dashboard" replace /> }, // 👈 default redirect
       { path: "dashboard", element: <Home /> },
       { path: "lessons", element: <Lessons /> },
       { path: "calendar", element: <Calendar /> },
       { path: "tools", element: <AiTools /> },
       { path: "material", element: <Materials /> },
       { path: "ready", element: <Readytouse /> },
-      { path: "settings", element: <ProfileDetailsTeacher /> },
+      { path: "profile", element: <ProfileDetailsTeacher /> },
     ],
   },
 ];

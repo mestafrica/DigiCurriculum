@@ -1,0 +1,19 @@
+Folder PATH listing
+Volume serial number is 5226-69B9
+C:\USERS\EDDIE\DESKTOP\DIGICURRICULUM\DASHBOARD\SRC\COMPONENTS\TEACHER
++---Profile
+¦       editProfile.jsx
+¦       emailEdit.jsx
+¦       passwordEdit.jsx
+¦       profileDetailsTeacher.jsx
+¦       
++---TeacherDashboardPages
+        Calendar.jsx
+        Dashboard.jsx
+        Lessons.jsx
+        Materials.jsx
+        Readytouse.jsx
+        Sidebar.jsx
+        Teacherroom.jsx
+        Tools.jsx
+        

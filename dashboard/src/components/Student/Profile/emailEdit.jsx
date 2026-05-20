@@ -3,6 +3,8 @@ import axios from "axios";
 import LitLoader from "../../Loader/LitLoader";
 import AuthAlert from "../../Auth-Alert/AuthAlert";
 
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 function EditEmail({ closeModel }) {
   const modelRef = useRef();
   const [form, setForm] = useState({
@@ -12,7 +14,7 @@ function EditEmail({ closeModel }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("token");
-
+  const userId = localStorage.getItem("userId");
 
   const isValidForm = () => {
     const { email } = form;
@@ -34,7 +36,7 @@ function EditEmail({ closeModel }) {
       redirect: "follow",
     };
 
-    fetch("http://3.89.152.217/api/user", requestOptions)
+    fetch(`${baseUrl}/user/${userId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setForm({
@@ -57,36 +59,41 @@ function EditEmail({ closeModel }) {
     setSubmitted(true);
 
     if (isValidForm()) {
+      setIsLoading(true);
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://3.89.152.217/api/v1/editProfile",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: form.email,
-    };
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${baseUrl}/update-user/${userId}`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json", // ✅ important
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          email: form.email, // ✅ send as object, not just string
+        },
+      };
 
-    await axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        alert("Update Successfull!")
-        setTimeout(()=>{
-          closeModel();
-        }, 1000);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // setErrorMessage(error.message)
-        alert(error.response.data.message);
-        console.log(error);
-        setIsLoading(false);
-      });
-  }
-  }
+      await axios
+        .request(config)
+        .then((response) => {
+          console.log("✅ Update success:", response.data);
+          alert("Update Successful!");
+          setTimeout(() => {
+            closeModel();
+          }, 1000);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          const message =
+            error.response?.data?.message || "Something went wrong!";
+          alert(message);
+          console.error("❌ Update failed:", error);
+          setIsLoading(false);
+        });
+    }
+  };
 
   const refCloseFormModel = (e) => {
     if (modelRef.current === e.target) {

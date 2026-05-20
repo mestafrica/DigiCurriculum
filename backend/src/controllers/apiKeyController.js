@@ -1,7 +1,8 @@
-import ApiKey from "../models/apiKeyModel.js";
+import { DeveloperModel } from "../models/developerModel.js";
 import { generateApiKey } from "../utils/keyGenerator.js";
-import bcrypt from 'bcryptjs'
-export const createdApiKey=async(req,res)=>{
+import bcrypt from "bcryptjs";
+
+export const requestApiKey = async (req, res) => {
     try {
         const newKey =generateApiKey();
         console.log(newKey)
@@ -13,11 +14,9 @@ export const createdApiKey=async(req,res)=>{
         res.status(201).json({message: 'API key generated successfully', apiKey})
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({error:'An error occured while generating the API Key '})
+        res.status(500).json({ error: "Error generating API key" });
     }
-}
-
+};
 
 
 
