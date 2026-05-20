@@ -35,9 +35,9 @@ export const apiPostCurriculum = async (payload) => {
   };
   
 
-  export const apiUpdateCurriculum = async (curriculumId, payload) => {
+  export const apiUpdateCurriculum = async (code, payload) => {
     try {
-      const response = await apiClient.patch(`/curriculum/${curriculumId}`, payload);
+      const response = await apiClient.patch(`/curriculum/${code}`, payload);
       return response.data; // Return the updated curriculum
     } catch (error) {
       console.error("Error updating curriculum:", error);
@@ -46,9 +46,9 @@ export const apiPostCurriculum = async (payload) => {
   };
 
   
-  export const apiDeleteCurriculum = async (curriculumId) => {
+  export const apiDeleteCurriculum = async (code) => {
     try {
-      const response = await apiClient.delete(`/curriculum/${curriculumId}`);
+      const response = await apiClient.delete(`/curriculum/${code}`);
       return response.data; // Return confirmation of deletion
     } catch (error) {
       console.error("Error deleting curriculum:", error);

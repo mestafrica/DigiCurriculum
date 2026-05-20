@@ -8,7 +8,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "predev": "node kill-port.js",
     "dev": "nodemon index.js",
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js",
+    "curriculum:check": "node scripts/curriculum/check.js",
+    "curriculum:list": "node scripts/curriculum/list.js",
+    "curriculum:debug-secondary": "node scripts/curriculum/debug-secondary.js",
+    "curriculum:cleanup": "node scripts/curriculum/cleanup.js",
+    "curriculum:cleanup:apply": "node scripts/curriculum/cleanup.js --apply",
+    "curriculum:reset": "node scripts/curriculum/reset.js"
   },
   "author": "",
   "license": "ISC",

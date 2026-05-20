@@ -44,6 +44,7 @@ const aiService = {
   getCurricula: async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/curriculum`, {
+        params: { limit: 500 }, // Fetch all subjects (90+ in DB)
         withCredentials: true
       });
       return response.data;

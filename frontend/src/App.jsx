@@ -14,6 +14,7 @@ const routes = [
   { path: "/", element: <Home /> },
   { path: "/signup", element: <Signup /> },
   { path: "/profile", element: <Profile /> },
+  { path: "/otp", element: <CompleteSignup /> },
   { path: "/completesignup", element: <CompleteSignup /> },
   { path: "/signin", element: <SignIn /> },
   { path: "/contact", element: <ContactPage /> },

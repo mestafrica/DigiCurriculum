@@ -19,32 +19,32 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
     {
       title: "Dashboard",
       icon: <LuTable2 />,
-      link: "/dashboard",
+      link: "/admin/dashboard",
     },
      {
       title: "Curriculum",
       icon: <LuScroll />,
-      link: "/curriculum",
+      link: "/admin/curriculum",
     },
     {
       title: "Assessment",
       icon: <MdOutlineAssessment />,
-      link: "/assessment",
+      link: "/admin/assessment",
     },
     {
       title: "Calendar",
       icon: <LuCalendar />,
-      link: "/calendar",
+      link: "/admin/calendar",
     },
     {
       title: "Broadcasts",
       icon: <BsBroadcast />,
-      link: "/broadcasts",
+      link: "/admin/broadcasts",
     },
     {
       title: "Users",
       icon: <LuUsers2 />,
-      link: "/users",
+      link: "/admin/users",
     },
     {
       title: "Settings",

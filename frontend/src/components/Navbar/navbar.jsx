@@ -62,7 +62,7 @@ const Navbar = () => {
         </button>
 
         <div className="hidden lg:flex flex-grow justify-center items-center">
-          <div className="relative" ref={userCasesRef}>
+          {/* <div className="relative" ref={userCasesRef}>
             <button
               onClick={() => toggleDropdown("userCases")}
               className="flex text-primary font-medium mx-4 focus:outline-none"
@@ -89,9 +89,9 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-          </div>
+          </div> */}
 
-          <div className="relative" ref={resourcesRef}>
+          {/* <div className="relative" ref={resourcesRef}>
             <button
               onClick={() => toggleDropdown("resources")}
               className="flex text-primary font-medium mx-4 focus:outline-none"
@@ -118,16 +118,16 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-          </div>
+          </div> */}
 
           <Link to="/about" className="text-primary font-medium mx-4">
             About Us
           </Link>
-          <Link to="/contact" className="text-primary font-medium mx-4">
-            Contact
-          </Link>
           <Link to="/assistant" className="text-primary font-medium mx-4">
             AI Assistant
+          </Link>
+            <Link to="/contact" className="text-primary font-medium mx-4">
+            Contact
           </Link>
         </div>
 

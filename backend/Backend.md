@@ -13,6 +13,6 @@ This document provides an overview and setup instructions for the backend of the
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/mestafrica/digitizing-the-ges-curriculum.git
+   git clone https://github.com/mestafrica/digitizing-the-ges-curriculum.gitnd
    cd digitizing-the-ges-curriculum/backend
    ```

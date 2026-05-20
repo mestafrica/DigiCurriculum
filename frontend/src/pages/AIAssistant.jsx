@@ -229,12 +229,14 @@ export default function AIAssistant() {
           </div>
           <span className="font-bold text-2xl tracking-tight">DigiCurriculum AI</span>
         </Link>
-        <button 
-          onClick={() => setIsDarkMode(!isDarkMode)}
-          className={`p-2 rounded-full ${isDarkMode ? "bg-gray-700 text-yellow-400" : "bg-white text-gray-600 shadow-sm"} transition`}
-        >
-          {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className={`p-2 rounded-full ${isDarkMode ? "bg-gray-700 text-yellow-400" : "bg-white text-gray-600 shadow-sm"} transition`}
+          >
+            {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+          </button>
+        </div>
         <div className="ml-4">
         </div>
       </nav>
@@ -280,39 +282,123 @@ export default function AIAssistant() {
               {/* Left Panel (Input) */}
               <div className={`flex-1 rounded-lg border flex flex-col ${isDarkMode ? "border-gray-600 bg-gray-900" : "border-gray-200 bg-white"}`}>
                 <div className={`px-4 py-3 border-b flex flex-col md:flex-row gap-3 ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
-                  <select 
-                    value={selectedCurriculumIndex}
-                    onChange={(e) => {
-                      setSelectedCurriculumIndex(parseInt(e.target.value));
-                      setSelectedStrandIndex(0); // Reset strand
-                    }}
-                    className={`bg-transparent font-medium outline-none cursor-pointer text-sm ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
-                  >
-                    {isLoadingCurricula ? (
-                      <option>Loading...</option>
-                    ) : curricula.length > 0 ? (
-                      curricula.map((c, i) => (
-                        <option key={c._id} value={i} className={isDarkMode ? "bg-gray-800" : "bg-white"}>
-                          Grade {c.grade} - {c.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option>No Curricula Found</option>
-                    )}
-                  </select>
-
-                  {curricula[selectedCurriculumIndex]?.strands && (
+                  {/* Primary & KG Subjects */}
+                  <div className="flex flex-col gap-1 flex-1">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 ml-1">Primary Education Subjects</label>
                     <select 
-                      value={selectedStrandIndex}
-                      onChange={(e) => setSelectedStrandIndex(parseInt(e.target.value))}
-                      className={`bg-transparent font-medium outline-none cursor-pointer text-sm border-l pl-3 ${isDarkMode ? "text-gray-200 border-gray-600" : "text-gray-700 border-gray-200"}`}
+                      value={(curricula[selectedCurriculumIndex]?.category || '').toLowerCase() === 'secondary' ? "" : selectedCurriculumIndex}
+                      onChange={(e) => {
+                        if (e.target.value === "") return;
+                        setSelectedCurriculumIndex(parseInt(e.target.value));
+                        setSelectedStrandIndex(0);
+                      }}
+                      className={`bg-transparent font-medium outline-none cursor-pointer text-sm p-1 border rounded-lg ${isDarkMode ? "text-gray-200 border-gray-700 bg-gray-800" : "text-gray-700 border-gray-200 bg-gray-50"}`}
                     >
-                      {curricula[selectedCurriculumIndex].strands.map((s, i) => (
-                        <option key={s._id || i} value={i}>
-                          {s.name}
-                        </option>
-                      ))}
+                      <option value="">-- Select Primary Subject --</option>
+                      {isLoadingCurricula ? (
+                        <option disabled>Loading...</option>
+                      ) : (
+                        <>
+                          {['Kindergarten', 'Primary'].map(cat => (
+                            <optgroup key={cat} label={cat} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
+                              {curricula
+                                .map((c, i) => ({ ...c, originalIndex: i }))
+                                .filter(c => {
+                                  const cCat = (c.category || '').toLowerCase();
+                                  const targetCat = cat.toLowerCase();
+                                  // Map missing category to Primary as a fallback
+                                  if (!c.category && cat === 'Primary') return true;
+                                  return cCat === targetCat;
+                                })
+                                .map((c) => (
+                                  <option key={c._id} value={c.originalIndex}>
+                                    {c.grade === 0 ? 'KG' : `B${c.grade}`} - {c.name}
+                                  </option>
+                                ))
+                              }
+                            </optgroup>
+                          ))}
+                        </>
+                      )}
                     </select>
+                  </div>
+
+                  {/* Secondary Subjects */}
+                  <div className="flex flex-col gap-1 flex-1">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-blue-600 ml-1">Secondary Education Subjects</label>
+                    <select 
+                      value={(curricula[selectedCurriculumIndex]?.category || '').toLowerCase() === 'secondary' ? selectedCurriculumIndex : ""}
+                      onChange={(e) => {
+                        if (e.target.value === "") return;
+                        setSelectedCurriculumIndex(parseInt(e.target.value));
+                        setSelectedStrandIndex(0);
+                      }}
+                      className={`bg-transparent font-medium outline-none cursor-pointer text-sm p-1 border rounded-lg ${isDarkMode ? "text-gray-200 border-gray-700 bg-gray-800" : "text-gray-700 border-gray-200 bg-gray-50"}`}
+                    >
+                      <option value="">-- Select Secondary Subject --</option>
+                      {isLoadingCurricula ? (
+                        <option disabled>Loading...</option>
+                      ) : (() => {
+                        // Extract the group label from the trailing parenthetical, e.g.
+                        // "Biology (Science & Tech)" → "Science & Tech"
+                        const getGroup = (name) => {
+                          const match = (name || '').match(/\(([^)]+)\)$/);
+                          return match ? match[1] : 'General';
+                        };
+
+                        const secondaryItems = curricula
+                          .map((c, i) => ({ ...c, originalIndex: i }))
+                          .filter(c => (c.category || '').toLowerCase() === 'secondary');
+
+                        if (secondaryItems.length === 0) {
+                          return <option disabled>No secondary subjects loaded</option>;
+                        }
+
+                        // Build a map of group → items, preserving display order
+                        const groupOrder = ['Science & Tech', 'Arts & Humanities', 'Specialized/Vocational', 'General'];
+                        const groupMap = {};
+                        secondaryItems.forEach(c => {
+                          const grp = getGroup(c.name);
+                          if (!groupMap[grp]) groupMap[grp] = [];
+                          groupMap[grp].push(c);
+                        });
+
+                        // Render known groups first, then any unexpected groups
+                        const orderedGroups = [
+                          ...groupOrder.filter(g => groupMap[g]),
+                          ...Object.keys(groupMap).filter(g => !groupOrder.includes(g))
+                        ];
+
+                        return orderedGroups.map(grp => (
+                          <optgroup key={grp} label={grp} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
+                            {groupMap[grp].map(c => (
+                              <option key={c._id} value={c.originalIndex}>
+                                {/* Strip trailing " (Group)" to show clean subject name */}
+                                {c.name.replace(/\s*\([^)]+\)$/, '')}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ));
+                      })()}
+                    </select>
+                  </div>
+
+                  {/* Strand Selection (Only show if a curriculum is selected) */}
+                  {selectedCurriculumIndex !== -1 && curricula[selectedCurriculumIndex]?.strands?.length > 0 && (
+                    <div className="flex flex-col gap-1 flex-1">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Learning Strand</label>
+                      <select 
+                        value={selectedStrandIndex}
+                        onChange={(e) => setSelectedStrandIndex(parseInt(e.target.value))}
+                        className={`bg-transparent font-medium outline-none cursor-pointer text-sm p-1 border rounded-lg ${isDarkMode ? "text-gray-200 border-gray-700 bg-gray-800" : "text-gray-700 border-gray-200 bg-gray-50"}`}
+                      >
+                        {curricula[selectedCurriculumIndex].strands.map((s, i) => (
+                          <option key={s._id || i} value={i}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   )}
                 </div>
                 <div className="relative flex-grow">
@@ -408,8 +494,10 @@ export default function AIAssistant() {
               </div>
 
               {/* Center Divider / Exchange Icon */}
-              <div className="hidden lg:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 items-center justify-center w-10 h-10 rounded-full bg-yellow-500 text-white shadow-lg border-4 border-white cursor-pointer hover:bg-yellow-600 transition">
-                <FaArrowRight size={14} />
+              <div className="hidden lg:flex w-0 shrink-0 self-stretch items-center justify-center z-10">
+                <div className="flex w-10 h-10 shrink-0 items-center justify-center rounded-full bg-yellow-500 text-white shadow-lg border-4 border-white cursor-pointer hover:bg-yellow-600 transition">
+                  <FaArrowRight size={14} />
+                </div>
               </div>
 
               {/* Right Panel (Output) */}

@@ -89,7 +89,7 @@ const EditCurriculumDialog = ({ curriculum, isOpen, onClose, onSave }) => {
       setIsLoading(true);
       setError(null);
       const updatedCurriculum = await apiUpdateCurriculum(
-        editedCurriculum._id,
+        editedCurriculum.code,
         editedCurriculum
       );
       onSave(updatedCurriculum);
@@ -264,9 +264,9 @@ const CurriculumList = () => {
 
   const handleDelete = async () => {
     try {
-      if (!selectedCurriculum?._id) return;
+      if (!selectedCurriculum?.code) return;
       
-      await apiDeleteCurriculum(selectedCurriculum._id);
+      await apiDeleteCurriculum(selectedCurriculum.code);
       setCurriculumData((prev) =>
         prev.filter((item) => item._id !== selectedCurriculum._id)
       );
