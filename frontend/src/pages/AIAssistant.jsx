@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { FaMoon, FaSun, FaArrowRight, FaThumbsUp, FaThumbsDown, FaEdit, FaTwitter, FaFacebook, FaYoutube, FaGithub, FaVolumeUp, FaPrint, FaDownload, FaImage, FaFileAlt, FaTimes, FaPaperclip } from "react-icons/fa";
+import { FaMoon, FaSun, FaArrowRight, FaThumbsUp, FaThumbsDown, FaEdit, FaTwitter, FaFacebook, FaYoutube, FaGithub, FaVolumeUp, FaPrint, FaImage, FaFileAlt, FaTimes } from "react-icons/fa";
+import PropTypes from 'prop-types';
 import aiService from "../services/aiService";
 
 export default function AIAssistant() {
@@ -20,10 +21,7 @@ export default function AIAssistant() {
   const [selectedCurriculumIndex, setSelectedCurriculumIndex] = useState(0);
   const [selectedStrandIndex, setSelectedStrandIndex] = useState(0);
   
-  // Ingestion State
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadMessage, setUploadMessage] = useState(null);
-  const fileInputRef = useRef(null);
+  // ingestion removed
 
   // Attached File State
   const [attachedFile, setAttachedFile] = useState(null);
@@ -44,8 +42,30 @@ export default function AIAssistant() {
       try {
         setIsLoadingCurricula(true);
         const data = await aiService.getCurricula();
-        // The backend returns { message, curriculums, pagination }
-        setCurricula(data.curriculums || []);
+        // Support multiple possible response shapes:
+        // 1) { curriculums: [...] }
+        // 2) an array: [...]
+        // 3) { data: [...] } or { curricula: [...] }
+        // Log response for quick debugging
+        console.debug("getCurricula response:", data);
+
+        let list = [];
+        if (!data) {
+          list = [];
+        } else if (Array.isArray(data)) {
+          list = data;
+        } else if (Array.isArray(data.curriculums)) {
+          list = data.curriculums;
+        } else if (Array.isArray(data.curricula)) {
+          list = data.curricula;
+        } else if (Array.isArray(data.data)) {
+          list = data.data;
+        } else {
+          // Fallback: collect any top-level array-like values
+          list = [];
+        }
+
+        setCurricula(list);
       } catch (err) {
         console.error("Failed to fetch curricula:", err);
         setError("Could not load curriculum data. Please try again later.");
@@ -95,36 +115,7 @@ export default function AIAssistant() {
       printWindow.close();
     }, 250);
   };
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    setIsUploading(true);
-    setUploadMessage("AI is analyzing and ingesting curriculum...");
-    setError(null);
-    
-    try {
-      const result = await aiService.ingestCurriculum(formData);
-      setUploadMessage(`Successfully ingested ${result.curriculum.name}!`);
-      
-      // Refresh list
-      const data = await aiService.getCurricula();
-      setCurricula(data.curriculums || []);
-      
-      // Clear after 3 seconds
-      setTimeout(() => setUploadMessage(null), 5000);
-    } catch (err) {
-      console.error("Upload failed:", err);
-      setError(typeof err === 'string' ? err : err.error || "Failed to ingest curriculum.");
-      setUploadMessage(null);
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-  };
+  
 
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
@@ -175,7 +166,6 @@ export default function AIAssistant() {
     }
 
     try {
-      let result;
       if (activeTab === "ask") {
         let query = inputText;
         if (attachedFile) {
@@ -243,11 +233,7 @@ export default function AIAssistant() {
 
       {/* Header */}
       <div className="text-center mt-6 mb-8 px-4">
-        {uploadMessage && (
-          <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-bold animate-bounce inline-block">
-            ✨ {uploadMessage}
-          </div>
-        )}
+        
         <h1 className="text-lg md:text-xl font-medium text-gray-500">
           AI-Powered Curriculum Assistance, Lesson Planning and Assessments
         </h1>
@@ -282,11 +268,13 @@ export default function AIAssistant() {
               {/* Left Panel (Input) */}
               <div className={`flex-1 rounded-lg border flex flex-col ${isDarkMode ? "border-gray-600 bg-gray-900" : "border-gray-200 bg-white"}`}>
                 <div className={`px-4 py-3 border-b flex flex-col md:flex-row gap-3 ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
-                  {/* Primary & KG Subjects */}
+                  {/* Primary Education Subjects removed intentionally */}
+
+                  {/* Secondary Subjects */}
                   <div className="flex flex-col gap-1 flex-1">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 ml-1">Primary Education Subjects</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-blue-600 ml-1">Education Subjects</label>
                     <select 
-                      value={(curricula[selectedCurriculumIndex]?.category || '').toLowerCase() === 'secondary' ? "" : selectedCurriculumIndex}
+                      value={curricula[selectedCurriculumIndex] ? selectedCurriculumIndex : ""}
                       onChange={(e) => {
                         if (e.target.value === "") return;
                         setSelectedCurriculumIndex(parseInt(e.target.value));
@@ -294,92 +282,30 @@ export default function AIAssistant() {
                       }}
                       className={`bg-transparent font-medium outline-none cursor-pointer text-sm p-1 border rounded-lg ${isDarkMode ? "text-gray-200 border-gray-700 bg-gray-800" : "text-gray-700 border-gray-200 bg-gray-50"}`}
                     >
-                      <option value="">-- Select Primary Subject --</option>
+                      <option value="">-- Select Subject --</option>
                       {isLoadingCurricula ? (
                         <option disabled>Loading...</option>
                       ) : (
                         <>
-                          {['Kindergarten', 'Primary'].map(cat => (
-                            <optgroup key={cat} label={cat} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
-                              {curricula
-                                .map((c, i) => ({ ...c, originalIndex: i }))
-                                .filter(c => {
-                                  const cCat = (c.category || '').toLowerCase();
-                                  const targetCat = cat.toLowerCase();
-                                  // Map missing category to Primary as a fallback
-                                  if (!c.category && cat === 'Primary') return true;
-                                  return cCat === targetCat;
-                                })
-                                .map((c) => (
-                                  <option key={c._id} value={c.originalIndex}>
-                                    {c.grade === 0 ? 'KG' : `B${c.grade}`} - {c.name}
+                          {["Science & Tech", "Arts & Humanities", "Specialized/Vocational", "General"].map(groupName => {
+                            const subjectsInGroup = curricula
+                              .map((c, i) => ({ ...c, originalIndex: i }))
+                              .filter(c => c.name.includes(`(${groupName})`));
+                            
+                            if (subjectsInGroup.length === 0) return null;
+                            
+                            return (
+                              <optgroup key={groupName} label={groupName} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
+                                {subjectsInGroup.map((c) => (
+                                  <option key={c._id || c.originalIndex} value={c.originalIndex}>
+                                    {c.name.replace(/\s*\([^)]+\)$/, '').trim()}
                                   </option>
-                                ))
-                              }
-                            </optgroup>
-                          ))}
+                                ))}
+                              </optgroup>
+                            );
+                          })}
                         </>
                       )}
-                    </select>
-                  </div>
-
-                  {/* Secondary Subjects */}
-                  <div className="flex flex-col gap-1 flex-1">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-blue-600 ml-1">Secondary Education Subjects</label>
-                    <select 
-                      value={(curricula[selectedCurriculumIndex]?.category || '').toLowerCase() === 'secondary' ? selectedCurriculumIndex : ""}
-                      onChange={(e) => {
-                        if (e.target.value === "") return;
-                        setSelectedCurriculumIndex(parseInt(e.target.value));
-                        setSelectedStrandIndex(0);
-                      }}
-                      className={`bg-transparent font-medium outline-none cursor-pointer text-sm p-1 border rounded-lg ${isDarkMode ? "text-gray-200 border-gray-700 bg-gray-800" : "text-gray-700 border-gray-200 bg-gray-50"}`}
-                    >
-                      <option value="">-- Select Secondary Subject --</option>
-                      {isLoadingCurricula ? (
-                        <option disabled>Loading...</option>
-                      ) : (() => {
-                        // Extract the group label from the trailing parenthetical, e.g.
-                        // "Biology (Science & Tech)" → "Science & Tech"
-                        const getGroup = (name) => {
-                          const match = (name || '').match(/\(([^)]+)\)$/);
-                          return match ? match[1] : 'General';
-                        };
-
-                        const secondaryItems = curricula
-                          .map((c, i) => ({ ...c, originalIndex: i }))
-                          .filter(c => (c.category || '').toLowerCase() === 'secondary');
-
-                        if (secondaryItems.length === 0) {
-                          return <option disabled>No secondary subjects loaded</option>;
-                        }
-
-                        // Build a map of group → items, preserving display order
-                        const groupOrder = ['Science & Tech', 'Arts & Humanities', 'Specialized/Vocational', 'General'];
-                        const groupMap = {};
-                        secondaryItems.forEach(c => {
-                          const grp = getGroup(c.name);
-                          if (!groupMap[grp]) groupMap[grp] = [];
-                          groupMap[grp].push(c);
-                        });
-
-                        // Render known groups first, then any unexpected groups
-                        const orderedGroups = [
-                          ...groupOrder.filter(g => groupMap[g]),
-                          ...Object.keys(groupMap).filter(g => !groupOrder.includes(g))
-                        ];
-
-                        return orderedGroups.map(grp => (
-                          <optgroup key={grp} label={grp} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
-                            {groupMap[grp].map(c => (
-                              <option key={c._id} value={c.originalIndex}>
-                                {/* Strip trailing " (Group)" to show clean subject name */}
-                                {c.name.replace(/\s*\([^)]+\)$/, '')}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ));
-                      })()}
                     </select>
                   </div>
 
@@ -570,7 +496,7 @@ export default function AIAssistant() {
         
         {/* Under-card text */}
         <div className="text-center mt-6 text-sm text-gray-500">
-          Empower your educational journey with DigiCurriculum's AI-driven insights and interactive planning tools.
+          Empower your educational journey with DigiCurriculum&apos;s AI-driven insights and interactive planning tools.
         </div>
       </main>
 
@@ -673,7 +599,7 @@ const ResultRenderer = ({ content, type, isDarkMode }) => {
         {data.assessment && (
           <section className="p-6 rounded-2xl border-2 border-dashed border-gray-200">
             <h2 className="text-xl font-bold mb-3">Checking for Understanding</h2>
-            <p className="text-gray-500 italic">"{data.assessment}"</p>
+            <p className="text-gray-500 italic">{data.assessment}</p>
           </section>
         )}
 
@@ -749,4 +675,10 @@ const ResultRenderer = ({ content, type, isDarkMode }) => {
       </ReactMarkdown>
     </div>
   );
+};
+
+ResultRenderer.propTypes = {
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
+  type: PropTypes.string,
+  isDarkMode: PropTypes.bool
 };

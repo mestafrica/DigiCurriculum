@@ -1,30 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { RiArrowDropDownLine } from "react-icons/ri";
+// dropdown icon removed with Category/Resources
 import { CgMenuRightAlt } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState({
-    userCases: false,
-    resources: false,
-  });
+  
   const [user, setUser] = useState(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  const userCasesRef = useRef(null);
-  const resourcesRef = useRef(null);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (userCasesRef.current && !userCasesRef.current.contains(event.target)) {
-        setDropdownOpen((prev) => ({ ...prev, userCases: false }));
-      }
-      if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
-        setDropdownOpen((prev) => ({ ...prev, resources: false }));
-      }
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setUserMenuOpen(false);
       }
@@ -53,9 +42,7 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen((s) => !s);
 
-  const toggleDropdown = (dropdown) => {
-    setDropdownOpen((prev) => ({ ...prev, [dropdown]: !prev[dropdown] }));
-  };
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -177,68 +164,11 @@ const Navbar = () => {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="lg:hidden flex flex-col items-center bg-primary mt-4">
-          <div className="relative" ref={userCasesRef}>
-            <button
-              onClick={() => toggleDropdown("userCases")}
-              className="flex text-primary-foreground font-medium mx-4 my-2 focus:outline-none"
-            >
-              Category
-              <RiArrowDropDownLine />
-            </button>
-            {dropdownOpen.userCases && (
-              <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  Student
-                </Link>
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  Teacher
-                </Link>
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  School
-                </Link>
-              </div>
-            )}
-          </div>
-
-          <div className="relative" ref={resourcesRef}>
-            <button
-              onClick={() => toggleDropdown("resources")}
-              className="flex text-primary-foreground font-medium mx-4 my-2 focus:outline-none"
-            >
-              Resources
-              <RiArrowDropDownLine />
-            </button>
-            {dropdownOpen.resources && (
-              <div className="absolute mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  Curriculumn
-                </Link>
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  Course Categories
-                </Link>
-                <Link to="#"
-                  className="block px-4 py-2 text-primary hover:bg-[#EAFAF4]"
-                >
-                  Question Bank
-                </Link>
-              </div>
-            )}
-          </div>
+          
 
           <Link to="/about" className="text-primary-foreground mx-4 my-2">
             About Us
           </Link>
-          <Link to="/contact" className="text-primary-foreground mx-4 my-2">
           <Link to="/contact" className="text-primary-foreground mx-4 my-2">
             Contact
           </Link>

@@ -37,7 +37,7 @@ function Hero() {
           <img src={catalystLogo} alt="Catalyst Logo" className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6" />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

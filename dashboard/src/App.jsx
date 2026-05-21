@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import Backoffice from "./components/Admin/AdminDashboardPages/Backoffice";
 import Dashboard from "./components/Admin/AdminDashboardPages/Dashboard";
 import BroadcastList from "./components/Admin/AdminDashboardPages/Broadcastlist";
@@ -22,6 +22,8 @@ import Home from "./components/Teacher/TeacherDashboardPages/Dashboard";
 import Curriculum from "./components/Admin/AdminDashboardPages/Curriculum";
 import Assessment from "./components/Admin/AdminDashboardPages/Assessment";
 import AdminCalendar from "./components/Admin/AdminDashboardPages/Calendar";
+import CreateTask from "./components/Student/StudentDashboardPages/CreateTask";
+import EditTask from "./components/Student/StudentDashboardPages/editTask";
 
 function DashboardEntry() {
   return (

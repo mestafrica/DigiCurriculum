@@ -68,13 +68,16 @@ app.use(
 );
 
 const mongoUrl = process.env.MONGODB_URL;
+mongoose.set('strictQuery', false);
 mongoose
-  .connect(mongoUrl)
-  .connect(mongoUrl)
-  .then(() => {
-    console.log("Database is connected");
+  .connect(mongoUrl, {
+    // pool size and timeouts help with stability and performance
+    maxPoolSize: 10,
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
   })
-  .catch((error) => console.log(error));
+  .then(() => console.log("Database is connected"))
+  .catch((error) => console.error("Database connection error:", error));
 
 app.use(apiKeyRoutes);
 app.use(developerRouter);

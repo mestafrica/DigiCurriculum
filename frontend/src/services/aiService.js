@@ -54,10 +54,9 @@ const aiService = {
   },
   // Ingest Curriculum Document (AI Ingestion)
   ingestCurriculum: async (formData) => {
-
     try {
+      // Let axios set the Content-Type (including the multipart boundary)
       const response = await axios.post(`${API_BASE_URL}/api/ingest`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });
       return response.data;

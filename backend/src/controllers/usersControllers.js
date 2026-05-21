@@ -1,8 +1,6 @@
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { userModel } from "../models/userModel.js";
-import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 import { sendOTPEmail } from "../utils/otpUtils.js";
 
 dotenv.config();

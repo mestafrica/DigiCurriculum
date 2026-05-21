@@ -134,31 +134,32 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
-            <Link key={index} to={`${Menu.link}`}>
-              <li
-                className={`flex rounded-md p-2 cursor-pointer bg-none text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 
-                ${Menu.gap ? "mt-7" : "mt-2"} ${
-                  Index == index ? "backdrop-blur-sm bg-white/70" : ""
-                } `}
-                onClick={() => changeIndex(index)}
-              >
+            <li
+              key={index}
+              className={`flex rounded-md cursor-pointer bg-none text-black hover:text-primary focus:text-black text-sm items-center 
+              ${Menu.gap ? "mt-7" : "mt-2"} ${
+                Index == index ? "backdrop-blur-sm bg-white/70" : ""
+              } `}
+              onClick={() => changeIndex(index)}
+            >
+              <Link to={`${Menu.link}`} className="flex p-2 items-center gap-x-4 w-full">
                 {Menu.icon}
                 <span
                   className={`${isOpen} origin-left duration-200`}
                 >
                   {Menu.title}
                 </span>
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))}
           <li
             onClick={() => signOut()}
             className="flex rounded-md p-2 cursor-pointer text-black hover:text-primary focus:text-black text-sm items-center gap-x-4 mt-2"
           >
-            {/* <LuArrowLeftFromLine />
+            <LuArrowLeftFromLine />
             <span className={`${!isOpen && "hidden"} origin-left duration-200`}>
-              Signout
-            </span> */}
+              Sign out
+            </span>
           </li>
         </ul>
         <br />
