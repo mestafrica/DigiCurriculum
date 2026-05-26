@@ -48,7 +48,7 @@ const StudentDashboard = () => {
       <div className="mb-10">
         <h1 className="text-3xl font-bold">
           Hello,{" "}
-          <span className="text-primary text-orange-500">
+          <span className="text-orange-500">
             {userInfo?.firstName || "Loading..."}
           </span>
         </h1>

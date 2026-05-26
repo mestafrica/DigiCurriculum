@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predev": "node kill-port.js",
     "dev": "nodemon index.js",
     "start": "nodemon ./index.js",
     "curriculum:check": "node scripts/curriculum/check.js",
