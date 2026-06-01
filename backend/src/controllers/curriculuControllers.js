@@ -12,7 +12,7 @@ export const validateCurriculumData = (data) => {
 
 export const createCurriculum = async (req, res, next) => {
   try {
-    const { name, code, grade, strands, subStrands } = req.body;
+    const { name, code, grade, strands } = req.body;
 
     // Validate required fields
     const validateErrors = validateCurriculumData(req.body);
@@ -32,9 +32,9 @@ export const createCurriculum = async (req, res, next) => {
       code,   
       grade,
       strands,
-      subStrands,
       // admin: req.auth.id
     });
+
 
     await newCurriculum.save();
 

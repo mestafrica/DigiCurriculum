@@ -8,19 +8,25 @@ function CountryDropdown({ selectedCountry, onSelect }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
-  console.log(baseUrl);
+  const restCountriesUrl = "https://restcountries.com/v3.1";
 
   useEffect(() => {
-    // Fetch countries from the REST Countries API
+    // Fetch countries from the REST Countries API with local caching
     const fetchCountries = async () => {
       try {
-        
-        const response = await fetch(`${baseUrl}/all`);
+        const cachedCountries = localStorage.getItem("countries_list");
+        if (cachedCountries) {
+          setCountries(JSON.parse(cachedCountries));
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${restCountriesUrl}/all`);
         if (!response.ok) throw new Error('Failed to fetch countries');
         const data = await response.json();
         const countryList = data.map(country => country.name.common).sort();
         setCountries(countryList);
+        localStorage.setItem("countries_list", JSON.stringify(countryList));
       } catch (error) {
         setError('Failed to load countries');
         console.error(error); 

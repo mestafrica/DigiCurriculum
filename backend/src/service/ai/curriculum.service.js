@@ -4,7 +4,7 @@ import getEmbedding from "../gemini.service.js";
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY,
 });
-const index = pinecone.Index(process.env.PINECONE_INDEX_NAME);
+const index = pinecone.index("index-digicurriculum");
 
 function normalizeString(str) {
   return str?.trim().toLowerCase() || "";

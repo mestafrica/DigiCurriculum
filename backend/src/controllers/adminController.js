@@ -31,7 +31,7 @@ export const registerAdmin = async (req, res, next) => {
 
         // Generate OTP and hash password
         const otp = generateOtp();
-        const hashedPassword = bcrypt.hashSync(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Save new admin
         const newAdmin = new adminModel({
@@ -122,7 +122,7 @@ export const updateAdminProfile = async (req, res, next) => {
     
         let updatedFields = { email, firstName, lastName };
         if (password) {
-            const hashedPassword = bcrypt.hashSync(password, 10)
+            const hashedPassword = await bcrypt.hash(password, 10);
             updatedFields.password =  hashedPassword;
         }
         const updatedAdmin = await adminModel.findByIdAndUpdate(

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../context/AuthContext";
-import { getUserById } from "../../../services/authService";
-import image from "../../../assets/Images/lesson.svg";
-import image2 from "../../../assets/Images/calendar.svg";
-import image3 from "../../../assets/Images/assignment.svg";
+import { FaAngleRight } from "react-icons/fa6";
+import axios from "axios";
+import image from "../../../assets/Images/lesson.svg"
+import image2 from "../../../assets/Images/calendar.svg"
+import image3 from "../../../assets/Images/assignment.svg"
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
 
 const StudentDashboard = () => {
   const { token, userId } = useAuth();
@@ -25,12 +29,14 @@ const StudentDashboard = () => {
     if (!token || !userId) return;
 
     const fetchUserInfo = async () => {
-      try {
-        const response = await getUserById(userId, token);
-        setUserInfo(response.user || response);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
+        try {
+            const response = await axios.get(`${apiUrl}/me`,
+            {withCredentials: true});
+            console.log(response.data);
+            setUserInfo(response.data);    
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     fetchUserInfo();
@@ -42,7 +48,7 @@ const StudentDashboard = () => {
       <div className="mb-10">
         <h1 className="text-3xl font-bold">
           Hello,{" "}
-          <span className="text-primary text-orange-500">
+          <span className="text-orange-500">
             {userInfo?.firstName || "Loading..."}
           </span>
         </h1>

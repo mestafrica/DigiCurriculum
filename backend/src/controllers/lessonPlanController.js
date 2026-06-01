@@ -65,11 +65,11 @@ export const generateLessonPlan = async (req, res, next) => {
     //     .json({ message: `No course found with name ${name}` });
     // }
 
-    const strand = curriculum.strands.find((strands) => strands === strands);
-    if (!strands) {
+    const strand = curriculum.strands.find((s) => s.name === strands);
+    if (!strand) {
       return res
         .status(404)
-        .json({ message: `No strand found with name ${name}` });
+        .json({ message: `No strand found with name ${strands}` });
     }
 
     const prompt = `
