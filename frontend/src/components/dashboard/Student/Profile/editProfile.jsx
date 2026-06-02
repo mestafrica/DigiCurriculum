@@ -10,12 +10,12 @@ function EditProfile({ closeModel }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const modelRef = useRef();
   const [userData, setUserData] = useState({});
 
   
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const refCloseFormModel = (e) => {
     if (modelRef.current === e.target) {

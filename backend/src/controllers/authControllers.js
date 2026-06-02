@@ -1,9 +1,9 @@
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
-import dotenv from "dotenv";
 import { userModel } from "../models/userModel.js";
-import transporter from "../utils/nodemailerConfig.js";
+import dotenv from "dotenv"
 import { sendOTPEmail } from "../utils/otpUtils.js";
+import crypto from "crypto"
+import transporter from "../utils/nodemailerConfig.js";
+import bcrypt from "bcryptjs"
 
 
 
@@ -59,13 +59,12 @@ export const resendOtp = async (req, res) => {
   try {
     await user.save();
     await sendOTPEmail(email, otp);
-
+    
     res.status(200).json({ message: 'OTP Resent successfully' });
   } catch (error) {
     console.error("Error during OTP resending:", error);
-    res.status(500).json({
-      message: 'Internal server error',
-      error: error
+    res.status(500).json({message:'Internal server error',
+      error:error
     });
   }
 };
@@ -114,7 +113,7 @@ export const resetPassword = async (req, res) => {
 
     // Return success response
     return res.status(200).json({ message: "Password reset email sent" });
-
+    
   } catch (error) {
     console.error("Error during password reset process:", error.message);
     return res.status(500).json({ message: `Error requesting password reset: ${error.message}` });
@@ -122,39 +121,39 @@ export const resetPassword = async (req, res) => {
 };
 
 
-export const verifyPasswordReset = async (req, res) => {
-  const { token } = req.params
-  const { newPassword, confirmPassword } = req.body
+export const verifyPasswordReset = async(req,res)=>{
+  const {token}= req.params
+  const{newPassword,confirmPassword}=req.body
 
   if (newPassword !== confirmPassword) {
     return res.status(400).json({ message: "Passwords do not match" });
   }
 
   try {
-    const user = await userModel.findOne({
+    const user= await userModel.findOne({
       resetPasswordToken: token,
       resetPasswordExpire: { $gt: Date.now() }
-
+  
     })
-
+  
     if (!user) {
-      return res.status(400).json({ message: 'Password reset token is invalid or has expired' });
+      return res.status(400).json({message:'Password reset token is invalid or has expired'});
     }
     if (!newPassword) {
       return res.status(400).json({ message: 'Password is required' });
     }
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds); 
+  
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-
+    
     await user.save();
-
-    res.status(200).json({ message: 'Password has been reset successfully' });
+    
+    res.status(200).json({message:'Password has been reset successfully'});
   } catch (error) {
     console.log("Error during password reset process:", error.message)
-    res.status(500).json({ message: 'Error resetting password' });
+    res.status(500).json({message:'Error resetting password'});
   }
 }

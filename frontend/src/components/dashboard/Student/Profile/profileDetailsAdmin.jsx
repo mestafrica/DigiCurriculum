@@ -62,7 +62,7 @@ const ProfileDetailStudent = () => {
     imageData.append("avatar", selectedFile);
 
     try {
-      const response = await axios.post(`${baseUrl}/updateAvatar`, imageData, {
+      const response = await axios.post(`${baseUrl}/updateAvatar/${userId}`, imageData, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ const ProfileDetailStudent = () => {
 
           <div className="my-4 flex justify-center">
             <img
-              src={userData?.avatar ? `${baseUrl}/${userData.avatar}` : selectedImage}
+              src={userData?.avatar ? `${baseUrl}/${userData.avatar.replace("uploads/", "")}` : selectedImage}
               alt="Profile Avatar"
               className="rounded-full w-40 h-40 md:w-44 md:h-44 object-cover border border-secondary shadow"
             />

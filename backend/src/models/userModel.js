@@ -18,14 +18,12 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate: [validator.isEmail, "Please enter valid email address"]
     },
-
     password: {
         type: String,
         required: true,
         minlength: [6, 'Password must be at least 6 characters long'],
         select: false
     },
-
     country: {
         type: String,
         required: true
@@ -50,7 +48,11 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
     resetPasswordToken: String,
-    resetPasswordExpire: Date
+    resetPasswordExpire: Date,
+    avatar: {
+        type: String,
+        default: null
+    }
 });
 
 export const userModel = mongoose.model('User', userSchema);
