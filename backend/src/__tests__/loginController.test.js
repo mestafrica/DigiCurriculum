@@ -1,8 +1,13 @@
 import request from 'supertest';
 import express from 'express';
 import { jest } from '@jest/globals';
+import bcrypt from 'bcryptjs';
 
-const mockFindOne = jest.fn();
+// Set env variables before importing controller
+process.env.JWT_PRIVATE_KEY = 'test_jwt_secret_key';
+
+const mockSelect = jest.fn();
+const mockFindOne = jest.fn(() => ({ select: mockSelect }));
 
 jest.unstable_mockModule('../models/userModel.js', () => ({
   userModel: {
@@ -20,13 +25,14 @@ describe('Login Controller', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockFindOne.mockReturnValue({ select: mockSelect });
   });
 
   describe('POST /login', () => {
-    it('should return 400 if email is missing', async () => {
+    it('should return 400 if email is invalid', async () => {
       const res = await request(app)
         .post('/login')
-        .send({ password: 'pass123' });
+        .send({ email: 'invalidemail', password: 'pass123' });
       expect(res.statusCode).toBe(400);
     });
 
@@ -38,7 +44,7 @@ describe('Login Controller', () => {
     });
 
     it('should return 404 if user does not exist', async () => {
-      mockFindOne.mockResolvedValue(null);
+      mockSelect.mockResolvedValue(null);
       const res = await request(app)
         .post('/login')
         .send({ email: 'nonexistent@test.com', password: 'pass123' });
@@ -46,16 +52,49 @@ describe('Login Controller', () => {
     });
 
     it('should return 401 if password is incorrect', async () => {
-      mockFindOne.mockResolvedValue({
+      const hashedPassword = await bcrypt.hash('correctpassword', 10);
+      mockSelect.mockResolvedValue({
         _id: '123',
         email: 'test@test.com',
-        password: 'hashedpassword',
+        password: hashedPassword,
         isVerified: true,
       });
       const res = await request(app)
         .post('/login')
         .send({ email: 'test@test.com', password: 'wrongpassword' });
       expect(res.statusCode).toBe(401);
+    });
+
+    it('should return 403 if user is not verified', async () => {
+      const hashedPassword = await bcrypt.hash('pass123', 10);
+      mockSelect.mockResolvedValue({
+        _id: '123',
+        email: 'test@test.com',
+        password: hashedPassword,
+        isVerified: false,
+      });
+      const res = await request(app)
+        .post('/login')
+        .send({ email: 'test@test.com', password: 'pass123' });
+      expect(res.statusCode).toBe(403);
+    });
+
+    it('should return 200 if login is successful', async () => {
+      const hashedPassword = await bcrypt.hash('pass123', 10);
+      mockSelect.mockResolvedValue({
+        _id: '123',
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'test@test.com',
+        password: hashedPassword,
+        isVerified: true,
+        userType: 'Teacher',
+      });
+      const res = await request(app)
+        .post('/login')
+        .send({ email: 'test@test.com', password: 'pass123' });
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('token');
     });
   });
 
