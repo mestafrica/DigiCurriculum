@@ -1,0 +1,85 @@
+import request from 'supertest';
+import express from 'express';
+import { jest } from '@jest/globals';
+
+const mockFindOne = jest.fn();
+
+jest.unstable_mockModule('../models/userModel.js', () => ({
+  userModel: {
+    findOne: mockFindOne,
+  }
+}));
+
+jest.unstable_mockModule('../utils/otpUtils.js', () => ({
+  sendOTPEmail: jest.fn().mockResolvedValue(true),
+}));
+
+const { verifyOtp, resendOtp, resetPassword } = await import('../controllers/authControllers.js');
+
+const app = express();
+app.use(express.json());
+app.post('/verify-otp', verifyOtp);
+app.post('/resend-otp', resendOtp);
+app.post('/reset-password', resetPassword);
+
+describe('Auth Controller', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('POST /verify-otp', () => {
+    it('should return 400 if email or otp is missing', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/verify-otp')
+        .send({});
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should return 400 if otp is invalid', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/verify-otp')
+        .send({ email: 'test@test.com', otp: '0000' });
+      expect(res.statusCode).toBe(400);
+    });
+  });
+
+  describe('POST /resend-otp', () => {
+    it('should return 400 if email is missing', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/resend-otp')
+        .send({});
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should return 404 if user is not found', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/resend-otp')
+        .send({ email: 'notfound@test.com' });
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe('POST /reset-password', () => {
+    it('should return 400 if email is missing', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/reset-password')
+        .send({});
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should return 404 if user does not exist', async () => {
+      mockFindOne.mockResolvedValue(null);
+      const res = await request(app)
+        .post('/reset-password')
+        .send({ email: 'nonexistent@test.com' });
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+});
