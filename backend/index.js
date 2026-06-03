@@ -67,18 +67,21 @@ app.use(
   })
 );
 
-const mongoUrl = process.env.MONGODB_URL;
-mongoose.set('strictQuery', false);
-mongoose
-  .connect(mongoUrl, {
-    // pool size and timeouts help with stability and performance
-    maxPoolSize: 10,
-    serverSelectionTimeoutMS: 30000,
-    connectTimeoutMS: 30000,
-  })
-  .then(() => console.log("Database is connected"))
-  .catch((error) => console.error("Database connection error:", error));
+const mongoUrl = process.env.MONGODB_URI;
+// mongoose
+//   .connect(mongoUrl, {
+//     useNewUrlParser: true,
+//   })
+//   .then(() => {
+//     console.log("Database is connected");
+//   })
+//   .catch((error) => console.log(error));
 
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("Connection error:", err));
+  
+// console.log("MONGODB_URI:", process.env.MONGODB_URI);
 app.use(apiKeyRoutes);
 app.use(developerRouter);
 

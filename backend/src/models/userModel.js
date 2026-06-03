@@ -53,4 +53,9 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire: Date
 });
 
+<<<<<<< Updated upstream
+=======
+// userSchema.index({ email: 1 }, { unique: true });
+
+>>>>>>> Stashed changes
 export const userModel = mongoose.model('User', userSchema);
