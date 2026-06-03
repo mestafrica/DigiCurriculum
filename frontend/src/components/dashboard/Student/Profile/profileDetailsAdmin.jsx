@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
-import EditEmail from "./emailEdit";
 import EditProfile from "./editProfile";
-import EditPassword from "./passwordEdit";
 
 const ProfileDetailStudent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -12,9 +10,7 @@ const ProfileDetailStudent = () => {
   const [selectedImage, setSelectedImage] = useState("https://placehold.co/200x200");
   const fileInputRef = useRef(null);
   const [userData, setUserData] = useState({});
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
 
   const { token, userId } = useAuth();
   const location = useLocation();
@@ -36,7 +32,7 @@ const ProfileDetailStudent = () => {
       });
       setUserData(res.data.user);
     } catch (err) {
-      console.error("❌ Error fetching teacher profile:", err);
+      console.error("❌ Error fetching profile:", err);
     }
   };
 
@@ -57,12 +53,10 @@ const ProfileDetailStudent = () => {
       setUploadStatus("Please select a file first.");
       return;
     }
-
     const imageData = new FormData();
     imageData.append("avatar", selectedFile);
-
     try {
-      const response = await axios.post(`${baseUrl}/updateAvatar/${userId}`, imageData, {
+      await axios.post(`${baseUrl}/updateAvatar/${userId}`, imageData, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
@@ -79,7 +73,7 @@ const ProfileDetailStudent = () => {
   return (
     <>
       <div className="flex flex-col lg:flex-row justify-center items-start gap-6 p-6">
-        {/* LEFT SIDE - Avatar + Upload */}
+        {/* LEFT SIDE - Avatar */}
         <div className="w-full lg:w-1/3 backdrop-blur-sm bg-orange-100 border border-[#A7D7C5] rounded-2xl p-6 shadow-md">
           <div className="text-center mb-4">
             <h2 className="text-xl md:text-2xl text-primary font-bold">
@@ -89,7 +83,11 @@ const ProfileDetailStudent = () => {
 
           <div className="my-4 flex justify-center">
             <img
-              src={userData?.avatar ? `${baseUrl}/${userData.avatar.replace("uploads/", "")}` : selectedImage}
+              src={
+                userData?.avatar
+                  ? `${baseUrl}/${userData.avatar.replace("uploads/", "")}`
+                  : selectedImage
+              }
               alt="Profile Avatar"
               className="rounded-full w-40 h-40 md:w-44 md:h-44 object-cover border border-secondary shadow"
             />
@@ -102,26 +100,22 @@ const ProfileDetailStudent = () => {
               onChange={handleImageChange}
               className="hidden"
             />
-
             <button
               onClick={handleButtonClick}
               className="w-full md:w-3/4 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition"
             >
               Select Image
             </button>
-
             <button
               onClick={handleUpload}
               className="w-full md:w-3/4 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
             >
               Update Avatar
             </button>
-
             <p className="text-xs text-gray-500 mt-2 text-center leading-snug">
               Upload a new avatar. Larger images will be resized automatically. <br />
               Maximum upload size is 1MB.
             </p>
-
             {uploadStatus && (
               <p className="text-sm text-gray-800 font-medium mt-2">{uploadStatus}</p>
             )}
@@ -136,64 +130,42 @@ const ProfileDetailStudent = () => {
           </div>
 
           <div className="flex flex-col gap-5">
-            {/* Full Name */}
-            <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <div className="flex-1">
-                <label className="block text-gray-800 text-sm font-bold mb-1">Full Name</label>
-                <p className="text-[#9399A6]">{userData.firstName} {userData.lastName}</p>
+            <div className="flex flex-col md:flex-row md:items-start gap-3">
+              <div className="flex-1 flex flex-col gap-4">
+                <div>
+                  <label className="block text-gray-800 text-sm font-bold mb-1">Full Name</label>
+                  <p className="text-[#9399A6]">{userData.firstName} {userData.lastName}</p>
+                </div>
+                <div>
+                  <label className="block text-gray-800 text-sm font-bold mb-1">School</label>
+                  <p className="text-[#9399A6]">{userData.school || "—"}</p>
+                </div>
+                <div>
+                  <label className="block text-gray-800 text-sm font-bold mb-1">Email Address</label>
+                  <p className="text-[#9399A6]">{userData.email}</p>
+                </div>
               </div>
               <button
                 onClick={() => setShowProfileModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg self-start mt-1"
               >
                 Update Profile
-              </button>
-            </div>
-
-            {/* School */}
-            <div>
-              <label className="block text-gray-800 text-sm font-bold mb-1">School</label>
-              <p className="text-[#9399A6]">{userData.school || "—"}</p>
-            </div>
-
-            {/* Email */}
-            <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <div className="flex-1">
-                <label className="block text-gray-800 text-sm font-bold mb-1">Email Address</label>
-                <p className="text-[#9399A6]">{userData.email}</p>
-              </div>
-              <button
-                onClick={() => setShowEmailModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
-              >
-                Update Email
-              </button>
-            </div>
-
-            {/* Password */}
-            <div className="flex justify-start">
-              <button
-                onClick={() => setShowPasswordModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
-              >
-                Update Password
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modals */}
-      {showProfileModal && <EditProfile closeModel={() => setShowProfileModal(false)} />}
-      {showEmailModal && <EditEmail closeModel={() => setShowEmailModal(false)} />}
-      {showPasswordModal && <EditPassword closeModel={() => setShowPasswordModal(false)} />}
+      {showProfileModal && (
+        <EditProfile
+          closeModel={() => {
+            setShowProfileModal(false);
+            getUserData();
+          }}
+        />
+      )}
     </>
   );
 };
 
 export default ProfileDetailStudent;
-
-
-
-
-
