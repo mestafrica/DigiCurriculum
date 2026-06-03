@@ -15,9 +15,5 @@ const adminSchema = new Schema({
     resetPasswordExpire: Date
 });
 
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
 export const adminModel = model('Admin', adminSchema);
