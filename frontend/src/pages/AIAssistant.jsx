@@ -312,7 +312,7 @@ export default function AIAssistant() {
                   {/* Strand Selection (Only show if a curriculum is selected) */}
                   {selectedCurriculumIndex !== -1 && curricula[selectedCurriculumIndex]?.strands?.length > 0 && (
                     <div className="flex flex-col gap-1 flex-1">
-
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Learning Strand</label>
                       <select 
                         value={selectedStrandIndex}
                         onChange={(e) => setSelectedStrandIndex(parseInt(e.target.value))}
@@ -545,7 +545,7 @@ const ResultRenderer = ({ content, type, isDarkMode }) => {
         <header className="border-b-2 border-green-600 pb-4">
           <h1 className="text-3xl font-black tracking-tight text-green-600">{data.title || "Lesson Plan"}</h1>
           <div className="flex flex-wrap gap-4 mt-2 text-sm font-bold uppercase tracking-widest text-gray-500">
-
+            <span className="flex items-center gap-1"><span className="text-green-600">Grade:</span> {data.grade || "N/A"}</span>
             <span className="flex items-center gap-1"><span className="text-green-600">Duration:</span> {data.duration || "60"} mins</span>
             <span className="flex items-center gap-1"><span className="text-green-600">Code:</span> {data.code || "N/A"}</span>
           </div>
