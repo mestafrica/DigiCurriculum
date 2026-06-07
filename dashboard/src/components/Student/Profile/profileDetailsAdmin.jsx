@@ -79,7 +79,7 @@ const ProfileDetailStudent = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${apiUrl}/api/v1/updateAvatar`,
+      url: `${baseUrl}/updateAvatar`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -113,8 +113,8 @@ const ProfileDetailStudent = () => {
           <div className="my-4 flex justify-center items-center">
             <img
               src={
-                userData
-                  ? `${apiUrl}/${userData.avatar}`
+                userData?.avatar
+                  ? `${baseUrl}/${userData.avatar}`
                   : selectedImage
               }
               alt="Profile Image"

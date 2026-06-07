@@ -1,50 +1,73 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import AshtokenLoader from "./AshtokenLoader"
+// PropTypes removed: not used in this component
+import AshtokenLoader from "./AshtokenLoader";
+
 function EditProfile({ closeModel }) {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     school: "",
+    email: "",
   });
-
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   const modelRef = useRef();
-  const [userData, setUserData] = useState({});
-
-  
   const baseUrl = import.meta.env.VITE_API_URL;
 
   const refCloseFormModel = (e) => {
-    if (modelRef.current === e.target) {
-      closeModel();
-    }
+    if (modelRef.current === e.target) closeModel();
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
-  const userId = localStorage.getItem("userId");
 
-  const updateProfile = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const res = await axios.get(`${baseUrl}/user/${userId}`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = res.data.user;
+        setForm({
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          school: user.school || "",
+          email: user.email || "",
+        });
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const updateProfile = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
     try {
-      console.log(userId);
-
-      const res = await axios.patch(
+      await axios.patch(
         `${baseUrl}/update-user/${userId}`,
         {
           firstName: form.firstName,
           lastName: form.lastName,
           school: form.school,
+          email: form.email,
         },
         {
           headers: {
@@ -53,79 +76,15 @@ function EditProfile({ closeModel }) {
           },
         }
       );
-
-      console.log("✅ Profile updated:", res.data);
-      alert("Update Successful!");
-      setTimeout(() => closeModel(), 1000);
+      setSuccessMessage("Profile updated successfully!");
+      setTimeout(() => closeModel(), 1200);
     } catch (err) {
-      console.error("❌ Error updating profile:", err);
-      alert("Update failed. Please try again.");
+      console.error("Error updating profile:", err);
+      setErrorMessage(err.response?.data?.message || "Update failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch(`${baseUrl}/user/${userId}`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const result = await res.json();
-        setUserData(result);
-        setForm({
-          firstName: result.user.firstName || "",
-          lastName: result.user.lastName || "",
-          school: result.user.school || "",
-        });
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  // const getUserData = () => {
-  //   const myHeaders = new Headers();
-  //   myHeaders.append("Accept", "application/json");
-  //   myHeaders.append("Authorization", `Bearer ${token}`);
-
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-
-  //   fetch(`https://digicurriculum.onrender.com/user/${userId}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       setUserData(result);
-  //       setForm({
-  //         firstName: result.firstName || "",
-  //         lastName: result.lastName || "",
-  //         school: result.school || "",
-  //       });
-
-  //       setForm({
-  //         firstName: result.firstName,
-  //         lastName: result.phone,
-  //         school: result.gender,
-  //         // socialFb:
-  //         //   "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
-  //         // socialIg:
-  //         //   "https://web.facebook.com/people/Shallum-Foundation/61550831559839/?mibextid=ZbWKwL",
-  //       });
-  //       console.log(result);
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
 
   return (
     <div
@@ -135,20 +94,22 @@ function EditProfile({ closeModel }) {
     >
       <div className="w-full lg:w-2/3 p-4">
         <form onSubmit={updateProfile}>
-          <div className="bg-white border border-secondary shadow-lg rounded-lg p-4">
-            <div className="flex justify-between border-b pb-2">
-              <h2 className="text-xl font-bold text-black ">Edit Profile</h2>
-              <div className="flex">
-                <button className="text-primary font-semibold">
-                  User info
-                </button>
-              </div>
+          <div className="bg-white border border-secondary shadow-lg rounded-lg p-6">
+            <div className="flex justify-between border-b pb-2 mb-4">
+              <h2 className="text-xl font-bold text-black">Edit Profile</h2>
+              <button type="button" className="text-primary font-semibold">User info</button>
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
+
+            {successMessage && (
+              <p className="mb-3 text-sm text-green-600 font-medium">{successMessage}</p>
+            )}
+            {errorMessage && (
+              <p className="mb-3 text-sm text-red-600 font-medium">{errorMessage}</p>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-primary text-sm font-bold mb-2">
-                  First Name
-                </label>
+                <label className="block text-primary text-sm font-bold mb-2">First Name</label>
                 <input
                   name="firstName"
                   type="text"
@@ -158,9 +119,7 @@ function EditProfile({ closeModel }) {
                 />
               </div>
               <div>
-                <label className="block text-primary text-sm font-bold mb-2">
-                  Last Name
-                </label>
+                <label className="block text-primary text-sm font-bold mb-2">Last Name</label>
                 <input
                   name="lastName"
                   type="text"
@@ -173,12 +132,7 @@ function EditProfile({ closeModel }) {
 
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div>
-                <label
-                  htmlFor="school"
-                  className="block text-primary text-sm font-bold mb-2"
-                >
-                  School
-                </label>
+                <label className="block text-primary text-sm font-bold mb-2">School</label>
                 <input
                   name="school"
                   type="text"
@@ -187,8 +141,20 @@ function EditProfile({ closeModel }) {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100"
                 />
               </div>
+              <div>
+                <label className="block text-primary text-sm font-bold mb-2">Email Address</label>
+                <input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex justify-end gap-4 mt-4">
+
+            <div className="flex justify-end gap-4 mt-6">
               {!isLoading ? (
                 <button
                   type="submit"
@@ -200,10 +166,11 @@ function EditProfile({ closeModel }) {
                 <AshtokenLoader />
               )}
               <button
+                type="button"
                 onClick={closeModel}
                 className="bg-secondary hover:bg-primary text-white font-bold py-2 px-4 rounded"
               >
-                close
+                Close
               </button>
             </div>
           </div>
