@@ -298,7 +298,7 @@ export default function AIAssistant() {
                               <optgroup key={groupName} label={groupName} className={isDarkMode ? "bg-gray-800 text-gray-400" : "bg-white text-gray-500"}>
                                 {subjectsInGroup.map((c) => (
                                   <option key={c._id || c.originalIndex} value={c.originalIndex}>
-                                    {c.name.replace(/\s*\([^)]+\)$/, '').trim()}
+                                    {c.name.replace(/\s*\([^)]+\)$/, '').replace(/\s*-\s*\d+$/, '').trim()}
                                   </option>
                                 ))}
                               </optgroup>

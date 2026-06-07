@@ -1,30 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
-import { useLocation } from "react-router-dom";
 import EditEmail from "./emailEdit";
-import EditProfile from "./editProfile";
 import EditPassword from "./passwordEdit";
+import EditProfile from "./editProfile";
 
-const ProfileDetailTeacher = () => {
+const ProfileDetailsTeacher = () => {
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
-  const [selectedImage, setSelectedImage] = useState("https://placehold.co/200x200");
+  const [isUploading, setIsUploading] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(null); // local preview only
   const fileInputRef = useRef(null);
   const [userData, setUserData] = useState({});
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
 
   const { token, userId } = useAuth();
   const location = useLocation();
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseUrl =
+    import.meta.env.VITE_API_URL ||
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:8080";
 
   useEffect(() => {
     if (userId && token) {
       getUserData();
     }
   }, [location.pathname, userId, token]);
+
+  // Load saved avatar from localStorage on mount
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem(`avatar_${userId}`);
+    if (savedAvatar) {
+      setAvatarUrl(savedAvatar);
+    }
+  }, [userId]);
 
   const getUserData = async () => {
     try {
@@ -34,47 +46,75 @@ const ProfileDetailTeacher = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUserData(res.data.user);
+      setUserData(res.data.user || res.data);
     } catch (err) {
       console.error("❌ Error fetching teacher profile:", err);
     }
   };
 
-  const handleButtonClick = () => fileInputRef.current.click();
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setSelectedImage(reader.result);
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Validate file size (max 1MB)
+    if (file.size > 1024 * 1024) {
+      setUploadStatus("File too large. Maximum size is 1MB.");
+      return;
     }
+
+    setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarUrl(reader.result);
+      setUploadStatus(""); // clear any previous status
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setUploadStatus("Please select a file first.");
+      setUploadStatus("Please select an image first.");
       return;
     }
 
-    const imageData = new FormData();
-    imageData.append("avatar", selectedFile);
+    setIsUploading(true);
+    setUploadStatus("Saving avatar...");
 
+    // Since the backend has no /updateAvatar endpoint, we save the avatar
+    // as a base64 string in localStorage (client-side persistence).
     try {
-      const response = await axios.post(`${baseUrl}/updateAvatar`, imageData, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUploadStatus("Image updated successfully!");
-      getUserData();
-    } catch (error) {
-      console.error("❌ Error uploading avatar:", error);
-      setUploadStatus("Error uploading file.");
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        localStorage.setItem(`avatar_${userId}`, base64);
+        setAvatarUrl(base64);
+        setUploadStatus("Avatar updated successfully!");
+        setSelectedFile(null);
+        setIsUploading(false);
+        // Clear status after 3 seconds
+        setTimeout(() => setUploadStatus(""), 3000);
+      };
+      reader.onerror = () => {
+        setUploadStatus("Error reading file.");
+        setIsUploading(false);
+      };
+      reader.readAsDataURL(selectedFile);
+    } catch (err) {
+      console.error("❌ Error saving avatar:", err);
+      setUploadStatus("Error updating avatar.");
+      setIsUploading(false);
     }
   };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const displayAvatar =
+    avatarUrl ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      (userData.firstName || "T") + "+" + (userData.lastName || "")
+    )}&background=10b981&color=fff&size=200`;
 
   return (
     <>
@@ -85,45 +125,69 @@ const ProfileDetailTeacher = () => {
             <h2 className="text-xl md:text-2xl text-primary font-bold">
               {userData.firstName} {userData.lastName}
             </h2>
+            <p className="text-sm text-gray-500 mt-1">{userData.userType}</p>
           </div>
 
           <div className="my-4 flex justify-center">
             <img
-              src={userData?.avatar ? `${baseUrl}/${userData.avatar}` : selectedImage}
+              src={displayAvatar}
               alt="Profile Avatar"
-              className="rounded-full w-40 h-40 md:w-44 md:h-44 object-cover border border-secondary shadow"
+              className="rounded-full w-40 h-40 md:w-44 md:h-44 object-cover border-4 border-secondary shadow-lg"
             />
           </div>
 
-          <div className="text-center flex flex-col items-center gap-3">
+          <div className="flex flex-col gap-3 mt-6">
             <input
               type="file"
               ref={fileInputRef}
               onChange={handleImageChange}
+              accept="image/*"
               className="hidden"
             />
 
             <button
               onClick={handleButtonClick}
-              className="w-full md:w-3/4 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition"
+              disabled={isUploading}
+              className={`w-full md:w-3/4 mx-auto text-white font-semibold py-2 rounded-lg transition ${
+                isUploading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
             >
               Select Image
             </button>
 
             <button
               onClick={handleUpload}
-              className="w-full md:w-3/4 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
+              disabled={!selectedFile || isUploading}
+              className={`w-full md:w-3/4 mx-auto font-semibold py-2 rounded-lg transition ${
+                !selectedFile || isUploading
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-secondary hover:bg-primary text-black"
+              }`}
             >
-              Update Avatar
+              {isUploading ? "Saving..." : "Update Avatar"}
             </button>
 
             <p className="text-xs text-gray-500 mt-2 text-center leading-snug">
-              Upload a new avatar. Larger images will be resized automatically. <br />
+              Upload a new avatar. Larger images will be resized automatically.{" "}
+              <br />
               Maximum upload size is 1MB.
             </p>
 
             {uploadStatus && (
-              <p className="text-sm text-gray-800 font-medium mt-2">{uploadStatus}</p>
+              <p
+                className={`text-sm font-medium mt-2 text-center ${
+                  uploadStatus.toLowerCase().includes("error") ||
+                  uploadStatus.toLowerCase().includes("large")
+                    ? "text-red-600"
+                    : uploadStatus.toLowerCase().includes("success")
+                    ? "text-green-600"
+                    : "text-blue-600"
+                }`}
+              >
+                {uploadStatus}
+              </p>
             )}
           </div>
         </div>
@@ -131,20 +195,28 @@ const ProfileDetailTeacher = () => {
         {/* RIGHT SIDE - Profile Info */}
         <div className="w-full lg:w-2/3 backdrop-blur-sm bg-white/60 border border-[#A7D7C5] rounded-2xl p-6 shadow-md">
           <div className="flex flex-col sm:flex-row justify-between border-b pb-3 mb-4">
-            <h2 className="text-lg md:text-xl font-bold text-gray-800">Your Profile</h2>
-            <button className="text-primary font-semibold text-sm mt-2 sm:mt-0">User Info</button>
+            <h2 className="text-lg md:text-xl font-bold text-gray-800">
+              Your Profile
+            </h2>
+            <span className="text-primary font-semibold text-sm mt-2 sm:mt-0">
+              {userData.userType || "Teacher"}
+            </span>
           </div>
 
           <div className="flex flex-col gap-5">
             {/* Full Name */}
             <div className="flex flex-col md:flex-row md:items-center gap-3">
               <div className="flex-1">
-                <label className="block text-gray-800 text-sm font-bold mb-1">Full Name</label>
-                <p className="text-[#9399A6]">{userData.firstName} {userData.lastName}</p>
+                <label className="block text-gray-800 text-sm font-bold mb-1">
+                  Full Name
+                </label>
+                <p className="text-[#9399A6]">
+                  {userData.firstName} {userData.lastName}
+                </p>
               </div>
               <button
                 onClick={() => setShowProfileModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
               >
                 Update Profile
               </button>
@@ -152,29 +224,40 @@ const ProfileDetailTeacher = () => {
 
             {/* School */}
             <div>
-              <label className="block text-gray-800 text-sm font-bold mb-1">School</label>
+              <label className="block text-gray-800 text-sm font-bold mb-1">
+                School
+              </label>
               <p className="text-[#9399A6]">{userData.school || "—"}</p>
+            </div>
+
+            {/* Country */}
+            <div>
+              <label className="block text-gray-800 text-sm font-bold mb-1">
+                Country
+              </label>
+              <p className="text-[#9399A6]">{userData.country || "—"}</p>
             </div>
 
             {/* Email */}
             <div className="flex flex-col md:flex-row md:items-center gap-3">
               <div className="flex-1">
-                <label className="block text-gray-800 text-sm font-bold mb-1">Email Address</label>
+                <label className="block text-gray-800 text-sm font-bold mb-1">
+                  Email Address
+                </label>
                 <p className="text-[#9399A6]">{userData.email}</p>
               </div>
               <button
                 onClick={() => setShowEmailModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
               >
                 Update Email
               </button>
             </div>
 
-            {/* Password */}
-            <div className="flex justify-start">
+            <div className="flex justify-start mt-2">
               <button
                 onClick={() => setShowPasswordModal(true)}
-                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg"
+                className="w-full md:w-1/3 bg-secondary hover:bg-primary text-black font-bold py-2 rounded-lg transition"
               >
                 Update Password
               </button>
@@ -184,11 +267,22 @@ const ProfileDetailTeacher = () => {
       </div>
 
       {/* Modals */}
-      {showProfileModal && <EditProfile closeModel={() => setShowProfileModal(false)} />}
-      {showEmailModal && <EditEmail closeModel={() => setShowEmailModal(false)} />}
-      {showPasswordModal && <EditPassword closeModel={() => setShowPasswordModal(false)} />}
+      {showProfileModal && (
+        <EditProfile
+          closeModel={() => {
+            setShowProfileModal(false);
+            getUserData();
+          }}
+        />
+      )}
+      {showEmailModal && (
+        <EditEmail closeModel={() => setShowEmailModal(false)} />
+      )}
+      {showPasswordModal && (
+        <EditPassword closeModel={() => setShowPasswordModal(false)} />
+      )}
     </>
   );
 };
 
-export default ProfileDetailTeacher;
+export default ProfileDetailsTeacher;
