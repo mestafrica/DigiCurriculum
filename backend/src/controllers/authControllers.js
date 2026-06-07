@@ -3,6 +3,7 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 import { userModel } from "../models/userModel.js";
 import transporter from "../utils/nodemailerConfig.js";
+import { sendOTPEmail } from "../utils/otpUtils.js";
  
 dotenv.config()
 
