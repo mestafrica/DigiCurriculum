@@ -7,7 +7,7 @@ import { IoLibraryOutline } from "react-icons/io5";
 import SmallFooter from "../../Small-Footer/smallfooter";
 
 const dashboardUrl = import.meta.env.VITE_LOCAL_URI;
-const frontendUrl = "http://localhost:5173"; // ✅ points to frontend app
+const frontendUrl = "http://localhost:5175/"; // ✅ points to dashboard home
 
 const StudentSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,20 +83,21 @@ const StudentSideBar = () => {
 
           <ul className="pt-6">
             {Menus.map((Menu, index) => (
-              <Link key={index} to={Menu.link}>
-                <li
-                  className={`flex rounded-md p-2 cursor-pointer text-black hover:text-primary text-sm items-center gap-x-4 
-                    ${Menu.gap ? "mt-7" : "mt-2"} 
-                    ${Index == index ? "backdrop-blur-sm bg-white/70" : ""}`}
-                  onClick={() => {
-                    changeIndex(index);
-                    setIsOpen(false);
-                  }}
-                >
+              <li
+                key={index}
+                className={`flex rounded-md cursor-pointer text-black hover:text-primary text-sm items-center 
+                  ${Menu.gap ? "mt-7" : "mt-2"} 
+                  ${Index == index ? "backdrop-blur-sm bg-white/70" : ""}`}
+                onClick={() => {
+                  changeIndex(index);
+                  setIsOpen(false);
+                }}
+              >
+                <Link to={Menu.link} className="flex p-2 items-center gap-x-4 w-full">
                   {Menu.icon}
                   <span className="origin-left duration-200">{Menu.title}</span>
-                </li>
-              </Link>
+                </Link>
+              </li>
             ))}
             <li
               onClick={signOut}

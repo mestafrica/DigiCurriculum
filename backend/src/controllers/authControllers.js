@@ -1,14 +1,7 @@
 import { userModel } from "../models/userModel.js";
 import dotenv from "dotenv"
 import { sendOTPEmail } from "../utils/otpUtils.js";
-import crypto from "crypto"
-import transporter from "../utils/nodemailerConfig.js";
-import bcrypt from "bcryptjs"
-
-
-
-
-
+ 
 dotenv.config()
 
 

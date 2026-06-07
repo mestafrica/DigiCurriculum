@@ -4,8 +4,9 @@ import EditEmail from "./emailEdit";
 import EditProfile from "./editProfile";
 import EditPassword from "./passwordEdit";
 import axios from "axios";
-import { useAuth } from "../../../context/AuthContext";
-import { useLocation } from "react-router-dom";
+import { token } from "../../../../config";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const ProfileDetailStudent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -34,19 +35,26 @@ const ProfileDetailStudent = () => {
     }
   }, [location.pathname, userId, token]);
 
-  const getUserData = async () => {
-    try {
-      const res = await axios.get(`${baseUrl}/user/${userId}`, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserData(res.data.user);
-    } catch (err) {
-      console.error(err);
-    }
+  const getUserData = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${apiUrl}/api/user`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setUserData(result);
+        console.log(result);
+      })
+      .catch((error) => console.error(error));
   };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);

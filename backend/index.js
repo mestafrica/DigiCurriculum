@@ -18,32 +18,45 @@ import lessonRoutes from "./src/routes/lessonPlanRoutes.js";
 import searchRoutes from "./src/routes/searchRoutes.js";
 import statisticsRouter from "./src/routes/statisticsRoutes.js";
 import router from "./src/routes/usersRoutes.js";
-import chatRouter from "./src/service/chat.route.js";
-import taskRouter from "./src/routes/taskRoutes.js";
-import config from "./config/index.js";
+import ingestionRoutes from "./src/routes/ingestionRoutes.js";
+
 
 dotenv.config();
 const app = express();
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+const allowedOrigins = [
+  // Local development
+  "http://localhost:5173", // frontend (user app)
+  "http://localhost:5174", // admin
+  "http://localhost:5175", // dashboard
+  "http://localhost:5176", // developer portal
+  // Production
+  "https://cool-selkie-833e95.netlify.app",
+  "https://gesadmin.netlify.app",
+  "https://gesdev.netlify.app",
+];
 
-app.use((req, res, next) => {
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || config.allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })(req, res, next);
-});
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight for all routes
 
 app.use(
   session({
@@ -54,14 +67,21 @@ app.use(
   })
 );
 
-const mongoUrl = process.env.MONGODB_URL;
-mongoose
-  .connect(mongoUrl)
-  .then(() => {
-    console.log("Database is connected");
-  })
-  .catch((error) => console.log(error));
+const mongoUrl = process.env.MONGODB_URI;
+// mongoose
+//   .connect(mongoUrl, {
+//     useNewUrlParser: true,
+//   })
+//   .then(() => {
+//     console.log("Database is connected");
+//   })
+//   .catch((error) => console.log(error));
 
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("Connection error:", err));
+  
+// console.log("MONGODB_URI:", process.env.MONGODB_URI);
 app.use(apiKeyRoutes);
 app.use(developerRouter);
 
@@ -74,9 +94,9 @@ app.use(assessmentRoutes);
 app.use(lessonRoutes);
 app.use(statisticsRouter);
 app.use(router);
-app.use(chatRouter);
-app.use(taskRouter);
+app.use("/api", ingestionRoutes);
 
-app.listen(PORT, () => {
-  console.log(`The server is running! on ${PORT}`);
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`The server is running! on http://localhost:${PORT}`);
 });

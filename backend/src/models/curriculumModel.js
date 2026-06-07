@@ -6,7 +6,12 @@ import { model, Schema } from "mongoose";
 const curriculumSchema = new Schema({
   name: { type: String, required: true },
   code: { type: String, required: true },
-  grade: { type: Number, required: true, min: 1 },
+  grade: { type: Number, required: true, min: 0 },
+  category: { 
+    type: String, 
+    enum: ['Primary', 'Secondary', 'Kindergarten'],
+    default: 'Primary'
+  },
   strands: [{
     name: { type: String, required: true },
     code: { type: String, required: true },

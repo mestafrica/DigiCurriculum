@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Broadcast = () => {
   const token = sessionStorage.getItem("token")
   
@@ -59,7 +61,7 @@ const Broadcast = () => {
     };
     console.log({ message });
     return await axios.post(
-      "http://.....217/api/v1/broadcast-message-to-notification",
+      `${apiUrl}/api/v1/broadcast-message-to-notification`,
       {
         message: message.message,
         subject: message.subject,
@@ -78,7 +80,7 @@ const Broadcast = () => {
       message: form.message,
     };
     return axios.post(
-      "http://.....217/api/v1/broadcast-message-to-email",
+      `${apiUrl}/api/v1/broadcast-message-to-email`,
       {
         message: message.message,
         subject: message.subject,
@@ -97,7 +99,7 @@ const Broadcast = () => {
       message: form.message,
     };
     return axios.post(
-      "http://.....217/api/v1/broadcast-message-to-email-and-notification",
+      `${apiUrl}/api/v1/broadcast-message-to-email-and-notification`,
       {
         message: message.message,
         subject: message.subject,

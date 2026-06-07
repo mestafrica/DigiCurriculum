@@ -1,9 +1,8 @@
 import { userModel } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+import { userModel } from "../models/userModel.js";
+import { sendOTPEmail } from "../utils/otpUtils.js";
 
 dotenv.config();
 

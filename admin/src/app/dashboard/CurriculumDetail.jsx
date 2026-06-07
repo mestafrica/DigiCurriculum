@@ -97,7 +97,7 @@ const CurriculumDetail = () => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await apiDeleteCurriculum(curriculumId);
+      await apiDeleteCurriculum(curriculumDetail.code);
       toast.success("Curriculum deleted successfully");
       setDeleteModalOpen(false);
       navigate("/admin-dashboard/curriculum-list");
@@ -111,7 +111,7 @@ const CurriculumDetail = () => {
   const handleEdit = async () => {
     try {
       setLoading(true);
-      await apiUpdateCurriculum(curriculumId, editFormData);
+      await apiUpdateCurriculum(curriculumDetail.code, editFormData);
       const updatedData = await apiGetCurriculumDetails(curriculumId);
       setCurriculumDetail(updatedData.data.curriculums[0]);
       toast.success("Curriculum updated successfully");

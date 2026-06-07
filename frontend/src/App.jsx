@@ -8,6 +8,7 @@ import Profile from "./pages/register/Profile";
 import SignIn from "./pages/register/Login";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
+import AIAssistant from "./pages/AIAssistant";
 
 // ============ Protected Route ============
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -47,10 +48,12 @@ const publicRoutes = [
   { path: "/", element: <Home /> },
   { path: "/signup", element: <Signup /> },
   { path: "/profile", element: <Profile /> },
+  { path: "/otp", element: <CompleteSignup /> },
   { path: "/completesignup", element: <CompleteSignup /> },
   { path: "/signin", element: <SignIn /> },
   { path: "/contact", element: <ContactPage /> },
   { path: "/about", element: <AboutPage /> },
+  { path: "/assistant", element: <AIAssistant /> },
 ];
 
 function App() {

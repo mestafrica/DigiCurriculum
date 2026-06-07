@@ -15,4 +15,5 @@ const adminSchema = new Schema({
     resetPasswordExpire: Date
 });
 
+
 export const adminModel = model('Admin', adminSchema);
