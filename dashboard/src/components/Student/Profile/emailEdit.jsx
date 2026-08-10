@@ -40,7 +40,7 @@ function EditEmail({ closeModel }) {
       .then((response) => response.json())
       .then((result) => {
         setForm({
-          email: result.email,
+          email: result.user?.email || result.email || "",
         });
       })
       .catch((error) => console.error(error));
@@ -62,7 +62,7 @@ function EditEmail({ closeModel }) {
       setIsLoading(true);
 
       let config = {
-        method: "post",
+        method: "patch",
         maxBodyLength: Infinity,
         url: `${baseUrl}/update-user/${userId}`,
         headers: {

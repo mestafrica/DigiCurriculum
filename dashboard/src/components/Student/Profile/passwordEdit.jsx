@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthAlert from "../../Auth-Alert/AuthAlert";
 import axios from "axios";
 import LitLoader from "../../Loader/LitLoader";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function EditPassword({ closeModel }) {
   const modelRef = useRef();
@@ -14,7 +15,9 @@ function EditPassword({ closeModel }) {
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   const isValidForm = () => {
     const { oldPassword, password, confirmPassword } = form;
@@ -47,20 +50,32 @@ function EditPassword({ closeModel }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
     if (isValidForm()) {
       setIsLoading(true);
       try {
         const passwordUpdate = getFormData();
         const response = await axios.post(
-          `http://3.89.152.217/api/v1/changePassword/${userId}`,
-          passwordUpdate
+          `${baseUrl}/changePassword/${userId}`,
+          passwordUpdate,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        console.log(response);
-        // localStorage.setItem("__user_id", response.data.id);
+        console.log("✅ Password updated:", response.data);
+        setSuccessMessage("Password updated successfully!");
+        setTimeout(() => closeModel(), 1500);
       } catch (error) {
-        console.error(error);
-        setErrorMessage(error.response.data.message);
+        console.error("❌ Password update failed:", error);
+        setErrorMessage(
+          error.response?.data?.message || "Something went wrong. Please try again."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -72,7 +87,6 @@ function EditPassword({ closeModel }) {
       closeModel();
     }
   };
-
 
   return (
     <div
@@ -91,14 +105,17 @@ function EditPassword({ closeModel }) {
           {errorMessage && (
             <AuthAlert
               errorTitle={errorMessage}
-              errorMessage="Please check try again!"
+              errorMessage="Please check and try again!"
             />
+          )}
+          {successMessage && (
+            <p className="mt-2 text-sm text-green-600 font-medium">{successMessage}</p>
           )}
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 mt-4">
               <div>
                 <label
-                  htmlFor="old password"
+                  htmlFor="oldPassword"
                   className="block text-black text-sm font-bold mb-2"
                 >
                   Old Password
@@ -106,12 +123,11 @@ function EditPassword({ closeModel }) {
                 <input
                   type="password"
                   name="oldPassword"
-                  id="old password"
+                  id="oldPassword"
                   value={form.oldPassword}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100 ${
-                    submitted &&
-                    (!form.oldPassword || form.oldPassword.length < 8)
+                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100 ${
+                    submitted && (!form.oldPassword || form.oldPassword.length < 8)
                       ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
                       : ""
                   }`}
@@ -131,7 +147,7 @@ function EditPassword({ closeModel }) {
                   id="password"
                   value={form.password}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100 ${
+                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100 ${
                     submitted && (!form.password || form.password.length < 8)
                       ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
                       : ""
@@ -139,23 +155,18 @@ function EditPassword({ closeModel }) {
                   required
                 />
                 {!submitted && (
-                  <p
-                    id="password-helper-text"
-                    className="mt-1 text-sm text-gray-500 dark:text-gray-400"
-                  >
+                  <p className="mt-1 text-sm text-gray-500">
                     Password must be at least 8 characters or more.
                   </p>
                 )}
                 {submitted && !form.password && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Password is
-                    required!
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Password is required!
                   </p>
                 )}
-                {submitted && form.password.length < 8 && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Password must be
-                    at least 8 characters!
+                {submitted && form.password && form.password.length < 8 && (
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Password must be at least 8 characters!
                   </p>
                 )}
               </div>
@@ -172,33 +183,27 @@ function EditPassword({ closeModel }) {
                   id="confirm-password"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-100 ${
+                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight bg-gray-100 ${
                     submitted &&
-                    (!form.confirmPassword ||
-                      form.confirmPassword !== form.password)
+                    (!form.confirmPassword || form.confirmPassword !== form.password)
                       ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
                       : ""
                   }`}
                   required
                 />
                 {!submitted && (
-                  <p
-                    id="c-password-helper"
-                    className="mt-1 text-sm text-gray-500 dark:text-gray-400"
-                  >
+                  <p className="mt-1 text-sm text-gray-500">
                     Make sure this matches the above password.
                   </p>
                 )}
                 {submitted && !form.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Confirm Password
-                    is required!
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Confirm Password is required!
                   </p>
                 )}
-                {submitted && form.confirmPassword !== form.password && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Passwords do not
-                    match!
+                {submitted && form.confirmPassword && form.confirmPassword !== form.password && (
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Passwords do not match!
                   </p>
                 )}
               </div>
@@ -208,7 +213,7 @@ function EditPassword({ closeModel }) {
                 {!isLoading ? (
                   <button
                     type="submit"
-                    className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center"
+                    className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
                   >
                     Update
                   </button>
@@ -216,10 +221,9 @@ function EditPassword({ closeModel }) {
                   <LitLoader />
                 )}
               </div>
-
               <button
                 onClick={closeModel}
-                className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center"
+                className="mt-4 text-gray-700 bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 inline-flex items-center"
               >
                 Close
               </button>

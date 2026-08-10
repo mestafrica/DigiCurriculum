@@ -1,8 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthAlert from "../../Auth-Alert/AuthAlert";
 import axios from "axios";
-import LitLoader from "../../Loader/LitLoader";
 
 function EditPassword({ closeModel }) {
   const modelRef = useRef();
@@ -13,8 +10,15 @@ function EditPassword({ closeModel }) {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const userId = localStorage.getItem("user_id");
+  const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const baseUrl =
+    import.meta.env.VITE_API_URL ||
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:8080";
 
   const isValidForm = () => {
     const { oldPassword, password, confirmPassword } = form;
@@ -22,108 +26,138 @@ function EditPassword({ closeModel }) {
       oldPassword &&
       password &&
       confirmPassword &&
-      password.length >= 8 &&
+      password.length >= 6 &&
       password === confirmPassword
     );
   };
 
-  const getFormData = () => {
-    const { oldPassword, password, confirmPassword } = form;
-    return {
-      oldPassword: oldPassword,
-      password: password,
-      password_confirmation: confirmPassword,
-    };
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
+    setError("");
+    setSuccessMsg("");
 
-    if (isValidForm()) {
-      setIsLoading(true);
-      try {
-        const passwordUpdate = getFormData();
-        const response = await axios.post(
-          `http://3.89.152.217/api/v1/changePassword/${userId}`,
-          passwordUpdate
-        );
-        console.log(response);
-        // localStorage.setItem("__user_id", response.data.id);
-      } catch (error) {
-        console.error(error);
-        setErrorMessage(error.response.data.message);
-      } finally {
-        setIsLoading(false);
-      }
+    if (!isValidForm()) return;
+
+    setIsLoading(true);
+    try {
+      // Use the existing PATCH /update-user/:id endpoint with the new password.
+      await axios.patch(
+        `${baseUrl}/update-user/${userId}`,
+        { password: form.password },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSuccessMsg("Password updated successfully!");
+      setTimeout(() => closeModel(), 1500);
+    } catch (err) {
+      console.error("Password update error:", err);
+      setError(
+        err.response?.data?.message ||
+          "Failed to update password. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const refCloseFormModel = (e) => {
-    if (modelRef.current === e.target) {
-      closeModel();
-    }
+    if (modelRef.current === e.target) closeModel();
   };
-
 
   return (
     <div
       ref={modelRef}
       onClick={refCloseFormModel}
-      className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center text-white"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center text-white z-50 p-4 animate-fade-in"
     >
-      <div className="w-full lg:w-1/3 p-4">
-        <div className="backdrop-blur-sm bg-white/10 border border-secondary shadow-lg rounded-lg p-4">
-          <div className="flex justify-between border-b pb-2">
-            <h2 className="text-xl font-bold text-textColor">Edit password</h2>
-            <div className="flex">
-              <button className="text-primary font-semibold">User info</button>
-            </div>
+      <div className="w-full max-w-md">
+        <div className="bg-white text-gray-800 shadow-2xl rounded-2xl p-6 border border-gray-100">
+          <div className="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
+            <h2 className="text-xl font-bold text-gray-800">
+              Update Password
+            </h2>
+            <button
+              type="button"
+              onClick={closeModel}
+              className="text-gray-400 hover:text-red-500 transition"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
-          {errorMessage && (
-            <AuthAlert
-              errorTitle={errorMessage}
-              errorMessage="Please check try again!"
-            />
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm border border-red-100">
+              {error}
+            </div>
           )}
+          {successMsg && (
+            <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm border border-green-100">
+              {successMsg}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-5">
+              {/* Old Password */}
               <div>
                 <label
-                  htmlFor="old password"
-                  className="block text-textColor text-sm font-bold mb-2"
+                  htmlFor="oldPassword"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  Old Password
+                  Current Password <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
                   name="oldPassword"
-                  id="old password"
+                  id="oldPassword"
                   value={form.oldPassword}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700 ${
-                    submitted &&
-                    (!form.oldPassword || form.oldPassword.length < 8)
-                      ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
-                      : ""
+                  disabled={isLoading}
+                  placeholder="Enter current password"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl outline-none transition focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent ${
+                    submitted && !form.oldPassword
+                      ? "border-red-400 bg-red-50"
+                      : "border-gray-200"
                   }`}
                   required
                 />
+                {submitted && !form.oldPassword && (
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Current password is required!
+                  </p>
+                )}
               </div>
+
+              {/* New Password */}
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-textColor text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  New password
+                  New Password <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
@@ -131,97 +165,121 @@ function EditPassword({ closeModel }) {
                   id="password"
                   value={form.password}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700 ${
-                    submitted && (!form.password || form.password.length < 8)
-                      ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
-                      : ""
+                  disabled={isLoading}
+                  placeholder="Minimum 6 characters"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl outline-none transition focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent ${
+                    submitted && (!form.password || form.password.length < 6)
+                      ? "border-red-400 bg-red-50"
+                      : "border-gray-200"
                   }`}
                   required
                 />
                 {!submitted && (
-                  <p
-                    id="password-helper-text"
-                    className="mt-1 text-sm text-gray-500 dark:text-gray-400"
-                  >
-                    Password must be at least 8 characters or more.
+                  <p className="mt-1 text-sm text-gray-400">
+                    Password must be at least 6 characters.
                   </p>
                 )}
                 {submitted && !form.password && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Password is
-                    required!
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> New password is required!
                   </p>
                 )}
-                {submitted && form.password.length < 8 && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Password must be
-                    at least 8 characters!
+                {submitted && form.password && form.password.length < 6 && (
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Password must be at least 6 characters!
                   </p>
                 )}
               </div>
+
+              {/* Confirm Password */}
               <div>
                 <label
-                  htmlFor="confirm-password"
-                  className="block text-textColor text-sm font-bold mb-2"
+                  htmlFor="confirmPassword"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  Confirm password
+                  Confirm New Password <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
                   name="confirmPassword"
-                  id="confirm-password"
+                  id="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-[#9399A6] leading-tight  bg-gray-700 ${
+                  disabled={isLoading}
+                  placeholder="Re-enter new password"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl outline-none transition focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent ${
                     submitted &&
                     (!form.confirmPassword ||
                       form.confirmPassword !== form.password)
-                      ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
-                      : ""
+                      ? "border-red-400 bg-red-50"
+                      : "border-gray-200"
                   }`}
                   required
                 />
                 {!submitted && (
-                  <p
-                    id="c-password-helper"
-                    className="mt-1 text-sm text-gray-500 dark:text-gray-400"
-                  >
-                    Make sure this matches the above password.
+                  <p className="mt-1 text-sm text-gray-400">
+                    Make sure this matches the password above.
                   </p>
                 )}
                 {submitted && !form.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Confirm Password
-                    is required!
+                  <p className="mt-1 text-sm text-red-600">
+                    <span className="font-medium">Oops!</span> Please confirm your password!
                   </p>
                 )}
-                {submitted && form.confirmPassword !== form.password && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    <span className="font-medium">Oops!</span> Passwords do not
-                    match!
-                  </p>
-                )}
+                {submitted &&
+                  form.confirmPassword &&
+                  form.confirmPassword !== form.password && (
+                    <p className="mt-1 text-sm text-red-600">
+                      <span className="font-medium">Oops!</span> Passwords do not match!
+                    </p>
+                  )}
               </div>
             </div>
-            <div className="flex justify-end gap-4 mt-4">
-              <div className="flex justify-center">
-                {!isLoading ? (
-                  <button
-                    type="submit"
-                    className="mt-4 text-white bg-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center"
-                  >
-                    Update
-                  </button>
-                ) : (
-                  <LitLoader />
-                )}
-              </div>
 
+            <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
               <button
+                type="button"
                 onClick={closeModel}
-                className="mt-4 text-white bg-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center"
+                disabled={isLoading}
+                className="px-6 py-2.5 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition"
               >
-                close
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`flex items-center px-6 py-2.5 rounded-xl font-bold text-white transition ${
+                  isLoading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-primary hover:bg-primary/90 hover:shadow-md"
+                }`}
+              >
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Updating...
+                  </>
+                ) : (
+                  "Update Password"
+                )}
               </button>
             </div>
           </form>

@@ -10,7 +10,7 @@ function EditProfile({ closeModel }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const modelRef = useRef();
   const [userData, setUserData] = useState({});
 
