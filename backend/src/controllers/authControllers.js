@@ -1,5 +1,5 @@
 import { userModel } from "../models/userModel.js";
-import dotenv from "dotenv"
+import transporter from "../utils/nodemailerConfig.js";
 import { sendOTPEmail } from "../utils/otpUtils.js";
  
 dotenv.config()
